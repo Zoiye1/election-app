@@ -9,6 +9,7 @@ Little Starfish retrospective
 - We are often easily distracted, for example talking about offtopic subjects and not focusing on the task at hand. We should try to keep our focus more.
 - We should try to take more initiative, we already do this quite well but we should keep it in mind.
 - We should sit together more often and be more thoughtful about the planning of our tasks and do this on time instead of leaving it to the last minute.
+- We need to prioritize documentation and tests more. We often forget to do this and it is important for the quality of our project and to show our progression.
 
 <!--
 ## Contributions team members
