@@ -99,3 +99,15 @@ I want to ask for help more quickly during the upcoming sprint when I get stuck.
 ## Matisse's development goal:
 
 I want to be on time for all team meetings and classes during the upcoming sprint. Specifically, this means that I will be present before the official start time for every scheduled meeting (daily standups, sprint planning, sprint review) and all classes. To track this, I will keep a simple log where I note for each meeting and class whether I was on time or not. This will help me be a reliable teammate and contribute to efficient meetings and classes.
+
+## Shivanio's development goal:
+
+By the end of the next sprint, I will deepen my understanding of the technologies I use by spending at least 2 focused learning sessions per week (e.g., tutorials, documentation, or pair programming). I will apply this knowledge directly in my tasks and share at least one insight or improvement with my team during a stand-up or review.
+
+## Zoiye's development goal:
+
+
+
+## Michael's development goal:
+
+I want to improve my proactivity in team discussions and idea sharing during the next sprint. Specifically, I will aim to contribute at least one idea or suggestion in each team meeting (daily standups, sprint planning, sprint review). I will prepare by reviewing the agenda beforehand and thinking about potential contributions. This will help me become a more engaged team member and enhance our collaborative efforts.
