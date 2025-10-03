@@ -12,7 +12,7 @@ import Navbar from '../components/Navbar.vue'
       <div class="bg-white border-b-4 border-orange-500">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div class="grid md:grid-cols-2 gap-12 items-center">
-            <!-- Linker Column: Text -->
+            <!-- Left Column: Text -->
             <div>
               <h1 class="text-5xl font-bold text-blue-600 mb-6">
                 Welkom bij StemSlim!
@@ -25,7 +25,7 @@ import Navbar from '../components/Navbar.vue'
               </p>
             </div>
 
-            <!-- Rechter Column: Chart -->
+            <!-- Right Column: Chart -->
             <div class="flex justify-center">
               <svg viewBox="0 0 400 300" class="w-full max-w-md">
                 <!-- Bar Chart -->
