@@ -25,7 +25,7 @@ import Navbar from '../components/Navbar.vue'
               </p>
             </div>
 
-            <!-- Rechter kolom: Grafiek -->
+            <!-- Rechter Column: Chart -->
             <div class="flex justify-center">
               <svg viewBox="0 0 400 300" class="w-full max-w-md">
                 <!-- Bar Chart -->
@@ -74,8 +74,9 @@ import Navbar from '../components/Navbar.vue'
             </button>
           </div>
 
-          <!-- Uitslagen Card -->
-          <div class="bg-white rounded-lg border-4 border-orange-400 p-8 hover:shadow-lg transition-shadow">
+          <!-- Result Card -->
+          <div class="bg-white rounded
+          -lg border-4 border-orange-400 p-8 hover:shadow-lg transition-shadow">
             <h2 class="text-2xl font-bold text-blue-600 mb-4">
               Bekijk hier de stemuitslagen van dit jaar.
             </h2>
