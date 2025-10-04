@@ -37,7 +37,7 @@
         <!-- Copyright - compacter -->
         <div class="text-center sm:text-left">
             <p class="text-xs text-blue-100">
-                © 2023 <a href="#" class="hover:text-orange-300 transition-colors duration-200 font-semibold">Flowbite™</a>. All Rights Reserved.
+                © 2023 <a href="#" class="hover:text-orange-300 transition-colors duration-200 font-semibold">StemSlim™</a>. All Rights Reserved.
             </p>
         </div>
     </div>
