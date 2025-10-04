@@ -1,6 +1,8 @@
 package nl.hva.stack5.election.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -9,7 +11,7 @@ import java.util.Map;
  */
 public class Election {
     private final String id;
-    private Map<Integer, Integer> partyVotes = new HashMap<>();
+    private List<Party> partyVotes = new ArrayList<Party>();
 
     public Election(String id) {
         this.id = id;
@@ -21,9 +23,12 @@ public class Election {
     }
 
     public String getId() {
+
         return id;
     }
-    public Map<Integer, Integer> getPartyVotes() {
+
+    public List<Party> getPartyVotes() {
         return partyVotes;
+
     }
 }
