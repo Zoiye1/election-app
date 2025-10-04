@@ -1,6 +1,7 @@
 package nl.hva.stack5.election.utils.xml.transformers;
 
 import nl.hva.stack5.election.model.Election;
+import nl.hva.stack5.election.model.Party;
 import nl.hva.stack5.election.utils.xml.VotesTransformer;
 
 import java.util.Map;
@@ -17,8 +18,11 @@ public class DutchConstituencyVotesTransformer implements VotesTransformer {
     }
 
     @Override
+    // this function returns a party with the total amount of votes of a Constituency
     public void registerPartyVotes(boolean aggregated, Map<String, String> electionData) {
         System.out.printf("%s party votes: %s\n", aggregated ? "Constituency" : "Municipality", electionData);
+        Party party = new Party(electionData.get("RegisteredName"), electionData.get("ValidVotes"));
+        election.getPartyVotes().add(party);
     }
 
     @Override
