@@ -1,6 +1,8 @@
 package nl.hva.stack5.election.model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * Party class holds the name of a part and the amount votes a party has
@@ -9,17 +11,14 @@ import java.util.HashMap;
 public class Party {
 
     private String partyName;
-    private String partyVotes;
 
     /**
      *
      * @param partyName contains the party name
-     * @param partyVotes contains the party votes
      */
 
-    public Party(String partyName, String partyVotes) {
+    public Party(String partyName) {
         this.partyName = partyName;
-        this.partyVotes = partyVotes;
     }
 
     // returns the part name
@@ -27,8 +26,4 @@ public class Party {
         return partyName;
     }
 
-    // returns the party votes
-    public String getPartVotes() {
-        return partyVotes;
-    }
 }

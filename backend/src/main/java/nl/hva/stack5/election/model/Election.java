@@ -11,7 +11,7 @@ import java.util.Map;
  */
 public class Election {
     private final String id;
-    private List<Party> partyVotes = new ArrayList<Party>();
+    private List<PartyConstituencyResults> constituencyResults = new ArrayList<>();
 
     public Election(String id) {
         this.id = id;
@@ -27,8 +27,8 @@ public class Election {
         return id;
     }
 
-    public List<Party> getPartyVotes() {
-        return partyVotes;
+    public List<PartyConstituencyResults> getPartyConstituencyResults() {
+     return constituencyResults;
 
     }
 }
