@@ -13,8 +13,8 @@ public class Party {
 
     /**
      *
-     * @param partyName contains the pary name
-     * @param partyVotes contains the pary votes
+     * @param partyName contains the party name
+     * @param partyVotes contains the party votes
      */
 
     public Party(String partyName, String partyVotes) {
@@ -27,7 +27,7 @@ public class Party {
         return partyName;
     }
 
-    // returns the partyvotes
+    // returns the party votes
     public String getPartVotes() {
         return partyVotes;
     }
