@@ -26,7 +26,15 @@ const router = createRouter({
       // which is lazy-loaded when the route is visited.
       component: () => import('../views/ElectionDataView.vue'),
     },
+
+    {
+      path: '/login',  // Verander van '/user/verify' naar '/login'
+      name: 'login',   // Was 'UserVerification'
+      component: () => import('../views/LoginPage.vue')
+    },
+
   ],
+
 })
 
 export default router
