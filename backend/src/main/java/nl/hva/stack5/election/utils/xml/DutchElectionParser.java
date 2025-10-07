@@ -65,7 +65,7 @@ public class DutchElectionParser {
         this.municipalityVotesTransformer = municipalityVotesTransformer;
     }
 
-    /**
+      /**
      * Traverses all the folders within the specified folder and calls the appropriate methods of the transformer.
      * While processing the files it will skip any file that has a different election-id than the one specified.
      * Currently, it only processes the files containing the 'kieslijsten' and the votes per reporting unit.
