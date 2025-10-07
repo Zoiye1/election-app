@@ -1,16 +1,12 @@
 package nl.hva.stack5.election.model;
 
-import org.aspectj.weaver.ast.Test;
-
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * This will hold the information for one specific election.<br/>
  * <b>This class is by no means production ready! You need to alter it extensively!</b>
  */
 public class Election {
     private final String id;
+    private List<PartyConstituencyResults> constituencyResults = new ArrayList<>();
     private List <Candidate> candidates = new ArrayList<>();
 
     public Election(String id) {
@@ -30,4 +26,9 @@ public class Election {
         return candidates;
     }
 
+
+    public List<PartyConstituencyResults> getPartyConstituencyResults() {
+     return constituencyResults;
+
+    }
 }

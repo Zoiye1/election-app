@@ -28,8 +28,10 @@ public class ElectionController {
     @PostMapping("{electionId}")
     public Election readResults(@PathVariable String electionId, @RequestParam(required = false) String folderName) {
         if (folderName == null) {
+            System.out.println("No folder name provided");
             return electionService.readResults(electionId, electionId);
         } else {
+            System.out.println(" folder name provided");
             return electionService.readResults(electionId, folderName);
         }
     }
