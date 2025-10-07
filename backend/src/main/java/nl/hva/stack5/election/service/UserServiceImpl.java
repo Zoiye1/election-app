@@ -42,8 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean verifyUsernameAndPassword(String username, String password) {
         User user = userRepository.findByUsername(username);
-        return user.getPassword().equals(passwordEncoder.encode(password));
-    }
+        return passwordEncoder.matches(password, user.getPassword());    }
 
     /**
      * @param email
@@ -53,6 +52,5 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean verifyEmailAndPassword(String email, String password) {
         User user = userRepository.findByEmail(email);
-        return user.getPassword().equals(passwordEncoder.encode(password));
-    }
+        return passwordEncoder.matches(password, user.getPassword());    }
 }
