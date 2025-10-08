@@ -53,6 +53,16 @@
       <div v-if="successMessage" class="mt-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-md">
         {{ successMessage }}
       </div>
+
+      <!-- NIEUW: Link naar registreren -->
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-600">
+          Nog geen account?
+          <a href="/register" class="font-medium text-blue-600 hover:text-blue-500">
+            Registreer nu
+          </a>
+        </p>
+      </div>
     </div>
   </div>
 </template>
