@@ -1,5 +1,43 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import Navbar from '../components/Navbar.vue'
+import DiscussionCard from '../components/DiscussionCard.vue'
+
+interface Discussion {
+  id: number
+  title: string
+  content: string
+  author: {
+    id: number
+    username: string
+  }
+  createdAt: string
+  views: number
+  replies: number
+}
+
+const discussions = ref<Discussion[]>([])
+const loading = ref(true)
+const error = ref('')
+
+const fetchDiscussions = async () => {
+  try {
+    const response = await fetch('http://localhost:8080/discussion')
+    if(!response.ok) throw new Error('Failed to fetch discussions')
+    discussions.value = await response.json()
+  }
+  catch (err) {
+    error.value = 'Could not load discussions'
+    console.error(err)
+  }
+  finally {
+    loading.value = false
+  }
+}
+
+onMounted(() => {
+  fetchDiscussions()
+})
 </script>
 
 <template>
@@ -21,8 +59,28 @@ import Navbar from '../components/Navbar.vue'
         </button>
       </div>
 
+      <!-- Loading State -->
+      <div v-if="loading" class="text-center py-12">
+        <p class="text-gray-600">Laden...</p>
+      </div>
+
+      <!-- Error State -->
+      <div v-else-if="error" class="text-center py-12">
+        <p class="text-red-600">{{ error }}</p>
+      </div>
+
+      <!-- Empty State -->
+      <div v-else-if="discussions.length === 0" class="text-center py-12">
+        <p class="text-gray-600">Nog geen discussies. Start de eerste discussie!</p>
+      </div>
+
       <!-- Discussion List -->
-      <div class="space-y-6">
+      <div v-else class="space-y-6">
+        <DiscussionCard
+          v-for="discussion in discussions"
+          :key="discussion.id"
+          :discussion="discussion"
+        />
       </div>
     </div>
   </div>
