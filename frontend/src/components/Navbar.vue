@@ -3,7 +3,9 @@
     <div class="bg-white h-24 flex items-center px-4 md:px-8">
       <div class="flex items-center justify-between w-full">
 
-        <img src="../assets/logo.png" alt="StemSlim Logo" class="h-12 md:h-16" />
+        <a href="/" class="cursor-pointer">
+          <img src="../assets/logo.png" alt="StemSlim Logo" class="h-12 md:h-16" />
+        </a>
 
         <!-- Hamburger menu mobile only -->
         <button
@@ -72,6 +74,7 @@
               >
                 Login
               </a>
+
               <a
                 href="/register"
                 class="bg-white text-blue-600 font-medium px-4 py-2 rounded-md hover:bg-gray-100 transition-colors"
@@ -90,7 +93,7 @@
       >
         <div class="px-4 py-3 space-y-3">
 
-          < <a href="/"
+          <a href="/"
           class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
           @click="mobileMenuOpen = false"
           >
@@ -132,7 +135,7 @@
             class="block text-center text-white font-medium bg-blue-600 hover:bg-blue-700 py-2 rounded-md transition-colors"
             @click="mobileMenuOpen = false"
             >
-            Login
+            < aLogin
             </a>
 
             <a href="/register"
