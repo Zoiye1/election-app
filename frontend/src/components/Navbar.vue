@@ -3,7 +3,9 @@
     <div class="bg-white h-24 flex items-center px-4 md:px-8">
       <div class="flex items-center justify-between w-full">
 
-        <img src="../assets/logo.png" alt="StemSlim Logo" class="h-12 md:h-16" />
+        <a href="/" class="cursor-pointer">
+          <img src="../assets/logo.png" alt="StemSlim Logo" class="h-12 md:h-16" />
+        </a>
 
         <!-- Hamburger menu mobile only -->
         <button
@@ -37,18 +39,18 @@
         <div class="flex items-center justify-between h-14">
           <!-- This is for to navigate the items from postion -->
           <div class="flex items-center space-x-8 -ml-4">
-            <a href="#" class="text-white font-medium hover:text-blue-100 transition-colors">
+            <a href="/" class="text-white font-medium hover:text-blue-100 transition-colors">
               Home
             </a>
-            <a href="#" class="text-white font-medium hover:text-blue-100 transition-colors">
+            <a href="/electionData" class="text-white font-medium hover:text-blue-100 transition-colors">
               Uitslagen
             </a>
-            <a href="#" class="text-white font-medium hover:text-blue-100 transition-colors">
+            <a href="/discussion" class="text-white font-medium hover:text-blue-100 transition-colors">
               Discussie
             </a>
           </div>
 
-          <!-- Rechter sectie met search en account -->
+          <!-- Rechter sectie met search en login/register -->
           <div class="flex items-center space-x-4">
             <!-- Search bar -->
             <div class="relative">
@@ -64,10 +66,22 @@
               </button>
             </div>
 
-            <!-- Account button -->
-            <a href="#" class="text-white font-medium hover:text-blue-100 transition-colors">
-              Account
-            </a>
+            <!-- Login / Register buttons -->
+            <div class="flex items-center space-x-3">
+              <a
+                href="/login"
+                class="text-white font-medium hover:text-blue-100 transition-colors px-4 py-2 rounded-md hover:bg-blue-600"
+              >
+                Login
+              </a>
+
+              <a
+                href="/register"
+                class="bg-white text-blue-600 font-medium px-4 py-2 rounded-md hover:bg-gray-100 transition-colors"
+              >
+                Registreer
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -78,26 +92,26 @@
         class="md:hidden bg-blue-500 border-t border-blue-400"
       >
         <div class="px-4 py-3 space-y-3">
-          <a
-            href="#"
-            class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
-            @click="mobileMenuOpen = false"
+
+          <a href="/"
+          class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
+          @click="mobileMenuOpen = false"
           >
-            Home
+          Home
           </a>
-          <a
-            href="#"
-            class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
-            @click="mobileMenuOpen = false"
+
+          <a href="/electionData"
+          class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
+          @click="mobileMenuOpen = false"
           >
-            Uitslagen
+          Uitslagen
           </a>
-          <a
-            href="#"
-            class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
-            @click="mobileMenuOpen = false"
+
+          <a href="/discussion"
+          class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
+          @click="mobileMenuOpen = false"
           >
-            Discussie
+          Discussie
           </a>
 
           <!-- Search bar mobiel -->
@@ -114,14 +128,23 @@
             </button>
           </div>
 
-          <!-- Account button mobile -->
-          <a
-            href="#"
-            class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
+          <!-- Login / Register buttons mobile -->
+          <div class="pt-3 space-y-2">
+
+            <a href="/login"
+            class="block text-center text-white font-medium bg-blue-600 hover:bg-blue-700 py-2 rounded-md transition-colors"
             @click="mobileMenuOpen = false"
-          >
-            Account
-          </a>
+            >
+            < aLogin
+            </a>
+
+            <a href="/register"
+            class="block text-center text-blue-600 font-medium bg-white hover:bg-gray-100 py-2 rounded-md transition-colors"
+            @click="mobileMenuOpen = false"
+            >
+            Registreer
+            </a>
+          </div>
         </div>
       </div>
     </nav>
