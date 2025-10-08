@@ -33,7 +33,6 @@ public class Election {
         return candidates;
     }
 
-
     public List<PartyConstituencyResults> getPartyConstituencyResults() {
      return constituencyResults;
     }

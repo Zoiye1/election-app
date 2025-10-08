@@ -4,6 +4,7 @@ public class Candidate {
     private String firstName;
     private String surname;
     private String shortCode;
+    private String nationalCandidateVotes;
 
     public Candidate(String firstName, String surname,  String shortCode) {
         this.firstName = firstName;
@@ -24,4 +25,11 @@ public class Candidate {
         return shortCode;
     }
 
+    public void setNationalCandidateVotes(String nationalCandidateVotes) {
+        this.nationalCandidateVotes = nationalCandidateVotes;
+    }
+
+    public String getNationalCandidateVotes() {
+        return nationalCandidateVotes;
+    }
 }

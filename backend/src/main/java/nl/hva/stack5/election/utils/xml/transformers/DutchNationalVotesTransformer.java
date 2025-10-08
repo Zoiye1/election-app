@@ -1,5 +1,6 @@
 package nl.hva.stack5.election.utils.xml.transformers;
 
+import nl.hva.stack5.election.model.Candidate;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.utils.xml.TagAndAttributeNames;
 import nl.hva.stack5.election.utils.xml.VotesTransformer;
@@ -24,7 +25,20 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
 
     @Override
     public void registerCandidateVotes(boolean aggregated, Map<String, String> electionData) {
-        System.out.printf("%s candidate votes: %s\n", aggregated ? "National" : "Constituency", electionData);
+        String shortCode = electionData.get(CANDIDATE_IDENTIFIER_SHORT_CODE);
+        String nationalCandidateVotes = electionData.get(VALID_VOTES);
+
+        if (shortCode != null && aggregated) {
+            Candidate candidate = election.getCandidates().get(shortCode);
+
+            System.out.println(">>> Processing: " + shortCode + " with votes: " + nationalCandidateVotes);
+            if (candidate != null) {
+                candidate.setNationalCandidateVotes(nationalCandidateVotes);
+                System.out.println("✓ Set votes for " + shortCode + ": " + nationalCandidateVotes);
+            }
+        } else {
+            System.out.printf("WARNING: Candidate Not Found");
+        }
     }
 
     @Override
