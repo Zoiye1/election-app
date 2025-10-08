@@ -13,18 +13,12 @@ import java.util.Map;
  */
 public class DutchCandidateTransformer implements CandidateTransformer, TagAndAttributeNames {
     private final Election election;
-
     public DutchCandidateTransformer(Election election) {
         this.election = election;
     }
 
     @Override
     public void registerCandidate(Map<String, String> electionData) {
-        Candidate candidate = new Candidate (
-                electionData.get("FirstName"),
-                electionData.get("LastName"),
-                electionData.get("CandidateIdentifier-Id") );
-        election.getCandidates().add(candidate);
         System.out.println("Registering candidate: " + electionData);
     }
 

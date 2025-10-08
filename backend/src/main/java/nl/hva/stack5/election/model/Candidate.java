@@ -3,13 +3,12 @@ package nl.hva.stack5.election.model;
 public class Candidate {
     private String firstName;
     private String surname;
-    private String candidateId;
+    private String shortCode;
 
-    public Candidate(String firstName, String surname,  String candidateId) {
+    public Candidate(String firstName, String surname,  String shortCode) {
         this.firstName = firstName;
         this.surname = surname;
-        this.candidateId = candidateId;
-
+        this.shortCode = shortCode;
     }
 
 
@@ -21,7 +20,8 @@ public class Candidate {
         return surname;
     }
 
-    public String getCandidateId() {
-        return candidateId;
+    public String getShortCode() {
+        return shortCode;
     }
+
 }
