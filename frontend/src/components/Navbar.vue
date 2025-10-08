@@ -37,10 +37,10 @@
         <div class="flex items-center justify-between h-14">
           <!-- This is for to navigate the items from postion -->
           <div class="flex items-center space-x-8 -ml-4">
-            <a href="#" class="text-white font-medium hover:text-blue-100 transition-colors">
+            <a href="/" class="text-white font-medium hover:text-blue-100 transition-colors">
               Home
             </a>
-            <a href="#" class="text-white font-medium hover:text-blue-100 transition-colors">
+            <a href="/electionData" class="text-white font-medium hover:text-blue-100 transition-colors">
               Uitslagen
             </a>
             <a href="#" class="text-white font-medium hover:text-blue-100 transition-colors">
