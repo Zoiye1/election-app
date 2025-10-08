@@ -5,6 +5,7 @@ import ElectionDataView from '@/views/ElectionDataView.vue'
 import LoginPage from "@/views/LoginPage.vue";
 
 
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -38,9 +39,15 @@ const router = createRouter({
     {
       path: '/login',  // Verander van '/user/verify' naar '/login'
       name: 'login',   // Was 'UserVerification'
-      component: () => import('../views/LoginPage.vue')
+      component: LoginPage
     },
 
+
+    {
+      path: '/register',
+      name: 'register',
+      component: () => import('../views/RegisterPage.vue')
+    },
   ],
 
 })
