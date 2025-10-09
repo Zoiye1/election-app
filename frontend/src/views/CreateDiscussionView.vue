@@ -1,5 +1,90 @@
 <script setup lang="ts">
+import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
+import { DiscussionService } from '@/services/DiscussionService'
+
+// Router for navigation
+const router = useRouter()
+
+// Initialize the service
+const discussionService = new DiscussionService()
+
+// Form data - reactive variables that store user input
+const title = ref('')
+const content = ref('')
+
+// UI state
+const loading = ref(false)   // True when submitting
+const error = ref('')        // Error message if submission fails
+
+// Validate form before submitting
+const isValid = () => {
+  // Check if title is empty
+  if (!title.value.trim()) {
+    error.value = 'Titel is verplicht'
+    return false
+  }
+
+  // Check if content is empty
+  if (!content.value.trim()) {
+    error.value = 'Inhoud is verplicht'
+    return false
+  }
+
+  // Check minimum title length
+  if (title.value.length < 5) {
+    error.value = 'Titel moet minimaal 5 karakters zijn'
+    return false
+  }
+
+  // Check minimum content length
+  if (content.value.length < 10) {
+    error.value = 'Inhoud moet minimaal 10 karakters zijn'
+    return false
+  }
+
+  // All validation passed
+  return true
+}
+
+// Submit the form
+const handleSubmit = async () => {
+  // Clear any previous error messages
+  error.value = ''
+
+  // Validate the form inputs
+  if (!isValid()) return
+
+  // Start loading state (disables buttons, shows "Bezig...")
+  loading.value = true
+
+  try {
+    // Use the service to create the discussion
+    const createdDiscussion = await discussionService.createDiscussion({
+      title: title.value,
+      content: content.value,
+      author: {
+        id: 1
+      }
+    })
+
+    router.push('/discussion')
+
+  } catch (error) {
+    // Handle any errors (network issues, server errors, etc.)
+    error.value = 'Er is iets misgegaan. Probeer het opnieuw.'
+    console.error('Create discussion error:', error)
+  } finally {
+    // Always stop loading, whether success or failure
+    loading.value = false
+  }
+}
+
+// Cancel button - go back to discussion list
+const handleCancel = () => {
+  router.push('/discussion')
+}
 </script>
 
 <template>

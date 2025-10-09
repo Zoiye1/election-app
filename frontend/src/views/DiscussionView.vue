@@ -1,41 +1,40 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
+import { useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import DiscussionCard from '../components/DiscussionCard.vue'
-import { useRouter } from 'vue-router'
+import { DiscussionService, type Discussion } from '@/services/DiscussionService'
 
-interface Discussion {
-  id: number
-  title: string
-  content: string
-  author: {
-    id: number
-    username: string
-  }
-  createdAt: string
-  views: number
-  replies: number
-}
+// Initialize router and service
+const router = useRouter()
+const discussionService = new DiscussionService()
 
+// State
 const discussions = ref<Discussion[]>([])
 const loading = ref(true)
 const error = ref('')
 
+// Fetch discussions from API
 const fetchDiscussions = async () => {
+  loading.value = true
+  error.value = ''
+
   try {
-    const response = await fetch('http://localhost:8080/discussion')
-    if(!response.ok) throw new Error('Failed to fetch discussions')
-    discussions.value = await response.json()
-  }
-  catch (err) {
+    discussions.value = await discussionService.getAllDiscussions()
+  } catch (err) {
     error.value = 'Could not load discussions'
-    console.error(err)
-  }
-  finally {
+    console.error('Fetch discussions error:', err)
+  } finally {
     loading.value = false
   }
 }
 
+// Navigate to create discussion page
+const goToCreateDiscussion = () => {
+  router.push('/create-discussion')
+}
+
+// Load discussions when page opens
 onMounted(() => {
   fetchDiscussions()
 })
@@ -52,7 +51,7 @@ onMounted(() => {
       <div class="flex justify-between items-center mb-8">
         <h1 class="text-3xl font-bold text-gray-800">Discussies</h1>
         <button
-          @click="$router.push('/create-discussion')"
+          @click="goToCreateDiscussion"
           class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg flex items-center gap-2 transition-colors">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
             <path d="M8 9a3 3 0 100-6 3 3 0 000 6zM8 11a6 6 0 016 6H2a6 6 0 016-6zM16 7a1 1 0 10-2 0v1h-1a1 1 0 100 2h1v1a1 1 0 102 0v-1h1a1 1 0 100-2h-1V7z" />
@@ -69,6 +68,11 @@ onMounted(() => {
       <!-- Error State -->
       <div v-else-if="error" class="text-center py-12">
         <p class="text-red-600">{{ error }}</p>
+        <button
+          @click="fetchDiscussions"
+          class="mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+          Opnieuw proberen
+        </button>
       </div>
 
       <!-- Empty State -->
