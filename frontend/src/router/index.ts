@@ -3,6 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import DiscussionView from '@/views/DiscussionView.vue'
 import ElectionDataView from '@/views/ElectionDataView.vue'
 import LoginPage from "@/views/LoginPage.vue";
+import CreateDiscussionView from "@/views/CreateDiscussionView.vue";
+
 
 
 
@@ -47,6 +49,11 @@ const router = createRouter({
       path: '/register',
       name: 'register',
       component: () => import('../views/RegisterPage.vue')
+    },
+    {
+      path: '/create-discussion',
+      name: 'create-discussion',
+      component: () => import('../views/CreateDiscussionView.vue')
     },
   ],
 
