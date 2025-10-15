@@ -1,0 +1,67 @@
+<diagram program="umletino" version="15.1"><zoom_level>6</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>1758</x><y>642</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchConstituencyVotesTransformer
+--
+- election: Election
+--
++ DutchConstituencyVotesTransformer(election: Election)
+--
++ registerPartyVotes(aggregated: boolean , electionData: Map&lt;String, String&gt; )
++ registerCandidateVotes(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
++ registerMetadata(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>252</x><y>156</y><w>198</w><h>60</h></coordinates><panel_attributes>DutchCandidateTransformer
+--
+- election: Election
+--
++ DutchCandidateTransformer(election: Election)
+--
++ registerCandidate(electionData: Map&lt;String, String&gt;)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>156</y><w>198</w><h>60</h></coordinates><panel_attributes>DutchDefinitionTransformer
+--
+- election: Election
+--
++ DutchCandidateTransformer(election: Election)
+--
++ registerRegion(electionData: Map&lt;String, String&gt;)
++ registerParty(electionData: Map&lt;String, String&gt;)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>870</x><y>642</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchMunicipalityVotesTransformer
+--
+- election: Election
+--
++ DutchMunicipalityVotesTransformer(election: Election)
+--
++ registerPartyVotes(aggregated: boolean , electionData: Map&lt;String, String&gt; )
++ registerCandidateVotes(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
++ registerMetadata(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1464</x><y>642</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchNationalVotesTransformer
+--
+- election: Election
+--
++ DutchNationalVotesTransformer(election: Election)
+--
++ registerPartyVotes(aggregated: boolean , electionData: Map&lt;String, String&gt; )
++ registerCandidateVotes(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
++ registerMetadata(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1170</x><y>642</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchResultTransformer
+--
+- election: Election
+--
++ DutchResultTransformer(election: Election)
+--
++ registerPartyVotes(aggregated: boolean , electionData: Map&lt;String, String&gt; )
++ registerCandidateVotes(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
++ registerMetadata(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1278</x><y>246</y><w>288</w><h>60</h></coordinates><panel_attributes>&lt;&lt; interface &gt;&gt;
+VotesTransformer
+-
++ registerPartyVotes(aggregated: boolean , electionData: Map&lt;String, String&gt; )
++ registerCandidateVotes(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
++ registerMetadata(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>990</x><y>306</y><w>306</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>490;10;10;560</additional_attributes></element><element><id>Relation</id><coordinates><x>1314</x><y>306</y><w>102</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>150;10;10;560</additional_attributes></element><element><id>Relation</id><coordinates><x>1452</x><y>306</y><w>168</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;260;560</additional_attributes></element><element><id>Relation</id><coordinates><x>1554</x><y>306</y><w>360</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;580;560</additional_attributes></element><element><id>UMLClass</id><coordinates><x>258</x><y>0</y><w>198</w><h>42</h></coordinates><panel_attributes>&lt;&lt; interface &gt;&gt;
+CandidateTransformer
+-
++ registerCandidate(electionData: Map&lt;String, String&gt;) 
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>348</x><y>36</y><w>24</w><h>132</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>20;10;10;200</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>6</y><w>198</w><h>48</h></coordinates><panel_attributes>&lt;&lt; interface &gt;&gt;
+DefinitionTransformer
+-
++ registerRegion(electionData: Map&lt;String, String&gt;)
++ registerParty(electionData: Map&lt;String, String&gt;)
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>48</y><w>18</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;180</additional_attributes></element></diagram>
