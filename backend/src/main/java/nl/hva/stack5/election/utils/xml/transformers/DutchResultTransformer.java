@@ -27,15 +27,25 @@ public class DutchResultTransformer implements VotesTransformer, TagAndAttribute
 
     @Override
     public void registerCandidateVotes(boolean aggregated, Map<String, String> electionData) {
-
         String firstName = electionData.get(FIRST_NAME);
         String lastName = electionData.get(LAST_NAME);
         String shortCode = electionData.get(CANDIDATE_IDENTIFIER_SHORT_CODE);
 
-        Candidate candidate = new Candidate ( firstName, lastName, shortCode);
+        // Check of candidate al bestaat
+        boolean exists = false;
+        for (Candidate c : election.getCandidates()) {
+            if (shortCode != null && shortCode.equals(c.getShortCode())) {
+                exists = true;
+                break;
+            }
+        }
 
-        election.getCandidates().add(candidate);
-        System.out.printf("National candidate result: %s\n", electionData);
+        // Alleen toevoegen als nog niet bestaat
+        if (!exists) {
+            Candidate candidate = new Candidate(firstName, lastName, shortCode);
+            election.getCandidates().add(candidate);
+            System.out.printf("Added candidate: %s\n", shortCode);
+        }
     }
 
     @Override

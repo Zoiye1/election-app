@@ -47,10 +47,21 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
             String shortCode = electionData.get(CANDIDATE_IDENTIFIER_SHORT_CODE);
             String nationalCandidateVotes = electionData.get(VALID_VOTES);
 
-            for (Candidate candidate : election.getCandidates()) {
-                if (shortCode.equals(candidate.getShortCode())) {
-                    candidate.setNationalCandidateVotes(nationalCandidateVotes);
-                    break;
+            if (shortCode != null && nationalCandidateVotes != null) {
+                boolean found = false;
+                for (Candidate candidate : election.getCandidates()) {
+                    if (shortCode != null && shortCode.equals(candidate.getShortCode())) {
+                        candidate.setNationalCandidateVotes(nationalCandidateVotes);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    System.out.println("NOT FOUND: '" + shortCode + "'");
+                    // Print eerste paar candidates om te vergelijken
+                    for (int i = 0; i < Math.min(5, election.getCandidates().size()); i++) {
+                        System.out.println("  Candidate " + i + ": '" + election.getCandidates().get(i).getShortCode() + "'");
+                    }
                 }
             }
         }
