@@ -42,6 +42,11 @@ const router = createRouter({
       name: 'create-discussion',
       component: () => import('../views/CreateDiscussionView.vue')
     },
+    {
+      path: '/national-results',
+      name: 'national-results',
+      component: () => import('../views/NationalResults.vue')
+    },
   ],
 })
 
