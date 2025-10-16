@@ -1,0 +1,81 @@
+<diagram program="umletino" version="15.1"><zoom_level>10</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>50</x><y>0</y><w>210</w><h>140</h></coordinates><panel_attributes>User
+--
+username
+email
+registrationDate
+--
+Responsibilities
+-- Can view election results
+-- Can participate in forum discussions
+-- Can create and manage own content</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>0</y><w>210</w><h>150</h></coordinates><panel_attributes>Election
+--
+name
+date
+type
+status
+--
+Responsibilities
+-- Displays election information
+-- Shows aggregated results
+-- Tracks voter turnout
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>50</x><y>230</y><w>210</w><h>150</h></coordinates><panel_attributes>Party
+--
+name
+abbreviation
+color
+logo
+--
+Responsibilities
+-- Represents political party
+-- Displays party branding
+-- Shows party performance</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>210</y><w>210</w><h>150</h></coordinates><panel_attributes>ElectionResult
+--
+voteCount
+percentage
+seatCount
+region
+--
+Responsibilities
+-- Shows voting outcome per party
+-- Displays regional breakdown
+-- Visualizes seat distribution</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>60</x><y>410</y><w>210</w><h>140</h></coordinates><panel_attributes>Forum
+--
+title
+description
+category
+--
+Responsibilities
+-- Organizes discussion topics
+-- Groups related discussions
+-- Provides navigation structure</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>390</y><w>210</w><h>170</h></coordinates><panel_attributes>Discussion
+--
+title
+content
+creationDate
+viewCount
+isPinned
+--
+Responsibilities
+-- Contains discussion thread
+-- Tracks engagement
+-- Displays conversation topic</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>60</x><y>570</y><w>210</w><h>150</h></coordinates><panel_attributes>Reply
+--
+content
+creationDate
+isEdited
+likeCount
+--
+Responsibilities
+-- Represents user response
+-- Shows engagement metrics
+-- Displays conversation flow</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>310</x><y>580</y><w>210</w><h>140</h></coordinates><panel_attributes>Category
+--
+name
+description
+icon
+--
+Responsibilities
+-- Organizes forums by topic
+-- Provides thematic grouping
+-- Aids in navigation
+</panel_attributes><additional_attributes></additional_attributes></element></diagram>
