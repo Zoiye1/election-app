@@ -69,6 +69,17 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
 
     @Override
     public void registerMetadata(boolean aggregated, Map<String, String> electionData) {
-        System.out.printf("%s meta data: %s\n", aggregated ? "National" : "Constituency", electionData);
+        if (aggregated) {
+            String totalCounted = electionData.get(TOTAL_COUNTED);
+
+            if (totalCounted != null) {
+                try {
+                    long count = Long.parseLong(totalCounted);
+                    election.setTotalCounted(count);
+                } catch (NumberFormatException e) {
+                    System.err.println("ERROR: totalCounted is not the correct format");
+                }
+            }
+        }
     }
 }

@@ -11,6 +11,7 @@ import java.util.Map;
  */
 public class Election {
     private final String id;
+    private long totalCounted;
 
     //Lists and maps containing info that can be retrieved.
     private List<PartyConstituencyResults> constituencyResults = new ArrayList<>();
@@ -41,5 +42,14 @@ public class Election {
 
     public List<PartyConstituencyResults> getPartyConstituencyResults() {
      return constituencyResults;
+    }
+
+    public long getTotalCounted() {
+        return totalCounted;
+    }
+
+
+    public void setTotalCounted(long totalCounted) {
+        this.totalCounted = totalCounted;
     }
 }
