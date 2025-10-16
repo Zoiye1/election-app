@@ -34,7 +34,7 @@ public class DutchResultTransformer implements VotesTransformer, TagAndAttribute
 
         Candidate candidate = new Candidate ( firstName, lastName, shortCode);
 
-        election.getCandidates().put(shortCode, candidate);
+        election.getCandidates().add(candidate);
         System.out.printf("National candidate result: %s\n", electionData);
     }
 

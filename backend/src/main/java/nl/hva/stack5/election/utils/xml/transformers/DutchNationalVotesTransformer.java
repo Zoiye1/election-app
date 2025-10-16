@@ -2,6 +2,7 @@ package nl.hva.stack5.election.utils.xml.transformers;
 
 import nl.hva.stack5.election.model.Candidate;
 import nl.hva.stack5.election.model.Election;
+import nl.hva.stack5.election.model.PartyResult;
 import nl.hva.stack5.election.utils.xml.TagAndAttributeNames;
 import nl.hva.stack5.election.utils.xml.VotesTransformer;
 
@@ -20,24 +21,38 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
 
     @Override
     public void registerPartyVotes(boolean aggregated, Map<String, String> electionData) {
-        System.out.printf("%s party votes: %s\n", aggregated ? "National" : "Constituency", electionData);
+        // Alleen nationale (aggregated) party votes verwerken
+        if (aggregated) {
+        String partyId = electionData.get(AFFILIATION_IDENTIFIER_ID);
+            String partyName = electionData.get(REGISTERED_NAME);
+            String votesStr = electionData.get(VALID_VOTES);
+
+            if (partyId != null && partyName != null && votesStr != null) {
+                try {
+                    long votes = Long.parseLong(votesStr);
+
+                    // Nieuwe PartyResult aanmaken en toevoegen aan de lijst
+                    PartyResult partyResult = new PartyResult(partyName, partyId, votes);
+                    election.getPartyResults().add(partyResult);
+                } catch (NumberFormatException e) {
+                    System.err.println("ERROR: votes is not the correct format");
+                }
+            }
+        }
     }
 
     @Override
     public void registerCandidateVotes(boolean aggregated, Map<String, String> electionData) {
-        String shortCode = electionData.get(CANDIDATE_IDENTIFIER_SHORT_CODE);
-        String nationalCandidateVotes = electionData.get(VALID_VOTES);
+        if (aggregated) {
+            String shortCode = electionData.get(CANDIDATE_IDENTIFIER_SHORT_CODE);
+            String nationalCandidateVotes = electionData.get(VALID_VOTES);
 
-        if (shortCode != null && aggregated) {
-            Candidate candidate = election.getCandidates().get(shortCode);
-
-            System.out.println(">>> Processing: " + shortCode + " with votes: " + nationalCandidateVotes);
-            if (candidate != null) {
-                candidate.setNationalCandidateVotes(nationalCandidateVotes);
-                System.out.println("✓ Set votes for " + shortCode + ": " + nationalCandidateVotes);
+            for (Candidate candidate : election.getCandidates()) {
+                if (shortCode.equals(candidate.getShortCode())) {
+                    candidate.setNationalCandidateVotes(nationalCandidateVotes);
+                    break;
+                }
             }
-        } else {
-            System.out.printf("WARNING: Candidate Not Found");
         }
     }
 
