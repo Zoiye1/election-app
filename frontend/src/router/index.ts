@@ -3,8 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import DiscussionView from '@/views/DiscussionView.vue'
 import ElectionDataView from '@/views/ElectionDataView.vue'
 import LoginPage from "@/views/LoginPage.vue";
-import CreateDiscussionView from "@/views/CreateDiscussionView.vue";
-
+import CreateDiscussionView from '@/views/CreateDiscussionView.vue'
 
 
 
@@ -20,14 +19,6 @@ const router = createRouter({
       path: '/discussion',
       name: 'discussion',
       component: DiscussionView,
-    },
-    {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue'),
     },
     {
       path: '/electionData',
