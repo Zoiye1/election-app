@@ -16,6 +16,8 @@ public class Election {
     //Lists and maps containing info that can be retrieved.
     private List<PartyConstituencyResults> constituencyResults = new ArrayList<>();
     private List<PartyResult> partyResults = new ArrayList<>();
+
+    //List of all elected candidates
     private List<Candidate> candidates = new ArrayList<>();
 
 

@@ -10,6 +10,12 @@ public class PartyResult {
     private long votes;
     //private final List<Candidate> candidates;
 
+    /**
+     *
+     * @param partyName the name of the party
+     * @param partyId the unique identifier of the party
+     * @param votes the total votes a party received nationally
+     */
    public PartyResult(String partyName, String partyId, long votes) {
         this.partyName = partyName;
         this.partyId = partyId;

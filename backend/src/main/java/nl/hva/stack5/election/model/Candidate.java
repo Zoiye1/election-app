@@ -6,6 +6,14 @@ public class Candidate {
     private String shortCode;
     private String nationalCandidateVotes;
 
+
+    /**
+     *
+     * @param firstName the first name of a candidate
+     * @param surname the surname of a candidate
+     * @param shortCode the unique identifier of a elected candidate
+     */
+
     public Candidate(String firstName, String surname,  String shortCode) {
         this.firstName = firstName;
         this.surname = surname;
