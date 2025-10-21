@@ -19,6 +19,11 @@ export interface CreateDiscussionRequest {
   }
 }
 
+export interface UpdateDiscussionRequest {
+  title?: string
+  content?: string
+}
+
 export class DiscussionService {
   private baseUrl: string = 'http://localhost:8080/discussion'
 
@@ -112,6 +117,30 @@ export class DiscussionService {
       if (!response.ok) {
         throw new Error('Request failed: ' + response.statusText)
       }
+    } catch (error) {
+      console.error('Fetch error:', error)
+      throw error
+    }
+  }
+
+  public async updateDiscussion(id: number, data: UpdateDiscussionRequest): Promise<Discussion> {
+    const url: string = `${this.baseUrl}/${id}`
+
+    try {
+      const response: Response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+
+      if (!response.ok) {
+        throw new Error('Request failed: ' + response.statusText)
+      }
+
+      return await response.json()
     } catch (error) {
       console.error('Fetch error:', error)
       throw error
