@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
+import { useRouter } from 'vue-router'
 
 interface Discussion {
   id: number
@@ -17,6 +18,12 @@ interface Discussion {
 const props = defineProps<{
   discussion: Discussion
 }>()
+
+const router = useRouter()
+
+const goToDetails = () => {
+  router.push(`/discussion-details/${props.discussion.id}`)
+}
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)
@@ -141,7 +148,10 @@ const contentPreview = computed(() => {
           {{ discussion.replies }} reacties
         </span>
       </div>
-      <button class="px-5 py-2 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-sm rounded-full hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300">
+      <button
+        type ="button"
+        @click="goToDetails"
+        class="px-5 py-2 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-sm rounded-full hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300">
         Meer lezen
       </button>
     </div>
