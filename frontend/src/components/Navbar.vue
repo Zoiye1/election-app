@@ -1,16 +1,73 @@
 <template>
-  <div>
-    <div class="bg-white h-24 flex items-center px-4 md:px-8">
-      <div class="flex items-center justify-between w-full">
-
-        <a href="/" class="cursor-pointer">
-          <img src="../assets/logo.png" alt="StemSlim Logo" class="h-12 md:h-16" />
+  <nav class="sticky top-0 z-50 bg-white/95 backdrop-blur-lg shadow-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex justify-between items-center">
+        <!-- Logo -->
+        <a href="/" class="flex items-center gap-2 no-underline group">
+          <div class="w-10 h-10 bg-gradient-to-br from-[#667eea] to-[#764ba2] rounded-xl flex items-center justify-center text-white text-xl transition-transform group-hover:scale-105">
+            ✓
+          </div>
+          <span class="text-2xl font-extrabold text-[#667eea]">StemSlim</span>
         </a>
 
-        <!-- Hamburger menu mobile only -->
+        <!-- Desktop Navigation Links -->
+        <ul class="hidden md:flex gap-8 list-none items-center">
+          <li>
+            <a
+              href="/"
+              class="nav-link relative no-underline text-gray-800 font-semibold transition-colors hover:text-[#667eea]"
+            >
+              Home
+            </a>
+          </li>
+          <li>
+            <a
+              href="/electionData"
+              class="nav-link relative no-underline text-gray-800 font-semibold transition-colors hover:text-[#667eea]"
+            >
+              Uitslagen
+            </a>
+          </li>
+          <li>
+            <a
+              href="/discussion"
+              class="nav-link relative no-underline text-gray-800 font-semibold transition-colors hover:text-[#667eea]"
+            >
+              Discussie
+            </a>
+          </li>
+        </ul>
+
+        <!-- Search Bar (Desktop) -->
+        <div class="hidden lg:block relative">
+          <input
+            type="text"
+            placeholder="Zoek verkiezingen..."
+            class="w-64 py-3 px-4 pr-10 border-2 border-gray-200 rounded-full text-sm transition-all focus:outline-none focus:border-[#667eea] focus:w-80 focus:shadow-lg focus:shadow-[#667eea]/10"
+          >
+          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
+        </div>
+
+        <!-- CTA Buttons (Desktop) -->
+        <div class="hidden md:flex gap-4">
+          <a
+            href="/login"
+            class="px-6 py-3 rounded-full font-semibold border-2 border-[#667eea] text-[#667eea] transition-all hover:bg-[#667eea] hover:text-white"
+          >
+            Login
+          </a>
+          <a
+            href="/register"
+            class="px-6 py-3 rounded-full font-semibold bg-gradient-to-br from-[#667eea] to-[#764ba2] text-white shadow-lg shadow-[#667eea]/40 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-[#667eea]/50"
+          >
+            Registreer
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
         <button
           @click="mobileMenuOpen = !mobileMenuOpen"
-          class="md:hidden text-gray-700 hover:text-gray-900 focus:outline-none"
+          class="md:hidden text-gray-700 hover:text-[#667eea] focus:outline-none transition-colors"
         >
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -30,125 +87,67 @@
           </svg>
         </button>
       </div>
-    </div>
 
-
-    <nav class="bg-blue-500">
-      <!-- Desktop navigation-->
-      <div class="hidden md:block max-w-screen-xl mx-auto px-8">
-        <div class="flex items-center justify-between h-14">
-          <!-- This is for to navigate the items from postion -->
-          <div class="flex items-center space-x-8 -ml-4">
-            <a href="/" class="text-white font-medium hover:text-blue-100 transition-colors">
-              Home
-            </a>
-            <a href="/electionData" class="text-white font-medium hover:text-blue-100 transition-colors">
-              Uitslagen
-            </a>
-            <a href="/discussion" class="text-white font-medium hover:text-blue-100 transition-colors">
-              Discussie
-            </a>
-          </div>
-
-          <!-- Rechter sectie met search en login/register -->
-          <div class="flex items-center space-x-4">
-            <!-- Search bar -->
-            <div class="relative">
-              <input
-                type="text"
-                placeholder="Search..."
-                class="w-64 px-4 py-1.5 pr-10 rounded-full text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
-              />
-              <button class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </button>
-            </div>
-
-            <!-- Login / Register buttons -->
-            <div class="flex items-center space-x-3">
-              <a
-                href="/login"
-                class="text-white font-medium hover:text-blue-100 transition-colors px-4 py-2 rounded-md hover:bg-blue-600"
-              >
-                Login
-              </a>
-
-              <a
-                href="/register"
-                class="bg-white text-blue-600 font-medium px-4 py-2 rounded-md hover:bg-gray-100 transition-colors"
-              >
-                Registreer
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Mobile navigation menu -->
+      <!-- Mobile Menu -->
       <div
         v-show="mobileMenuOpen"
-        class="md:hidden bg-blue-500 border-t border-blue-400"
+        class="md:hidden mt-4 pb-4 space-y-4 animate-slide-down"
       >
-        <div class="px-4 py-3 space-y-3">
-
-          <a href="/"
-          class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
-          @click="mobileMenuOpen = false"
-          >
-          Home
-          </a>
-
-          <a href="/electionData"
-          class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
-          @click="mobileMenuOpen = false"
-          >
-          Uitslagen
-          </a>
-
-          <a href="/discussion"
-          class="block text-white font-medium hover:text-blue-100 py-2 transition-colors"
-          @click="mobileMenuOpen = false"
-          >
-          Discussie
-          </a>
-
-          <!-- Search bar mobiel -->
-          <div class="relative pt-2">
-            <input
-              type="text"
-              placeholder="Search..."
-              class="w-full px-4 py-2 pr-10 rounded-full text-sm text-gray-700 bg-white focus:outline-none focus:ring-2 focus:ring-blue-300"
-            />
-            <button class="absolute right-2 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-              </svg>
-            </button>
-          </div>
-
-          <!-- Login / Register buttons mobile -->
-          <div class="pt-3 space-y-2">
-
-            <a href="/login"
-            class="block text-center text-white font-medium bg-blue-600 hover:bg-blue-700 py-2 rounded-md transition-colors"
+        <!-- Mobile Navigation Links -->
+        <div class="space-y-2">
+          <a
+            href="/"
+            class="block text-gray-800 font-semibold py-3 px-4 rounded-xl transition-all hover:bg-[#667eea]/10 hover:text-[#667eea]"
             @click="mobileMenuOpen = false"
-            >
-            < aLogin
-            </a>
-
-            <a href="/register"
-            class="block text-center text-blue-600 font-medium bg-white hover:bg-gray-100 py-2 rounded-md transition-colors"
+          >
+            Home
+          </a>
+          <a
+            href="/electionData"
+            class="block text-gray-800 font-semibold py-3 px-4 rounded-xl transition-all hover:bg-[#667eea]/10 hover:text-[#667eea]"
             @click="mobileMenuOpen = false"
-            >
+          >
+            Uitslagen
+          </a>
+          <a
+            href="/discussion"
+            class="block text-gray-800 font-semibold py-3 px-4 rounded-xl transition-all hover:bg-[#667eea]/10 hover:text-[#667eea]"
+            @click="mobileMenuOpen = false"
+          >
+            Discussie
+          </a>
+        </div>
+
+        <!-- Mobile Search Bar -->
+        <div class="relative">
+          <input
+            type="text"
+            placeholder="Zoek verkiezingen..."
+            class="w-full py-3 px-4 pr-10 border-2 border-gray-200 rounded-full text-sm transition-all focus:outline-none focus:border-[#667eea] focus:shadow-lg focus:shadow-[#667eea]/10"
+          >
+          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
+        </div>
+
+        <!-- Mobile CTA Buttons -->
+        <div class="space-y-3 pt-2">
+          <a
+            href="/login"
+            class="block text-center text-[#667eea] font-semibold border-2 border-[#667eea] py-3 rounded-full transition-all hover:bg-[#667eea] hover:text-white"
+            @click="mobileMenuOpen = false"
+          >
+            Login
+          </a>
+          <a
+            href="/register"
+            class="block text-center text-white font-semibold bg-gradient-to-br from-[#667eea] to-[#764ba2] py-3 rounded-full shadow-lg transition-all hover:-translate-y-0.5"
+            @click="mobileMenuOpen = false"
+          >
             Registreer
-            </a>
-          </div>
+          </a>
         </div>
       </div>
-    </nav>
-  </div>
+    </div>
+  </nav>
 </template>
 
 <script>
@@ -161,3 +160,37 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+/* Animated underline for nav links */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #667eea;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Slide down animation for mobile menu */
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.3s ease-out;
+}
+</style>
