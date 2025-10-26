@@ -5,13 +5,25 @@
     <div class="fixed inset-0 pointer-events-none" id="particles"></div>
 
     <!-- Logo in top left -->
-    <div class="absolute top-8 left-8 z-10">
-      <a href="/" class="flex items-center gap-2 no-underline group transition-transform hover:scale-105">
-        <div class="w-12 h-12 bg-white/20 backdrop-blur-lg rounded-xl flex items-center justify-center text-white text-xl border-2 border-white/30">
+    <div class="absolute top-8 left-8 z-10 flex items-center gap-4">
+      <a href="/" class="flex items-center gap-2 no-underline group transition-all hover:scale-105 relative">
+        <div class="w-12 h-12 bg-white/20 backdrop-blur-lg rounded-xl flex items-center justify-center text-white text-xl border-2 border-white/30 group-hover:border-white/60 transition-all">
           ✓
         </div>
         <span class="text-2xl font-extrabold text-white">StemSlim</span>
+
+        <!-- Tooltip -->
+        <div class="absolute -bottom-10 left-0 bg-white text-gray-800 text-xs font-semibold px-3 py-1.5 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 whitespace-nowrap pointer-events-none">
+          <span class="flex items-center gap-1">
+            🏠 Naar home
+          </span>
+          <!-- Arrow -->
+          <div class="absolute -top-1 left-4 w-2 h-2 bg-white transform rotate-45"></div>
+        </div>
       </a>
+
+      <!-- Back button -->
+  
     </div>
 
     <!-- Register Container -->
@@ -319,5 +331,15 @@ onMounted(() => {
 
 .animate-slide-in {
   animation: slide-in 0.5s ease-out;
+}
+
+/* Pulse animation for logo on hover */
+.group:hover .w-12 {
+  animation: logo-pulse 0.6s ease-in-out;
+}
+
+@keyframes logo-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.1); }
 }
 </style>
