@@ -61,7 +61,7 @@ onMounted(() => {
           </h1>
 
           <p class="text-xl md:text-2xl text-white/90 leading-relaxed">
-            Ontdek real-time verkiezingsresultaten, doe mee aan discussies en
+            Ontdek verkiezingsresultaten, doe mee aan discussies en
             maak impact met jouw mening. StemSlim maakt politiek relevant en toegankelijk.
           </p>
 
@@ -179,7 +179,7 @@ onMounted(() => {
             class="w-[70px] h-[70px] bg-gradient-to-br from-[#667eea] to-[#764ba2] rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform group-hover:scale-110">
             📊
           </div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-4">Bekijk Real-Time Stemresultaten</h3>
+          <h3 class="text-2xl font-bold text-gray-800 mb-4">Bekijk Stemresultaten</h3>
           <p class="text-gray-600 leading-relaxed mb-6">
             Volg verkiezingsuitslagen terwijl ze binnenkomen met onze live dashboard.
             Krijg instant updates en interactieve grafieken die laten zien wat er gebeurt.
