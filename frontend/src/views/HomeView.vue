@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import {onMounted} from 'vue'
+import {useRouter} from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 // import Footer from '../components/Footer.vue'
 
@@ -47,14 +47,15 @@ onMounted(() => {
         <!-- Left Column: Text -->
         <div class="space-y-6">
           <!-- Live Indicator -->
-          <div class="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full text-white text-sm backdrop-blur-lg">
-            <span class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></span>
-            <span>Live verkiezingsresultaten</span>
-          </div>
+          <!--          <div class="inline-flex items-center gap-2 bg-white/20 px-4 py-2 rounded-full text-white text-sm backdrop-blur-lg">-->
+          <!--            <span class="w-2.5 h-2.5 bg-red-500 rounded-full animate-pulse"></span>-->
+          <!--            <span>Live verkiezingsresultaten</span>-->
+          <!--          </div>-->
 
           <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight">
             Jouw stem,<br>
-            <span class="bg-gradient-to-r from-[#ffd89b] to-[#19547b] bg-clip-text text-transparent">
+            <span
+              class="bg-gradient-to-r from-[#ffd89b] to-[#19547b] bg-clip-text text-transparent">
               jouw toekomst!
             </span>
           </h1>
@@ -78,73 +79,71 @@ onMounted(() => {
             </button>
           </div>
 
-          <!-- Stats -->
-          <div class="flex gap-8 pt-8">
-            <div class="text-center">
-              <span class="block text-4xl font-extrabold text-white">12.5K</span>
-              <span class="text-white/80 text-sm">Actieve Users</span>
-            </div>
-            <div class="text-center">
-              <span class="block text-4xl font-extrabold text-white">247</span>
-              <span class="text-white/80 text-sm">Live Discussies</span>
-            </div>
-            <div class="text-center">
-              <span class="block text-4xl font-extrabold text-white">98%</span>
-              <span class="text-white/80 text-sm">Nauwkeurigheid</span>
-            </div>
-          </div>
+
         </div>
 
         <!-- Right Column: Chart -->
         <div class="relative">
-          <div class="relative w-full bg-white/10 backdrop-blur-lg rounded-3xl p-8 border-2 border-white/20 shadow-2xl">
+          <div
+            class="relative w-full bg-white/10 backdrop-blur-lg rounded-3xl p-8 border-2 border-white/20 shadow-2xl">
             <h3 class="text-white mb-4 text-lg font-semibold">📊 Verkiezingstrends 2025</h3>
 
             <!-- Interactive Chart -->
             <div class="relative h-80 flex items-end justify-around gap-2">
               <div class="bar-wrapper w-full flex flex-col items-center">
-                <div class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
-                     style="height: 40%; animation-delay: 0.1s;"></div>
+                <div
+                  class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
+                  style="height: 40%; animation-delay: 0.1s;"></div>
               </div>
               <div class="bar-wrapper w-full flex flex-col items-center">
-                <div class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
-                     style="height: 55%; animation-delay: 0.2s;"></div>
+                <div
+                  class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
+                  style="height: 55%; animation-delay: 0.2s;"></div>
               </div>
               <div class="bar-wrapper w-full flex flex-col items-center">
-                <div class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
-                     style="height: 48%; animation-delay: 0.3s;"></div>
+                <div
+                  class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
+                  style="height: 48%; animation-delay: 0.3s;"></div>
               </div>
               <div class="bar-wrapper w-full flex flex-col items-center">
-                <div class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
-                     style="height: 72%; animation-delay: 0.4s;"></div>
+                <div
+                  class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
+                  style="height: 72%; animation-delay: 0.4s;"></div>
               </div>
               <div class="bar-wrapper w-full flex flex-col items-center">
-                <div class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
-                     style="height: 63%; animation-delay: 0.5s;"></div>
+                <div
+                  class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
+                  style="height: 63%; animation-delay: 0.5s;"></div>
               </div>
               <div class="bar-wrapper w-full flex flex-col items-center">
-                <div class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
-                     style="height: 58%; animation-delay: 0.6s;"></div>
+                <div
+                  class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
+                  style="height: 58%; animation-delay: 0.6s;"></div>
               </div>
               <div class="bar-wrapper w-full flex flex-col items-center">
-                <div class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
-                     style="height: 85%; animation-delay: 0.7s;"></div>
+                <div
+                  class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
+                  style="height: 85%; animation-delay: 0.7s;"></div>
               </div>
               <div class="bar-wrapper w-full flex flex-col items-center">
-                <div class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
-                     style="height: 78%; animation-delay: 0.8s;"></div>
+                <div
+                  class="bar w-full bg-gradient-to-t from-white/30 to-white/80 rounded-t-xl transition-all duration-300 hover:from-yellow-400/50 hover:to-yellow-400/90 hover:scale-105 cursor-pointer animate-grow-bar"
+                  style="height: 78%; animation-delay: 0.8s;"></div>
               </div>
 
               <!-- Trend line -->
-              <div class="absolute top-[15%] left-[5%] right-[5%] h-0.5 bg-gradient-to-r from-transparent via-yellow-400 to-transparent transform -rotate-[5deg]"></div>
+              <div
+                class="absolute top-[15%] left-[5%] right-[5%] h-0.5 bg-gradient-to-r from-transparent via-yellow-400 to-transparent transform -rotate-[5deg]"></div>
             </div>
           </div>
 
           <!-- Floating Badges -->
-          <div class="absolute top-[10%] right-[10%] w-20 h-20 bg-gradient-to-br from-pink-400 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-pink-400/40 animate-pulse">
+          <div
+            class="absolute top-[10%] right-[10%] w-20 h-20 bg-gradient-to-br from-pink-400 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-pink-400/40 animate-pulse">
             🏆
           </div>
-          <div class="absolute bottom-[20%] left-[5%] w-20 h-20 bg-gradient-to-br from-pink-400 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-pink-400/40 animate-pulse">
+          <div
+            class="absolute bottom-[20%] left-[5%] w-20 h-20 bg-gradient-to-br from-pink-400 to-red-500 rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg shadow-pink-400/40 animate-pulse">
             ⚡
           </div>
         </div>
@@ -158,7 +157,8 @@ onMounted(() => {
         <div
           @click="goToDiscussion"
           class="bg-white p-10 rounded-3xl shadow-xl border-4 border-transparent transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl hover:border-[#667eea] cursor-pointer group">
-          <div class="w-[70px] h-[70px] bg-gradient-to-br from-[#667eea] to-[#764ba2] rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform group-hover:scale-110">
+          <div
+            class="w-[70px] h-[70px] bg-gradient-to-br from-[#667eea] to-[#764ba2] rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform group-hover:scale-110">
             💬
           </div>
           <h3 class="text-2xl font-bold text-gray-800 mb-4">Join de Discussie</h3>
@@ -175,7 +175,8 @@ onMounted(() => {
         <div
           @click="goToResults"
           class="bg-white p-10 rounded-3xl shadow-xl border-4 border-transparent transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl hover:border-[#667eea] cursor-pointer group">
-          <div class="w-[70px] h-[70px] bg-gradient-to-br from-[#667eea] to-[#764ba2] rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform group-hover:scale-110">
+          <div
+            class="w-[70px] h-[70px] bg-gradient-to-br from-[#667eea] to-[#764ba2] rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform group-hover:scale-110">
             📊
           </div>
           <h3 class="text-2xl font-bold text-gray-800 mb-4">Bekijk Real-Time Stemresultaten</h3>
@@ -188,29 +189,7 @@ onMounted(() => {
           </span>
         </div>
 
-        <!-- Feature Card 3 -->
-        <div class="bg-white p-10 rounded-3xl shadow-xl border-4 border-transparent transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl hover:border-[#667eea] cursor-pointer group">
-          <div class="w-[70px] h-[70px] bg-gradient-to-br from-[#667eea] to-[#764ba2] rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform group-hover:scale-110">
-            🎯
-          </div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-4">Personaliseer Jouw Feed</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Volg de topics die jou interesseren. Of het nu klimaat, economie of
-            onderwijs is - jij bepaalt wat je ziet en wanneer je updates krijgt.
-          </p>
-        </div>
 
-        <!-- Feature Card 4 -->
-        <div class="bg-white p-10 rounded-3xl shadow-xl border-4 border-transparent transition-all duration-300 hover:-translate-y-3 hover:shadow-2xl hover:border-[#667eea] cursor-pointer group">
-          <div class="w-[70px] h-[70px] bg-gradient-to-br from-[#667eea] to-[#764ba2] rounded-2xl flex items-center justify-center text-3xl mb-6 transition-transform group-hover:scale-110">
-            🏆
-          </div>
-          <h3 class="text-2xl font-bold text-gray-800 mb-4">Earn Badges & Levels</h3>
-          <p class="text-gray-600 leading-relaxed">
-            Verdien rewards door actief te zijn! Unlock achievements, climb the leaderboard
-            en laat zien dat jij het verschil maakt in politieke discussies.
-          </p>
-        </div>
       </div>
     </div>
   </div>
@@ -221,14 +200,22 @@ onMounted(() => {
 <style scoped>
 /* Particle animation */
 @keyframes float {
-  0%, 100% { transform: translateY(0) translateX(0); }
-  50% { transform: translateY(-20px) translateX(10px); }
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  50% {
+    transform: translateY(-20px) translateX(10px);
+  }
 }
 
 /* Bar chart grow animation */
 @keyframes grow-bar {
-  from { transform: scaleY(0); }
-  to { transform: scaleY(1); }
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
 }
 
 .animate-grow-bar {
