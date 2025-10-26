@@ -38,15 +38,7 @@
           </li>
         </ul>
 
-        <!-- Search Bar (Desktop) -->
-        <div class="hidden lg:block relative">
-          <input
-            type="text"
-            placeholder="Zoek verkiezingen..."
-            class="w-64 py-3 px-4 pr-10 border-2 border-gray-200 rounded-full text-sm transition-all focus:outline-none focus:border-[#667eea] focus:w-80 focus:shadow-lg focus:shadow-[#667eea]/10"
-          >
-          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
-        </div>
+
 
         <!-- CTA Buttons (Desktop) -->
         <div class="hidden md:flex gap-4">
@@ -116,16 +108,6 @@
           >
             Discussie
           </a>
-        </div>
-
-        <!-- Mobile Search Bar -->
-        <div class="relative">
-          <input
-            type="text"
-            placeholder="Zoek verkiezingen..."
-            class="w-full py-3 px-4 pr-10 border-2 border-gray-200 rounded-full text-sm transition-all focus:outline-none focus:border-[#667eea] focus:shadow-lg focus:shadow-[#667eea]/10"
-          >
-          <span class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 text-lg">🔍</span>
         </div>
 
         <!-- Mobile CTA Buttons -->
