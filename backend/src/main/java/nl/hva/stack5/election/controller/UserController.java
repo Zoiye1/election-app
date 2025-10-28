@@ -1,4 +1,16 @@
 package nl.hva.stack5.election.controller;
+import nl.hva.stack5.election.model.User;
+import nl.hva.stack5.election.service.UserService;
+import nl.hva.stack5.election.util.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
 
 import nl.hva.stack5.election.model.User;
 import nl.hva.stack5.election.service.UserService;
@@ -28,11 +40,22 @@ public class UserController {
     }
 
     @PostMapping(value = "/verify")
-    public boolean verifyUser(@RequestBody User user) {
+    public ResponseEntity<Map<String, Object>> verifyUser(@RequestBody User user) {
+        boolean isValid = false;
+        String identifier = null;
+
         if (user.getEmail() != null) {
-            return userService.verifyEmailAndPassword(user.getEmail(), user.getPassword());
-        } else {
-            return userService.verifyUsernameAndPassword(user.getUsername(), user.getPassword());
+            isValid = userService.verifyEmailAndPassword(user.getEmail(), user.getPassword());
+            identifier = user.getEmail();
+        } else if (user.getUsername() != null) {
+            isValid = userService.verifyUsernameAndPassword(user.getUsername(), user.getPassword());
+            identifier = user.getUsername();
         }
+
+        if (isValid && identifier != null){
+
+            String token = jwtUtil
+        }
+
     }
 }
