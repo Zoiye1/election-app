@@ -42,19 +42,35 @@
         </ul>
 
         <!-- CTA Buttons (Desktop) -->
-        <div class="hidden md:flex gap-4">
-          <a
-            href="/login"
-            class="px-6 py-3 rounded-full font-semibold border-2 border-purple-600 text-purple-600 transition-all hover:bg-purple-600 hover:text-white"
-          >
-            Login
-          </a>
-          <a
-            href="/register"
-            class="px-6 py-3 rounded-full font-semibold button-gradient text-white shadow-lg shadow-purple-400 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500"
-          >
-            Registreer
-          </a>
+        <div class="hidden md:flex gap-4 items-center">
+          <!-- Als NIET ingelogd -->
+          <template v-if="!isAuthenticated">
+            <a
+              href="/login"
+              class="px-6 py-3 rounded-full font-semibold border-2 border-purple-600 text-purple-600 transition-all hover:bg-purple-600 hover:text-white"
+            >
+              Login
+            </a>
+            <a
+              href="/register"
+              class="px-6 py-3 rounded-full font-semibold button-gradient text-white shadow-lg shadow-purple-400 transition-all hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500"
+            >
+              Registreer
+            </a>
+          </template>
+
+          <!-- Als WEL ingelogd -->
+          <template v-else>
+            <span class="text-gray-700 font-semibold flex items-center gap-2">
+              👋 Hallo, <span class="text-purple-600">{{ userName }}</span>
+            </span>
+            <button
+              @click="handleLogout"
+              class="px-6 py-3 rounded-full font-semibold border-2 border-red-500 text-red-500 transition-all hover:bg-red-500 hover:text-white"
+            >
+              Logout
+            </button>
+          </template>
         </div>
 
         <!-- Mobile Menu Button -->
@@ -113,20 +129,36 @@
 
         <!-- Mobile CTA Buttons -->
         <div class="space-y-3 pt-2">
-          <a
-            href="/login"
-            class="block text-center text-purple-600 font-semibold border-2 border-purple-600 py-3 rounded-full transition-all hover:bg-purple-600 hover:text-white"
-            @click="mobileMenuOpen = false"
-          >
-            Login
-          </a>
-          <a
-            href="/register"
-            class="block text-center text-white font-semibold button-gradient py-3 rounded-full shadow-lg transition-all hover:-translate-y-0.5"
-            @click="mobileMenuOpen = false"
-          >
-            Registreer
-          </a>
+          <!-- Als NIET ingelogd -->
+          <template v-if="!isAuthenticated">
+            <a
+              href="/login"
+              class="block text-center text-purple-600 font-semibold border-2 border-purple-600 py-3 rounded-full transition-all hover:bg-purple-600 hover:text-white"
+              @click="mobileMenuOpen = false"
+            >
+              Login
+            </a>
+            <a
+              href="/register"
+              class="block text-center text-white font-semibold button-gradient py-3 rounded-full shadow-lg transition-all hover:-translate-y-0.5"
+              @click="mobileMenuOpen = false"
+            >
+              Registreer
+            </a>
+          </template>
+
+          <!-- Als WEL ingelogd -->
+          <template v-else>
+            <div class="text-center py-3 text-gray-700 font-semibold">
+              👋 Hallo, <span class="text-purple-600">{{ userName }}</span>
+            </div>
+            <button
+              @click="handleLogout"
+              class="block w-full text-center text-white font-semibold bg-red-500 py-3 rounded-full transition-all hover:bg-red-600"
+            >
+              Logout
+            </button>
+          </template>
         </div>
       </div>
     </div>
@@ -135,19 +167,32 @@
 
 <script>
 import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { useAuth } from '@/composables/useAuth'
+import { useRouter } from 'vue-router'
 
 export default {
   name: 'Navbar',
   setup() {
+    const router = useRouter()
     const mobileMenuOpen = ref(false)
     const isScrolled = ref(false)
+
+    // Auth state
+    const { isAuthenticated, userName, checkAuth, logout } = useAuth()
 
     const handleScroll = () => {
       isScrolled.value = window.scrollY > 20
     }
 
+    const handleLogout = () => {
+      logout()
+      mobileMenuOpen.value = false
+      router.push('/')
+    }
+
     onMounted(() => {
       window.addEventListener('scroll', handleScroll)
+      checkAuth() // Check if logged in on page load
     })
 
     onBeforeUnmount(() => {
@@ -156,7 +201,10 @@ export default {
 
     return {
       mobileMenuOpen,
-      isScrolled
+      isScrolled,
+      isAuthenticated,
+      userName,
+      handleLogout
     }
   }
 }
