@@ -17,6 +17,9 @@ public class Election {
     private List<PartyConstituencyResults> constituencyResults = new ArrayList<>();
     private List<PartyResult> partyResults = new ArrayList<>();
 
+    //list of parties with Identifier and names of the parties.
+    private List<Party> parties = new ArrayList<>();
+
     //List of all elected candidates
     private List<Candidate> candidates = new ArrayList<>();
 
@@ -33,6 +36,8 @@ public class Election {
     public String getId() {
         return id;
     }
+
+    public List<Party> getParties() {return this.parties;}
 
     public List<PartyResult> getPartyResults(){
         return partyResults;

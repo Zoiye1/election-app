@@ -23,7 +23,7 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
     public void registerPartyVotes(boolean aggregated, Map<String, String> electionData) {
         // Alleen nationale (aggregated) party votes verwerken
         if (aggregated) {
-        String partyId = electionData.get(AFFILIATION_IDENTIFIER_ID);
+            String partyId = electionData.get(AFFILIATION_IDENTIFIER_ID);
             String partyName = electionData.get(REGISTERED_NAME);
             String votesStr = electionData.get(VALID_VOTES);
 
