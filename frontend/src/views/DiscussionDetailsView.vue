@@ -30,6 +30,18 @@ const fetchDiscussion = async () => {
 
 onMounted(() => {
   fetchDiscussion()
+  const particlesContainer = document.getElementById('particles')
+  if (particlesContainer) {
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement('div')
+      particle.className = 'absolute w-1 h-1 bg-white/30 rounded-full'
+      particle.style.left = Math.random() * 100 + '%'
+      particle.style.top = Math.random() * 100 + '%'
+      particle.style.animation = `float ${6 + Math.random() * 3}s ease-in-out infinite`
+      particle.style.animationDelay = Math.random() * 6 + 's'
+      particlesContainer.appendChild(particle)
+    }
+  }
 })
 
 const formatDate = (dateString: string) => {
@@ -71,9 +83,10 @@ const avatarClass = computed(() => {
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-purple-600">
+  <div class="min-h-screen bg-gradient-to-br from-[#667eea] to-[#764ba2] relative overflow-hidden">
+    <div class="fixed inset-0 pointer-events-none" id="particles"></div>
     <Navbar />
-    <main class="max-w-6xl mx-auto px-4 py-10">
+    <main class="max-w-6xl mx-auto px-4 py-10 md:py-24">
       <!-- Loading State -->
       <div v-if="loading" class="text-center py-16">
         <div class="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-white"></div>

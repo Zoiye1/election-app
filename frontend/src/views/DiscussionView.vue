@@ -37,11 +37,24 @@ const goToCreateDiscussion = () => {
 // Load discussions when page opens
 onMounted(() => {
   fetchDiscussions()
+  const particlesContainer = document.getElementById('particles')
+  if (particlesContainer) {
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement('div')
+      particle.className = 'absolute w-1 h-1 bg-white/30 rounded-full'
+      particle.style.left = Math.random() * 100 + '%'
+      particle.style.top = Math.random() * 100 + '%'
+      particle.style.animation = `float ${6 + Math.random() * 3}s ease-in-out infinite`
+      particle.style.animationDelay = Math.random() * 6 + 's'
+      particlesContainer.appendChild(particle)
+    }
+  }
 })
 </script>
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-indigo-500 via-purple-500 to-purple-600">
+  <div class="min-h-screen bg-gradient-to-br from-[#667eea] to-[#764ba2] relative overflow-hidden">
+    <div class="fixed inset-0 pointer-events-none" id="particles"></div>
     <!-- Navbar -->
     <Navbar />
 
