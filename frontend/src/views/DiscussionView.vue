@@ -59,7 +59,7 @@ onMounted(() => {
     <Navbar />
 
     <!-- Main Content -->
-    <main class="max-w-6xl mx-auto px-4 py-10">
+    <main class="max-w-6xl mx-auto px-4 py-10 md:py-24">
     <!-- Page Header -->
     <div class="text-center mb-10">
       <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">Discussies</h1>
