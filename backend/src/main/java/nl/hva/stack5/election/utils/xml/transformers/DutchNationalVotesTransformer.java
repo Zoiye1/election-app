@@ -12,6 +12,7 @@ import java.util.Map;
  */
 public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAttributeNames {
     private final Election election;
+    private String currentParty;
 
     public DutchNationalVotesTransformer(Election election) {
         this.election = election;
@@ -33,6 +34,7 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
                     // Nieuwe PartyResult aanmaken en toevoegen aan de lijst
                     PartyResult partyResult = new PartyResult(election, party, votes);
                     election.getPartyResults().put(partyName, partyResult);
+                    this.currentParty = partyName;
                 } catch (NumberFormatException e) {
                     System.err.println("ERROR: votes is not the correct format");
                 }
@@ -47,13 +49,18 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
             String nationalCandidateVotes = electionData.get(VALID_VOTES);
 
             Candidate candidate = election.getCandidates().get(shortCode);
+            Party party = election.getParties().get(this.currentParty);
 
             if (candidate == null) {
                 System.err.println("ERROR: candidate does not exist.");
                 return;
             }
+            if (party == null) {
+                System.err.println("ERROR: party does not exist.");
+                return;
+            }
 
-            CandidateResult candidateResult = new CandidateResult(election, candidate, nationalCandidateVotes);
+            CandidateResult candidateResult = new CandidateResult(election, party, candidate, nationalCandidateVotes);
             election.getCandidateResults().put(shortCode, candidateResult);
         }
     }
