@@ -12,18 +12,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-
+@Component  // ← VOEG DEZE REGEL TOE!
 public class JwtUtil {
 
     private final String SECRET_KEY = "StemSlimSecretKeyForJWTTokenGenerationAndValidation2025";
-
-    private final long JWT_TOKEN_VALIDITY = 10 * 60 * 60 * 1000; // 10 hours
+    private final long JWT_TOKEN_VALIDITY = 10 * 60 * 60 * 1000;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
 
-    // Haal expiration date uit token
     public Date extractExpiration(String token) {
         return extractClaim(token, Claims::getExpiration);
     }
@@ -41,18 +39,15 @@ public class JwtUtil {
                 .getBody();
     }
 
-    // Check of token expired is
     private Boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
     }
 
-    // Genereer token voor user
     public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, email);
     }
 
-    // Genereer token met extra claims
     public String generateToken(String email, Map<String, Object> extraClaims) {
         return createToken(extraClaims, email);
     }
@@ -67,7 +62,6 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Valideer token
     public Boolean validateToken(String token, String email) {
         final String username = extractUsername(token);
         return (username.equals(email) && !isTokenExpired(token));

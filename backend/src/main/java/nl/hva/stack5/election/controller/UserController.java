@@ -1,7 +1,7 @@
 package nl.hva.stack5.election.controller;
 import nl.hva.stack5.election.model.User;
 import nl.hva.stack5.election.service.UserService;
-import nl.hva.stack5.election.util.JwtUtil;
+import nl.hva.stack5.election.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +26,10 @@ import java.util.Optional;
 public class UserController {
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
 
     @GetMapping(value = "/{userId}")
     public User getUser(@PathVariable Integer userId) {
@@ -54,8 +58,25 @@ public class UserController {
 
         if (isValid && identifier != null){
 
-            String token = jwtUtil
+            String token = jwtUtil.generateToken(identifier);
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("token", token);
+
+//            User date frontend
+            Map<String, Object> userData = new HashMap<>();
+            userData.put("email",  user.getEmail());
+            userData.put("username", user.getUsername());
+            response.put("user", userData);
+
+            return ResponseEntity.ok(response);
+
         }
 
+//        Code when login is not successful
+        Map<String, Object> errorResponse = new HashMap<>();
+        errorResponse.put("success", false);
+        errorResponse.put("message", "Invalid credentials");
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 }

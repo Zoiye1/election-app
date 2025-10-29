@@ -17,31 +17,26 @@ export class LoginService {
       })
 
       if (!response.ok) {
+        if (response.status === 401) {
+          return false; // Unauthorized - invalid credentials
+        }
         throw new Error("Request failed: " + response.statusText);
       }
 
-      const isValid = await response.json();
+      const data = await response.json();
 
-      // Als login succesvol is, sla user data op in sessionStorage
-      if (isValid) {
-        // Generate simple token (in productie zou backend dit moeten geven)
-        const token = btoa(`${email}:${Date.now()}`)
-
-        // Sla user data op
-        const userData = {
-          email: email,
-          username: email.split('@')[0], // Extract username from email
-          loginTime: new Date().toISOString()
-        }
-
-        sessionStorage.setItem('authToken', token)
-        sessionStorage.setItem('userData', JSON.stringify(userData))
+      // Check if backend returned JWT token
+      if (data.success && data.token && data.user) {
+        // Sla JWT token op in sessionStorage
+        sessionStorage.setItem('authToken', data.token)
+        sessionStorage.setItem('userData', JSON.stringify(data.user))
+        return true;
       }
 
-      return isValid;
+      return false;
     }
     catch (error) {
-      console.error('Fetch error:', error);
+      console.error('Login error:', error);
       throw error;
     }
   }
