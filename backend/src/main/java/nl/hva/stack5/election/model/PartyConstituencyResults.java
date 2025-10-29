@@ -1,8 +1,14 @@
 package nl.hva.stack5.election.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
+
 /**
- * this class holds the amount of votes a party has in a constituency
+ * this Entity holds the amount of votes a party has in a constituency
  */
+
+@Entity
+@Table
 public class PartyConstituencyResults {
     private Party party;
     private ConstituencyVotes constituencyVotes;

@@ -1,34 +1,43 @@
 package nl.hva.stack5.election.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.Table;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import jakarta.persistence.*;
 
-/**
- * This will hold the information for one specific election.<br/>
- * <b>This class is by no means production ready! You need to alter it extensively!</b>
- */
+@Entity
+@Table (name = "elections")
 public class Election {
-    private final String id;
+    @Id
+    @Column(name = "id",  nullable = false)
+    private String id;
+
+    // mapped by election tells that election is the owner of the relationship
+    @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
     private List<PartyConstituencyResults> constituencyResults = new ArrayList<>();
+
+    public Election() {}
 
     public Election(String id) {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "You have to create a proper election model yourself!";
+    // getters and setters
+    public String getId() {
+        return id;
     }
 
-    public String getId() {
-
-        return id;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public List<PartyConstituencyResults> getPartyConstituencyResults() {
      return constituencyResults;
 
+    }
+
+    public void setPartyConstituencyResults(List<PartyConstituencyResults> results) {
+        this.constituencyResults = results;
     }
 }

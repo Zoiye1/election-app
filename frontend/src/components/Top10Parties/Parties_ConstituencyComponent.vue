@@ -4,10 +4,14 @@ import { ref, onMounted} from 'vue';
 import type { Election } from '@/interfaces/IElectionData';
 
 const electionData = ref<Election>({partyConstituencyResults: []});
+const loading = ref(true)
 
 onMounted(async () => {
   const election: ElectionService  = new ElectionService();
   electionData.value = await election.getElectionData("TK2023", "constituency")
+  if(electionData.value === null ) {
+    loading.value = false
+  }
 })
 </script>
 
@@ -22,6 +26,7 @@ onMounted(async () => {
 
     <!-- list of parties -->
     <div class="max-h-96 overflow-y-auto space-y-3">
+
       <div
         v-for="(result, i) in electionData.partyConstituencyResults"
         :key="i"
