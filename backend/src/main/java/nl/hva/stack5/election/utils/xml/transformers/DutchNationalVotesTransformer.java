@@ -1,9 +1,6 @@
 package nl.hva.stack5.election.utils.xml.transformers;
 
-import nl.hva.stack5.election.model.Candidate;
-import nl.hva.stack5.election.model.Election;
-import nl.hva.stack5.election.model.Party;
-import nl.hva.stack5.election.model.PartyResult;
+import nl.hva.stack5.election.model.*;
 import nl.hva.stack5.election.utils.xml.TagAndAttributeNames;
 import nl.hva.stack5.election.utils.xml.VotesTransformer;
 
@@ -34,7 +31,7 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
                     Party party = election.getParties().get(partyName);
 
                     // Nieuwe PartyResult aanmaken en toevoegen aan de lijst
-                    PartyResult partyResult = new PartyResult(party, votes);
+                    PartyResult partyResult = new PartyResult(election, party, votes);
                     election.getPartyResults().put(partyName, partyResult);
                 } catch (NumberFormatException e) {
                     System.err.println("ERROR: votes is not the correct format");
@@ -49,23 +46,15 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
             String shortCode = electionData.get(CANDIDATE_IDENTIFIER_SHORT_CODE);
             String nationalCandidateVotes = electionData.get(VALID_VOTES);
 
-            if (shortCode != null && nationalCandidateVotes != null) {
-                boolean found = false;
-                for (Candidate candidate : election.getCandidates()) {
-                    if (shortCode != null && shortCode.equals(candidate.getShortCode())) {
-                        candidate.setNationalCandidateVotes(nationalCandidateVotes);
-                        found = true;
-                        break;
-                    }
-                }
-                if (!found) {
-//                    System.out.println("NOT FOUND: '" + shortCode + "'");
-                    // Print eerste paar candidates om te vergelijken
-                    for (int i = 0; i < Math.min(5, election.getCandidates().size()); i++) {
-//                        System.out.println("  Candidate " + i + ": '" + election.getCandidates().get(i).getShortCode() + "'");
-                    }
-                }
+            Candidate candidate = election.getCandidates().get(shortCode);
+
+            if (candidate == null) {
+                System.err.println("ERROR: candidate does not exist.");
+                return;
             }
+
+            CandidateResult candidateResult = new CandidateResult(election, candidate, nationalCandidateVotes);
+            election.getCandidateResults().put(shortCode, candidateResult);
         }
     }
 

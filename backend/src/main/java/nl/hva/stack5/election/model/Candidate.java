@@ -4,7 +4,7 @@ public class Candidate {
     private String firstName;
     private String surname;
     private String shortCode;
-    private String nationalCandidateVotes;
+
 
 
     /**
@@ -33,11 +33,5 @@ public class Candidate {
         return shortCode;
     }
 
-    public void setNationalCandidateVotes(String nationalCandidateVotes) {
-        this.nationalCandidateVotes = nationalCandidateVotes;
-    }
 
-    public String getNationalCandidateVotes() {
-        return nationalCandidateVotes;
-    }
 }

@@ -31,21 +31,11 @@ public class DutchResultTransformer implements VotesTransformer, TagAndAttribute
         String lastName = electionData.get(LAST_NAME);
         String shortCode = electionData.get(CANDIDATE_IDENTIFIER_SHORT_CODE);
 
-        // Check of candidate al bestaat
-        boolean exists = false;
-        for (Candidate c : election.getCandidates()) {
-            if (shortCode != null && shortCode.equals(c.getShortCode())) {
-                exists = true;
-                break;
-            }
-        }
 
-        // Alleen toevoegen als nog niet bestaat
-        if (!exists) {
-            Candidate candidate = new Candidate(firstName, lastName, shortCode);
-            election.getCandidates().add(candidate);
-            System.out.printf("Added candidate: %s\n", shortCode);
-        }
+        Candidate candidate = new Candidate(firstName, lastName, shortCode);
+        election.getCandidates().put(shortCode, candidate);
+        System.out.printf("Added candidate: %s\n", shortCode);
+
     }
 
     @Override

@@ -21,8 +21,8 @@ public class Election {
     private Map<String, Party> parties = new HashMap<>();
 
     //List of all elected candidates
-    private List<Candidate> candidates = new ArrayList<>();
-
+    private HashMap<String, Candidate> candidates = new HashMap<>();
+    private HashMap<String, CandidateResult> candidateResults = new HashMap<>();
 
     public Election(String id) {
         this.id = id;
@@ -43,7 +43,7 @@ public class Election {
         return partyResults;
     }
 
-    public List<Candidate> getCandidates(){
+    public HashMap<String, Candidate> getCandidates(){
         return candidates;
     }
 
@@ -59,4 +59,8 @@ public class Election {
     public void setTotalCounted(long totalCounted) {
         this.totalCounted = totalCounted;
     }
+
+    public HashMap<String, CandidateResult> getCandidateResults() {return candidateResults;}
+
+    public void setCandidateResults(HashMap<String, CandidateResult> candidateResults) {}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 public class PartyResult {
 
+    private Election election;
     private Party party;
     private long votes;
 
@@ -16,7 +17,9 @@ public class PartyResult {
      * @param party the entity of a party
      * @param votes the total votes a party received nationally
      */
-   public PartyResult(Party party, long votes) {
+   public PartyResult( Election election, Party party, long votes) {
+
+        this.election = election;
         this.party = party;
         this.votes = votes;
     }
@@ -35,4 +38,6 @@ public class PartyResult {
     public Party getParty() {
         return party;
     }
+
+    public void setElection(Election election) {this.election = election;}
 }
