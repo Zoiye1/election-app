@@ -5,35 +5,22 @@ import java.util.List;
 
 public class PartyResult {
 
-    private final String partyName;
-    private String partyId;
+    private Party party;
     private long votes;
+
+
     //private final List<Candidate> candidates;
 
     /**
      *
-     * @param partyName the name of the party
-     * @param partyId the unique identifier of the party
+     * @param party the entity of a party
      * @param votes the total votes a party received nationally
      */
-   public PartyResult(String partyName, String partyId, long votes) {
-        this.partyName = partyName;
-        this.partyId = partyId;
+   public PartyResult(Party party, long votes) {
+        this.party = party;
         this.votes = votes;
-//        this.candidates = new ArrayList<>();
     }
 
-//    public void setCandidates(String firstName, String surName, String shortCode) {
-//        candidates.add(new Candidate(firstName, surName, shortCode));
-//    }
-
-//    public List<Candidate> getCandidates() {
-//        return candidates;
-//    }
-
-    public void setPartyId(String partyId) {
-        this.partyId = partyId;
-    }
 
     public long getVotes() {
         return votes;
@@ -43,11 +30,9 @@ public class PartyResult {
         this.votes = votes;
     }
 
-    public String getPartyName() {
-        return partyName;
-    }
+    public void setParty(Party party) {this.party = party;}
 
-    public String getPartyId() {
-        return partyId;
+    public Party getParty() {
+        return party;
     }
 }

@@ -22,7 +22,7 @@ public class DutchConstituencyVotesTransformer implements VotesTransformer {
     @Override
     // this function returns a party with the total amount of votes of a Constituency
     public void registerPartyVotes(boolean aggregated, Map<String, String> electionData) {
-        Party party = new Party(electionData.get("RegisteredName"),  electionData.get("RegisteredID"));
+        Party party = new Party(electionData.get("RegisteredName"));
         ConstituencyVotes constituencyVotes = new ConstituencyVotes(electionData.get("ContestName"), electionData.get("ValidVotes"));
         PartyConstituencyResults partyConstituencyResults = new PartyConstituencyResults(party, constituencyVotes);
         election.getPartyConstituencyResults().add(partyConstituencyResults);

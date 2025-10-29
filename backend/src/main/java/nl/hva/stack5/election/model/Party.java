@@ -11,14 +11,12 @@ import java.util.List;
 public class Party {
 
     private String partyName;
-    private String partyId;
     /**
      *
      * @param partyName contains the party name
      */
 
-    public Party(String partyName,  String partyId) {
-        this.partyId = partyId;
+    public Party(String partyName) {
         this.partyName = partyName;
     }
 
@@ -26,6 +24,5 @@ public class Party {
     public String getPartyName() {
         return partyName;
     }
-    public String getPartyId() {return partyId;}
 
 }

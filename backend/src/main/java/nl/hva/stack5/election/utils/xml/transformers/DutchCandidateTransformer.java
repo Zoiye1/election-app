@@ -19,7 +19,7 @@ public class DutchCandidateTransformer implements CandidateTransformer, TagAndAt
 
     @Override
     public void registerCandidate(Map<String, String> electionData) {
-        System.out.println("Registering candidate: " + electionData);
+//        System.out.println("Registering candidate: " + electionData);
     }
 
 

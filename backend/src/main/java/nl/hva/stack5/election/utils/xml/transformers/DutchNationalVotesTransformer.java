@@ -2,6 +2,7 @@ package nl.hva.stack5.election.utils.xml.transformers;
 
 import nl.hva.stack5.election.model.Candidate;
 import nl.hva.stack5.election.model.Election;
+import nl.hva.stack5.election.model.Party;
 import nl.hva.stack5.election.model.PartyResult;
 import nl.hva.stack5.election.utils.xml.TagAndAttributeNames;
 import nl.hva.stack5.election.utils.xml.VotesTransformer;
@@ -23,17 +24,18 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
     public void registerPartyVotes(boolean aggregated, Map<String, String> electionData) {
         // Alleen nationale (aggregated) party votes verwerken
         if (aggregated) {
-            String partyId = electionData.get(AFFILIATION_IDENTIFIER_ID);
             String partyName = electionData.get(REGISTERED_NAME);
             String votesStr = electionData.get(VALID_VOTES);
 
-            if (partyId != null && partyName != null && votesStr != null) {
+            if (partyName != null && votesStr != null) {
                 try {
                     long votes = Long.parseLong(votesStr);
 
+                    Party party = election.getParties().get(partyName);
+
                     // Nieuwe PartyResult aanmaken en toevoegen aan de lijst
-                    PartyResult partyResult = new PartyResult(partyName, partyId, votes);
-                    election.getPartyResults().add(partyResult);
+                    PartyResult partyResult = new PartyResult(party, votes);
+                    election.getPartyResults().put(partyName, partyResult);
                 } catch (NumberFormatException e) {
                     System.err.println("ERROR: votes is not the correct format");
                 }
@@ -57,10 +59,10 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
                     }
                 }
                 if (!found) {
-                    System.out.println("NOT FOUND: '" + shortCode + "'");
+//                    System.out.println("NOT FOUND: '" + shortCode + "'");
                     // Print eerste paar candidates om te vergelijken
                     for (int i = 0; i < Math.min(5, election.getCandidates().size()); i++) {
-                        System.out.println("  Candidate " + i + ": '" + election.getCandidates().get(i).getShortCode() + "'");
+//                        System.out.println("  Candidate " + i + ": '" + election.getCandidates().get(i).getShortCode() + "'");
                     }
                 }
             }

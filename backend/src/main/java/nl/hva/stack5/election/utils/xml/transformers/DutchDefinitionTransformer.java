@@ -8,8 +8,7 @@ import nl.hva.stack5.election.utils.xml.TagAndAttributeNames;
 
 import java.util.Map;
 
-import static nl.hva.stack5.election.utils.xml.TagAndAttributeNames.AFFILIATION_IDENTIFIER_ID;
-import static nl.hva.stack5.election.utils.xml.TagAndAttributeNames.REGISTERED_NAME;
+import static nl.hva.stack5.election.utils.xml.TagAndAttributeNames.*;
 
 /**
  * Just prints to content of electionData to the standard output.>br/>
@@ -29,23 +28,11 @@ public class DutchDefinitionTransformer implements DefinitionTransformer {
 
     @Override
     public void registerParty(Map<String, String> electionData) {
-        String partyId = electionData.get(AFFILIATION_IDENTIFIER_ID);
-        String partyName = electionData.get(REGISTERED_NAME);
+        String partyName = electionData.get(REGISTERED_APPELLATION);
 
-        boolean exists = false;
-        for (Party p : election.getParties()) {
-            if (partyId != null && partyId.equals(p.getPartyId())) {
-                exists = true;
-                break;
-            }
-        }
-
-        // Alleen toevoegen als nog niet bestaat
-        if (!exists) {
-            Party party = new Party(partyId, partyName);
-            election.getParties().add(party);
-            System.out.printf("Added party: %s\n", partyId);
-        }
+            Party party = new Party(partyName);
+            election.getParties().put(partyName, party);
+            System.out.printf("Added party: %s\n", partyName);
 
         System.out.println("Party: " + electionData);
     }

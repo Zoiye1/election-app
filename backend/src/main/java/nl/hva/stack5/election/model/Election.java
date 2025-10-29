@@ -15,10 +15,10 @@ public class Election {
 
     //Lists and maps containing info that can be retrieved.
     private List<PartyConstituencyResults> constituencyResults = new ArrayList<>();
-    private List<PartyResult> partyResults = new ArrayList<>();
+    private Map<String, PartyResult> partyResults = new HashMap<>();
 
     //list of parties with Identifier and names of the parties.
-    private List<Party> parties = new ArrayList<>();
+    private Map<String, Party> parties = new HashMap<>();
 
     //List of all elected candidates
     private List<Candidate> candidates = new ArrayList<>();
@@ -37,9 +37,9 @@ public class Election {
         return id;
     }
 
-    public List<Party> getParties() {return this.parties;}
+    public Map<String, Party> getParties() {return this.parties;}
 
-    public List<PartyResult> getPartyResults(){
+    public Map<String, PartyResult> getPartyResults(){
         return partyResults;
     }
 
