@@ -7,6 +7,7 @@ export class LoginService {
     };
 
     try {
+      // Send login request to backend
       const response: Response = await fetch(url, {
         method: "POST",
         headers: {
@@ -16,6 +17,7 @@ export class LoginService {
         body: JSON.stringify(requestBody)
       })
 
+      // Handle unsuccessful response
       if (!response.ok) {
         if (response.status === 401) {
           return false; // Unauthorized - invalid credentials
@@ -27,7 +29,7 @@ export class LoginService {
 
       // Check if backend returned JWT token
       if (data.success && data.token && data.user) {
-        // Sla JWT token op in sessionStorage
+        // Store JWT token in sessionStorage
         sessionStorage.setItem('authToken', data.token)
         sessionStorage.setItem('userData', JSON.stringify(data.user))
         return true;
