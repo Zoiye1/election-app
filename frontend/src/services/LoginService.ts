@@ -7,6 +7,7 @@ export class LoginService {
     };
 
     try {
+      // Send login request to backend
       const response: Response = await fetch(url, {
         method: "POST",
         headers: {
@@ -16,14 +17,28 @@ export class LoginService {
         body: JSON.stringify(requestBody)
       })
 
+      // Handle unsuccessful response
       if (!response.ok) {
+        if (response.status === 401) {
+          return false; // Unauthorized - invalid credentials
+        }
         throw new Error("Request failed: " + response.statusText);
       }
 
-      return await response.json();
+      const data = await response.json();
+
+      // Check if backend returned JWT token
+      if (data.success && data.token && data.user) {
+        // Store JWT token in sessionStorage
+        sessionStorage.setItem('authToken', data.token)
+        sessionStorage.setItem('userData', JSON.stringify(data.user))
+        return true;
+      }
+
+      return false;
     }
     catch (error) {
-      console.error('Fetch error:', error);
+      console.error('Login error:', error);
       throw error;
     }
   }
