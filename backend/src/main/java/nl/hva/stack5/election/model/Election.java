@@ -1,7 +1,5 @@
 package nl.hva.stack5.election.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
@@ -15,7 +13,7 @@ public class Election {
 
     // mapped by election tells that election is the owner of the relationship
     @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
-    private List<PartyConstituencyResults> constituencyResults = new ArrayList<>();
+    private List<PartyConstituencyResults> partyConstituencyResults = new ArrayList<>();
 
     public Election() {}
 
@@ -28,16 +26,12 @@ public class Election {
         return id;
     }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public List<PartyConstituencyResults> getPartyConstituencyResults() {
-     return constituencyResults;
+     return partyConstituencyResults;
 
     }
 
     public void setPartyConstituencyResults(List<PartyConstituencyResults> results) {
-        this.constituencyResults = results;
+        this.partyConstituencyResults = results;
     }
 }
