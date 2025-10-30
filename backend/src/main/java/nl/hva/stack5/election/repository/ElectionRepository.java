@@ -12,6 +12,9 @@ public class ElectionRepository {
     @PersistenceContext
    private EntityManager entityManager;
 
+    /**
+     * @param id is the identifier for an election
+     */
     public Election findById(String id) throws Exception {
         Election election = entityManager.find(Election.class, id);
         if(election == null){
@@ -19,7 +22,14 @@ public class ElectionRepository {
         }
         return election;
     }
-@Transactional
+
+    /**
+     *
+     * @param election holds an instance of an election
+     * function checks if there is an election and adds the election if it doesn't
+     * exist
+     */
+    @Transactional
     public Election save(Election election){
         if (election.getId() == null) {
             entityManager.persist(election);
