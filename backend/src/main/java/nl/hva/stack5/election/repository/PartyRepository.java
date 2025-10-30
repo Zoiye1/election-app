@@ -30,6 +30,11 @@ public class PartyRepository {
 
     }
 
+    /**
+     *
+     * @param id holds party identifier
+     * searches a party based on its id
+     */
     public Party findById(Long id) throws Exception{
         Party party = entityManager.find(Party.class, id);
         if (party == null) {
