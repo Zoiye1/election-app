@@ -54,10 +54,9 @@ onMounted(() => {
 
           <h1 class="text-5xl md:text-6xl font-extrabold text-white leading-tight">
             Jouw stem,<br>
-            <span
-              class="bg-gradient-to-r from-[#ffd89b] to-[#19547b] bg-clip-text text-transparent">
-              jouw toekomst!
-            </span>
+            <span class="bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent">
+        jouw toekomst!
+              </span>
           </h1>
 
           <p class="text-xl md:text-2xl text-white/90 leading-relaxed">
