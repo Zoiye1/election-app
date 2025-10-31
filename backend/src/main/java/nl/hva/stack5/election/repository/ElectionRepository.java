@@ -1,6 +1,7 @@
 package nl.hva.stack5.election.repository;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import nl.hva.stack5.election.model.Election;
@@ -15,10 +16,10 @@ public class ElectionRepository {
     /**
      * @param id is the identifier for an election
      */
-    public Election findById(String id) throws Exception {
+    public Election findById(String id) {
         Election election = entityManager.find(Election.class, id);
         if(election == null){
-            throw new Exception("No election with id " + id);
+            throw new EntityNotFoundException("No election with id " + id);
         }
         return election;
     }
