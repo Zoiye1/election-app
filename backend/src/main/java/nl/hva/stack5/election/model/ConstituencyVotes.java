@@ -3,7 +3,7 @@ package nl.hva.stack5.election.model;
 import jakarta.persistence.*;
 
 /**
- * This class holds the name of the constituency and the amount of votes of that constituency
+ * This Entity holds the name of the constituency and the amount of votes of that constituency
  */
     @Entity
     @Table(name = "constituency_votes")
@@ -28,6 +28,10 @@ import jakarta.persistence.*;
         public ConstituencyVotes(String constituencyName, String votes) {
         this.constituencyName = constituencyName;
         this.votes = votes;
+    }
+
+    public Long getId() {
+            return id;
     }
 
     public String getConstituencyName() {
