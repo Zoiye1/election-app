@@ -1,8 +1,7 @@
 package nl.hva.stack5.election.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+
+//TODO: make this class a Entity to be ready to migrate to database
 
 /**
  * Party class holds the name of a part and the amount votes a party has
