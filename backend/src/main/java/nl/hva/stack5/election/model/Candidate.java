@@ -1,7 +1,5 @@
 package nl.hva.stack5.election.model;
 
-//TODO: make this class a Entity to be ready to migrate to database.
-
 import jakarta.persistence.*;
 
 /**

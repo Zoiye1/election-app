@@ -2,9 +2,6 @@ package nl.hva.stack5.election.model;
 
 import jakarta.persistence.*;
 
-
-//TODO: make this class a Entity to be ready to migrate to database
-
 /**
  * CandidateResult represents the voting results for a specific candidate
  * in a particular election, including their party affiliation and the
@@ -36,7 +33,7 @@ public class CandidateResult {
     @Column(nullable = false)
     private String nationalCandidateVotes;
 
-
+    // Default constructor for JPA
     public CandidateResult() {}
 
     /**
