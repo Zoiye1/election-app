@@ -3,6 +3,8 @@ package nl.hva.stack5.election.model;
 //TODO: make this class a Entity to be ready to migrate to database.
 
 
+import jakarta.persistence.*;
+
 /**
  * PartyResult represents the voting results for a political party
  * in a specific election, including the total number of votes received
@@ -11,14 +13,27 @@ package nl.hva.stack5.election.model;
  * @author Matisse Ben Addi
  * @version 1.0
  */
+@Entity
+@Table( name = "party_results")
 public class PartyResult {
     // Instance variables
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn( name = "election_id")
     private Election election;
+
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn( name = "party_id")
     private Party party;
+
+    @Column( nullable = false)
     private long votes;
 
-
-
+    // Default constructor for JPA
+    public PartyResult() {}
     /**
      * Constructs a PartyResult with the specified election, party, and vote count.
      *
@@ -36,6 +51,8 @@ public class PartyResult {
 
 
     // Getters
+    public Election getElection() {return election;}
+
     public long getVotes() {
         return votes;
     }

@@ -21,15 +21,15 @@ public class CandidateResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     // Instance variables
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn( name = "election_id", nullable = false)
     private Election election;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn( name = "party_id", nullable = false)
     private Party party;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn( name = "candidate_id", nullable = false)
     private Candidate candidate;
 
