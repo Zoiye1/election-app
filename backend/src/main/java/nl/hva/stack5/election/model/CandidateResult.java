@@ -1,6 +1,6 @@
 package nl.hva.stack5.election.model;
 
-import jakarta.servlet.http.Part;
+import jakarta.persistence.*;
 
 
 //TODO: make this class a Entity to be ready to migrate to database
@@ -13,13 +13,31 @@ import jakarta.servlet.http.Part;
  * @author Matisse Ben Addi
  * @version 1.0
  */
+@Entity
+@Table(name = "Candidate_results")
 public class CandidateResult {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     // Instance variables
+    @ManyToOne
+    @JoinColumn( name = "election_id", nullable = false)
     private Election election;
+
+    @ManyToOne
+    @JoinColumn( name = "party_id", nullable = false)
     private Party party;
-    private final Candidate candidate;
+
+    @ManyToOne
+    @JoinColumn( name = "candidate_id", nullable = false)
+    private Candidate candidate;
+
+    @Column(nullable = false)
     private String nationalCandidateVotes;
+
+
+    public CandidateResult() {}
 
     /**
      * Constructs a CandidateResult with the specified election, party, candidate, and vote count.
@@ -29,6 +47,7 @@ public class CandidateResult {
      * @param candidate the candidate who received votes
      * @param nationalCandidateVotes the total number of votes the candidate received at the national level
      */
+
     public CandidateResult(Election election, Party party,  Candidate candidate, String nationalCandidateVotes) {
         this.election = election;
         this.party = party;
@@ -51,6 +70,10 @@ public class CandidateResult {
     public void setElection(Election election) {this.election = election;}
 
     public void setParty(Party party) {this.party = party;}
+
+    public void setCandidate(Candidate candidate) {
+        this.candidate = candidate;
+    }
 
     public void setNationalCandidateVotes(String nationalCandidateVotes) {
         this.nationalCandidateVotes = nationalCandidateVotes;
