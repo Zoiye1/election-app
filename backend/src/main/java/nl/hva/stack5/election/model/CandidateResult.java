@@ -16,7 +16,7 @@ public class CandidateResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
+    private long id;
     // Instance variables
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn( name = "election_id", nullable = false)
