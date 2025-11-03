@@ -2,9 +2,7 @@ package nl.hva.stack5.election.model;
 
 import jakarta.persistence.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 
 /**
@@ -21,6 +19,8 @@ public class Party {
     @Column(name = "party_name", nullable = false)
     private String registeredName;
 
+    @ManyToMany(mappedBy = "parties")
+    private Set<Election> elections = new HashSet<>();
 
     public Party() {}
 
@@ -45,4 +45,6 @@ public class Party {
         return id;
     }
 
+
+    public Set<Election> getElections() {return elections;}
 }

@@ -64,5 +64,7 @@ public class Candidate {
         return shortCode;
     }
 
-
+    public Set<Election> getElections() {
+        return elections;
+    }
 }
