@@ -35,7 +35,6 @@ public class Party {
 
     // getters and setters
     public String getregisteredName() {
-
         return registeredName;
     }
     public void setregisteredName(String registeredName) {

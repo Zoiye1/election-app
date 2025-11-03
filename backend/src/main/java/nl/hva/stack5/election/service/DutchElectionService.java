@@ -1,6 +1,7 @@
 package nl.hva.stack5.election.service;
 
 import nl.hva.stack5.election.model.*;
+import nl.hva.stack5.election.repository.ElectionRepository;
 import nl.hva.stack5.election.utils.PathUtils;
 import nl.hva.stack5.election.utils.xml.*;
 import nl.hva.stack5.election.utils.xml.transformers.*;
@@ -10,6 +11,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.util.Optional;
 
 /**
  * A demo service for demonstrating how an EML-XML parser can be used inside a backend application.<br/>
@@ -19,8 +21,17 @@ import java.io.IOException;
 @Service
 public class DutchElectionService {
 
+    private final ElectionRepository electionRepository;
+
+    public DutchElectionService(ElectionRepository electionRepository) {
+        this.electionRepository = electionRepository;
+    }
+
     public Election readResults(String electionId, String folderName) {
         System.out.println("Processing files...");
+
+        // 1. Check if election already exists in database
+        Optional<Election> existingElection = electionRepository.findByElectionId(electionId);
 
         Election election = new Election(electionId);
         DutchElectionParser electionParser = new DutchElectionParser(

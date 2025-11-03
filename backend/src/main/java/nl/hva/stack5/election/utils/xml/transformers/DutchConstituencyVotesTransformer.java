@@ -25,7 +25,7 @@ public class DutchConstituencyVotesTransformer implements VotesTransformer {
         Party party = new Party(electionData.get("RegisteredName"));
         ConstituencyVotes constituencyVotes = new ConstituencyVotes(electionData.get("ContestName"), electionData.get("ValidVotes"));
         // fix(send right election)
-        PartyConstituencyResults partyConstituencyResults = new PartyConstituencyResults(party, constituencyVotes);
+        PartyConstituencyResults partyConstituencyResults = new PartyConstituencyResults(party, constituencyVotes, election);
         election.getPartyConstituencyResults().add(partyConstituencyResults);
     }
 

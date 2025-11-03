@@ -20,13 +20,18 @@ public class Election {
     private long totalCounted;
 
     //Lists and maps containing info that can be retrieved.
+    @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
     private Map<String, PartyResult> partyResults = new HashMap<>();
 
     //list of parties with Identifier and names of the parties.
+    @ManyToMany(cascade = CascadeType.ALL)
     private Map<String, Party> parties = new HashMap<>();
 
     //List of all elected candidates
+    @ManyToMany(cascade = CascadeType.ALL)
     private HashMap<String, Candidate> candidates = new HashMap<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
     private HashMap<String, CandidateResult> candidateResults = new HashMap<>();
 
     public Election() {}
