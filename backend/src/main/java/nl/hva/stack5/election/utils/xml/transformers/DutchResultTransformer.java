@@ -31,6 +31,11 @@ public class DutchResultTransformer implements VotesTransformer, TagAndAttribute
         String lastName = electionData.get(LAST_NAME);
         String shortCode = electionData.get(CANDIDATE_IDENTIFIER_SHORT_CODE);
 
+        if (firstName == null || firstName.trim().isEmpty()) {
+            System.out.println("Rejecting candidate with null/empty firstName: " + shortCode);
+            return;
+        }
+
         Candidate candidate = new Candidate(firstName, lastName, shortCode);
         election.getCandidates().put(shortCode, candidate);
         System.out.printf("Added candidate: %s\n", shortCode);

@@ -46,9 +46,10 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
     public void registerCandidateVotes(boolean aggregated, Map<String, String> electionData) {
         if (aggregated) {
             String shortCode = electionData.get(CANDIDATE_IDENTIFIER_SHORT_CODE);
+            String firstName = electionData.get(FIRST_NAME);
+            String lastName = electionData.get(LAST_NAME);
 
-
-            // skip if candidates shortCode is not in list
+            // skip vote registration if candidates shortCode is not in list
             if (!election.getCandidates().containsKey(shortCode)) {
                 return;
             }
