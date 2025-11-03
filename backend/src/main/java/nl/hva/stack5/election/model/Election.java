@@ -5,16 +5,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-/**
- * This will hold the information for one specific election.<br/>
- * <b>This class is by no means production ready! You need to alter it extensively!</b>
- */
+import jakarta.persistence.*;
+
+@Entity
+@Table (name = "elections")
 public class Election {
-    private final String id;
+    @Id
+    @Column(name = "id",  nullable = false)
+    private String id;
+
+    // mapped by election tells that election is the owner of the relationship
+    @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
+    private List<PartyConstituencyResults> partyConstituencyResults = new ArrayList<>();
     private long totalCounted;
 
     //Lists and maps containing info that can be retrieved.
-    private List<PartyConstituencyResults> constituencyResults = new ArrayList<>();
     private Map<String, PartyResult> partyResults = new HashMap<>();
 
     //list of parties with Identifier and names of the parties.
@@ -24,15 +29,13 @@ public class Election {
     private HashMap<String, Candidate> candidates = new HashMap<>();
     private HashMap<String, CandidateResult> candidateResults = new HashMap<>();
 
+    public Election() {}
+
     public Election(String id) {
         this.id = id;
     }
 
-    @Override
-    public String toString() {
-        return "You have to create a proper election model yourself!";
-    }
-
+    // getters and setters
     public String getId() {
         return id;
     }
@@ -48,13 +51,12 @@ public class Election {
     }
 
     public List<PartyConstituencyResults> getPartyConstituencyResults() {
-     return constituencyResults;
+     return partyConstituencyResults;
     }
 
     public long getTotalCounted() {
         return totalCounted;
     }
-
 
     public void setTotalCounted(long totalCounted) {
         this.totalCounted = totalCounted;
