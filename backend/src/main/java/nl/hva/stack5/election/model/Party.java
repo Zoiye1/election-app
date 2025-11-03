@@ -8,7 +8,7 @@ import java.util.List;
 
 
 /**
- * Party class holds the name of a part and the amount votes a party has
+ * Party Entity holds the name of a part and the amount votes a party has
  */
 @Entity
 @Table(name = "parties")

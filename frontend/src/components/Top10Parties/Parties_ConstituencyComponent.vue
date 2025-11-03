@@ -27,6 +27,10 @@ onMounted(async () => {
     <!-- list of parties -->
     <div class="max-h-96 overflow-y-auto space-y-3">
 
+      <div>
+        v-if(load)
+      </div>
+
       <div
         v-for="(result, i) in electionData.partyConstituencyResults"
         :key="i"
