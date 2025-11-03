@@ -14,7 +14,7 @@ import jakarta.persistence.*;
 @Table(name = "candidates")
 public class Candidate {
 
-    @id
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
