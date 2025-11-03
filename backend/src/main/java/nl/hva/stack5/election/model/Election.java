@@ -25,11 +25,13 @@ public class Election {
 
     //list of parties with Identifier and names of the parties.
     @ManyToMany(cascade = CascadeType.ALL)
+    @MapKey( name = "registeredName")
     private Map<String, Party> parties = new HashMap<>();
 
     //List of all elected candidates
     @ManyToMany(cascade = CascadeType.ALL)
-    private HashMap<String, Candidate> candidates = new HashMap<>();
+    @MapKey( name = "shortCode")
+    private Map<String, Candidate> candidates = new HashMap<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<CandidateResult> candidateResults = new ArrayList<>();
@@ -51,7 +53,7 @@ public class Election {
         return partyResults;
     }
 
-    public HashMap<String, Candidate> getCandidates(){
+    public Map<String, Candidate> getCandidates(){
         return candidates;
     }
 
