@@ -46,22 +46,23 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
     public void registerCandidateVotes(boolean aggregated, Map<String, String> electionData) {
         if (aggregated) {
             String shortCode = electionData.get(CANDIDATE_IDENTIFIER_SHORT_CODE);
-            String nationalCandidateVotes = electionData.get(VALID_VOTES);
 
+
+            // skip if candidates shortCode is not in list
+            if (!election.getCandidates().containsKey(shortCode)) {
+                return;
+            }
+
+            String nationalCandidateVotes = electionData.get(VALID_VOTES);
             Candidate candidate = election.getCandidates().get(shortCode);
             Party party = election.getParties().get(this.currentParty);
 
-            if (candidate == null) {
-                System.err.println("ERROR: candidate does not exist.");
-                return;
-            }
-            if (party == null) {
-                System.err.println("ERROR: party does not exist.");
-                return;
+            if (party != null) {
+                CandidateResult candidateResult = new CandidateResult(election, party, candidate, nationalCandidateVotes);
+                election.getCandidateResults().add(candidateResult);
             }
 
-            CandidateResult candidateResult = new CandidateResult(election, party, candidate, nationalCandidateVotes);
-            election.getCandidateResults().add(candidateResult);
+
         }
     }
 
