@@ -33,7 +33,7 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
 
                     // Nieuwe PartyResult aanmaken en toevoegen aan de lijst
                     PartyResult partyResult = new PartyResult(election, party, votes);
-                    election.getPartyResults().put(partyName, partyResult);
+                    election.getPartyResults().add(partyResult);
                     this.currentParty = partyName;
                 } catch (NumberFormatException e) {
                     System.err.println("ERROR: votes is not the correct format");
@@ -61,7 +61,7 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
             }
 
             CandidateResult candidateResult = new CandidateResult(election, party, candidate, nationalCandidateVotes);
-            election.getCandidateResults().put(shortCode, candidateResult);
+            election.getCandidateResults().add(candidateResult);
         }
     }
 

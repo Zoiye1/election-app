@@ -18,9 +18,6 @@ public class ElectionRepository {
      */
     public Election findById(String id) {
         Election election = entityManager.find(Election.class, id);
-        if(election == null){
-            throw new EntityNotFoundException("No election with id " + id);
-        }
         return election;
     }
 
@@ -39,5 +36,9 @@ public class ElectionRepository {
         else {
             return entityManager.merge(election);
         }
+    }
+
+    public void delete(Election election){
+        entityManager.remove(election);
     }
 }

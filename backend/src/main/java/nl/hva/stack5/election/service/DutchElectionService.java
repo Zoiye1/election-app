@@ -30,8 +30,14 @@ public class DutchElectionService {
     public Election readResults(String electionId, String folderName) {
         System.out.println("Processing files...");
 
-        // 1. Check if election already exists in database
-        Optional<Election> existingElection = electionRepository.findByElectionId(electionId);
+        // Check if election already exists in database
+        Election existingElection = electionRepository.findById(electionId);
+
+        // If election exists delete from database.
+        if (existingElection != null) {
+            System.out.println("Election " + electionId + " already exists. Deleting old data...");
+            electionRepository.delete(existingElection);
+        }
 
         Election election = new Election(electionId);
         DutchElectionParser electionParser = new DutchElectionParser(
@@ -44,14 +50,12 @@ public class DutchElectionService {
         );
 
         try {
-            // Assuming the election data is somewhere on the class-path it should be found.
-            // Please note that you can also specify an absolute path to the folder!
             electionParser.parseResults(electionId, PathUtils.getResourcePath("/%s".formatted(folderName)));
-            // Do what ever you like to do
             System.out.println("Dutch Election results: " + election);
-            // Now is also the time to send the election information to a database for example.
 
-            return election;
+            // Saves election to database
+            return electionRepository.save(election);
+
         } catch (IOException | XMLStreamException | NullPointerException | ParserConfigurationException | SAXException e) {
             // FIXME You should do here some proper error handling! The code below is NOT how you handle errors properly!
             System.err.println("Failed to process the election results!");

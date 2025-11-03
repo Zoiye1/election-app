@@ -21,7 +21,7 @@ public class Election {
 
     //Lists and maps containing info that can be retrieved.
     @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
-    private Map<String, PartyResult> partyResults = new HashMap<>();
+    private List<PartyResult> partyResults = new ArrayList<>();
 
     //list of parties with Identifier and names of the parties.
     @ManyToMany(cascade = CascadeType.ALL)
@@ -32,7 +32,7 @@ public class Election {
     private HashMap<String, Candidate> candidates = new HashMap<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    private HashMap<String, CandidateResult> candidateResults = new HashMap<>();
+    private List<CandidateResult> candidateResults = new ArrayList<>();
 
     public Election() {}
 
@@ -47,7 +47,7 @@ public class Election {
 
     public Map<String, Party> getParties() {return this.parties;}
 
-    public Map<String, PartyResult> getPartyResults(){
+    public List<PartyResult> getPartyResults(){
         return partyResults;
     }
 
@@ -67,7 +67,7 @@ public class Election {
         this.totalCounted = totalCounted;
     }
 
-    public HashMap<String, CandidateResult> getCandidateResults() {return candidateResults;}
+    public List<CandidateResult> getCandidateResults() {return candidateResults;}
 
-    public void setCandidateResults(HashMap<String, CandidateResult> candidateResults) {}
+    public void setCandidateResults(List<CandidateResult> candidateResults) {}
 }
