@@ -2,6 +2,9 @@ package nl.hva.stack5.election.model;
 
 import jakarta.persistence.*;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Candidate represents an individual candidate in an election,
  * storing their personal information and unique identifier.
@@ -27,6 +30,9 @@ public class Candidate {
 
     @Column(unique = true, nullable = false)
     private String shortCode;
+
+    @ManyToMany(mappedBy = "candidates")
+    private Set<Election> elections = new HashSet<>();
 
     // Default constructor for JPA
     public Candidate (){
