@@ -54,6 +54,10 @@ public class DutchElectionService {
         }
         Election election = new Election(electionId);
 
+
+        // SAVE ELECTION FIRST, BEFORE PARSING
+        election = electionRepository.save(election);
+
         // sets the given election in the transformer
         dutchConstituencyVotesTransformer.setElection(election);
 

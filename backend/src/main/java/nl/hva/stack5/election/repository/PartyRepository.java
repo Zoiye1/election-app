@@ -21,14 +21,11 @@ public class PartyRepository {
      */
 
     public Party findByRegisteredName(String registeredName) {
-        try {
-            return entityManager.createQuery("SELECT p FROM Party p WHERE p.registeredName LIKE:registeredName ", Party.class)
-                    .setParameter("registeredName", registeredName)
-                    .getSingleResult();
-        }
-        catch (NoResultException e) {
-            return null;
-        }
+        List<Party> results = entityManager.createQuery("SELECT p FROM Party p WHERE p.registeredName = :registeredName", Party.class)
+                .setParameter("registeredName", registeredName)
+                .getResultList();
+
+        return results.isEmpty() ? null : results.get(0);
     }
     // returns all parties
     public List<Party> findAllParties() {

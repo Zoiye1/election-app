@@ -82,13 +82,11 @@ public class DutchElectionParser {
         // TODO replace with proper usage of a logging framework
         System.out.printf("Loading election data from %s\n", folderName);
         parseFiles(folderName, "Verkiezingsdefinitie_%s".formatted(electionId), new EMLHandler(definitionTransformer));
-
         parseFiles(folderName, "Kandidatenlijsten_%s".formatted(electionId), new EMLHandler(candidateTransformer));
-
         parseFiles(folderName, "Resultaat_%s".formatted(electionId), new EMLHandler(resultTransformer));
         parseFiles(folderName, "Totaaltelling_%s".formatted(electionId), new EMLHandler(nationalVotesTransformer));
-       // parseFiles(folderName, "Telling_%s_kieskring".formatted(electionId), new EMLHandler(constituencyVotesTransformer));
-        // parseFiles(folderName, "Telling_%s_gemeente".formatted(electionId), new EMLHandler(municipalityVotesTransformer));
+        parseFiles(folderName, "Telling_%s_kieskring".formatted(electionId), new EMLHandler(constituencyVotesTransformer));
+        parseFiles(folderName, "Telling_%s_gemeente".formatted(electionId), new EMLHandler(municipalityVotesTransformer));
     }
 
     private void parseFiles(String folderName, String fileFilter, EMLHandler emlHandler) throws IOException, ParserConfigurationException, SAXException {
