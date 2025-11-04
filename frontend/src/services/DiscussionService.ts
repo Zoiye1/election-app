@@ -11,6 +11,19 @@ export interface Discussion {
   replies: number
 }
 
+export interface DiscussionResponseDTO {
+  id: number
+  title: string
+  content: string
+  author: {
+    id: number
+    username: string
+  }
+  createdAt: string
+  views: number
+  replies: number
+}
+
 export interface CreateDiscussionRequest {
   title: string
   content: string
@@ -78,7 +91,7 @@ export class DiscussionService {
   /**
    * Create a new discussion
    */
-  public async createDiscussion(data: CreateDiscussionRequest): Promise<Discussion> {
+  public async createDiscussion(data: CreateDiscussionRequest): Promise<DiscussionResponseDTO> {
     try {
       const response: Response = await fetch(this.baseUrl, {
         method: 'POST',
