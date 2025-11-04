@@ -7,6 +7,8 @@ import jakarta.transaction.Transactional;
 import nl.hva.stack5.election.model.Election;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public class ElectionRepository {
 
@@ -17,11 +19,7 @@ public class ElectionRepository {
      * @param id is the identifier for an election
      */
     public Election findById(String id) {
-        Election election = entityManager.find(Election.class, id);
-        if(election == null){
-            throw new EntityNotFoundException("No election with id " + id);
-        }
-        return election;
+        return entityManager.find(Election.class, id);
     }
 
     /**
