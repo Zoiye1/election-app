@@ -38,4 +38,9 @@ public class ElectionRepository {
             return entityManager.merge(election);
         }
     }
+
+    @Transactional
+    public void delete(Election election){
+        entityManager.remove(election);
+    }
 }

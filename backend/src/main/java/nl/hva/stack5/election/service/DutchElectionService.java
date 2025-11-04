@@ -44,18 +44,23 @@ public class DutchElectionService {
     public Election importResults(String electionId, String folderName) {
         System.out.println("Processing files...");
 
-        // election name holds the given electionId and checks if it exists
-        Election election = electionRepository.findById(electionId);
-        if (election == null) {
+        // Check if election already exists in database
+        Election existingElection = electionRepository.findById(electionId);
 
-            election= new Election(electionId);
-            System.out.println("created election " + election );
-            election = electionRepository.save(election);
-            System.out.println("saved election " + election );
+        // If election exists delete from database.
+        if (existingElection != null) {
+            System.out.println("Election " + electionId + " already exists. Deleting old data...");
+            electionRepository.delete(existingElection);
         }
+        Election election = new Election(electionId);
+
+
+        // SAVE ELECTION FIRST, BEFORE PARSING
+        election = electionRepository.save(election);
 
         // sets the given election in the transformer
         dutchConstituencyVotesTransformer.setElection(election);
+
 
 
         DutchElectionParser electionParser = new DutchElectionParser(
@@ -70,9 +75,12 @@ public class DutchElectionService {
         try {
 
             electionParser.parseResults(electionId, PathUtils.getResourcePath("/%s".formatted(folderName)));
+            // Do what ever you like to do
             System.out.println("Dutch Election results: " + election);
-            // Returns the election
-            return electionRepository.findById(electionId);
+
+            // Saves election to database
+            return electionRepository.save(election);
+
         } catch (IOException | XMLStreamException | NullPointerException | ParserConfigurationException | SAXException e) {
             // FIXME You should do here some proper error handling! The code below is NOT how you handle errors properly!
             System.err.println("Failed to import results: " + e.getMessage());

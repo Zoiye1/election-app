@@ -4,8 +4,8 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-**/*.mv.db
-**/*.trace.db
+**/.mv.db
+**/.trace.db
 target
 
 ### STS ###
