@@ -35,6 +35,11 @@ public class DiscussionResponseDTO {
         return id;
     }
 
+    public Integer setId(Integer id) {
+        this.id = id;
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -63,7 +68,7 @@ public class DiscussionResponseDTO {
         return replies;
     }
 
-    public void setId(Integer id) {
+    public void setAuthorId(Integer id) {
         this.id = id;
     }
 
