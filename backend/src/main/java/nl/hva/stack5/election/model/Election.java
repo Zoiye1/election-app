@@ -2,6 +2,8 @@ package nl.hva.stack5.election.model;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +17,7 @@ public class Election {
 
     // mapped by election tells that election is the owner of the relationship
     @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<PartyConstituencyResults> partyConstituencyResults = new ArrayList<>();
 
     public Election() {}
