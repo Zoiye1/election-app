@@ -3,7 +3,9 @@ package nl.hva.stack5.election.model;
 import java.util.ArrayList;
 import java.util.List;
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
+@Component
 @Entity
 @Table (name = "elections")
 public class Election {
