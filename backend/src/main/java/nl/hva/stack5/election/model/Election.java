@@ -6,7 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import jakarta.persistence.*;
+import org.springframework.stereotype.Component;
 
+@Component
 @Entity
 @Table (name = "elections")
 public class Election {

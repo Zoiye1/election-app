@@ -5,6 +5,7 @@ import nl.hva.stack5.election.repository.ElectionRepository;
 import nl.hva.stack5.election.utils.PathUtils;
 import nl.hva.stack5.election.utils.xml.*;
 import nl.hva.stack5.election.utils.xml.transformers.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.xml.sax.SAXException;
 
@@ -21,11 +22,11 @@ import java.util.Optional;
 @Service
 public class DutchElectionService {
 
-    private final ElectionRepository electionRepository;
+    @Autowired
+    private DutchConstituencyVotesTransformer dutchConstituencyVotesTransformer;
 
-    public DutchElectionService(ElectionRepository electionRepository) {
-        this.electionRepository = electionRepository;
-    }
+    @Autowired
+    private  ElectionRepository electionRepository;
 
     public Election readResults(String electionId, String folderName) {
         System.out.println("Processing files...");
@@ -39,18 +40,24 @@ public class DutchElectionService {
             electionRepository.delete(existingElection);
         }
 
+        // sets the given election in the transformer
+        dutchConstituencyVotesTransformer.setElection(election);
+
         Election election = new Election(electionId);
         DutchElectionParser electionParser = new DutchElectionParser(
                 new DutchDefinitionTransformer(election),
                 new DutchCandidateTransformer(election),
                 new DutchResultTransformer(election),
                 new DutchNationalVotesTransformer(election),
-                new DutchConstituencyVotesTransformer(election),
+                dutchConstituencyVotesTransformer,
                 new DutchMunicipalityVotesTransformer(election)
         );
 
         try {
+            // Assuming the election data is somewhere on the class-path it should be found.
+            // Please note that you can also specify an absolute path to the folder!
             electionParser.parseResults(electionId, PathUtils.getResourcePath("/%s".formatted(folderName)));
+            // Do what ever you like to do
             System.out.println("Dutch Election results: " + election);
 
             // Saves election to database
