@@ -3,6 +3,8 @@ package nl.hva.stack5.election.model;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import java.util.Map;
 
 import jakarta.persistence.*;
@@ -18,6 +20,7 @@ public class Election {
 
     // mapped by election tells that election is the owner of the relationship
     @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private List<PartyConstituencyResults> partyConstituencyResults = new ArrayList<>();
     private long totalCounted;
 
@@ -67,6 +70,9 @@ public class Election {
         return totalCounted;
     }
 
+    public void setPartyConstituencyResults(List<PartyConstituencyResults> results) {
+        this.partyConstituencyResults = results;
+    }
     public void setTotalCounted(long totalCounted) {
         this.totalCounted = totalCounted;
     }

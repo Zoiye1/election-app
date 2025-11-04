@@ -1,5 +1,6 @@
 package nl.hva.stack5.election.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 /**
  * this Entity holds the amount of votes a party has in a constituency
@@ -16,6 +17,7 @@ public class PartyConstituencyResults {
 
     @ManyToOne
     @JoinColumn(name = "election_id")
+    @JsonBackReference
     private Election election;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

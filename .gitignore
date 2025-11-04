@@ -29,6 +29,7 @@ Thumbs.db
 # data files excluded from git
 **/data-files/
 **/downloads/
+**/data
 
 # Log file
 *.log

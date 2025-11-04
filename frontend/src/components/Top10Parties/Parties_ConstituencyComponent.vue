@@ -8,7 +8,7 @@ const loading = ref(true)
 
 onMounted(async () => {
   const election: ElectionService  = new ElectionService();
-  electionData.value = await election.getElectionData("TK2023", "constituency")
+  electionData.value = await election.getElectionData("TK2023")
   if(electionData.value === null ) {
     loading.value = false
   }
@@ -26,10 +26,6 @@ onMounted(async () => {
 
     <!-- list of parties -->
     <div class="max-h-96 overflow-y-auto space-y-3">
-
-      <div>
-        v-if(load)
-      </div>
 
       <div
         v-for="(result, i) in electionData.partyConstituencyResults"

@@ -2,7 +2,9 @@ package nl.hva.stack5.election.api;
 
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.service.DutchElectionService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 /**
  * Demo controller for showing how you could load the election data in the backend.
@@ -26,13 +28,22 @@ public class ElectionController {
      * <i>If you want to return something else please feel free to do so!</i>
      */
     @PostMapping("{electionId}")
-    public Election readResults(@PathVariable String electionId, @RequestParam(required = false) String folderName) {
+    public Election importResults(@PathVariable String electionId, @RequestParam(required = false) String folderName) {
         if (folderName == null) {
             System.out.println("No folder name provided");
-            return electionService.readResults(electionId, electionId);
+            return electionService.importResults(electionId, folderName);
         } else {
             System.out.println(" folder name provided");
-            return electionService.readResults(electionId, folderName);
+            return electionService.importResults(electionId, folderName);
         }
+    }
+
+    @GetMapping("{electionId}")
+    public Election getElection(@PathVariable String electionId) {
+        Election election = electionService.readResults(electionId);
+        if (election == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+        }
+        return election;
     }
 }
