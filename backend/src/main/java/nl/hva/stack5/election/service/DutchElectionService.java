@@ -28,24 +28,36 @@ public class DutchElectionService {
     @Autowired
     private  ElectionRepository electionRepository;
 
-    public Election readResults(String electionId, String folderName) {
+    /**
+     *
+     * @param electionId holds the election id which is the year
+     * @return the election by the given id
+     */
+    public Election readResults (String electionId){
+        System.out.println("fetching results for election " + electionId);
+        return electionRepository.findById(electionId);
+
+
+
+    }
+
+    public Election importResults(String electionId, String folderName) {
         System.out.println("Processing files...");
 
         // election name holds the given electionId and checks if it exists
-        Election electionName = electionRepository.findById(electionId);
-        if (electionName == null) {
+        Election election = electionRepository.findById(electionId);
+        if (election == null) {
 
-            electionName = new Election(electionId);
-            System.out.println("created election " + electionName );
-            electionName = electionRepository.save(electionName);
-            System.out.println("saved election " + electionName );
+            election= new Election(electionId);
+            System.out.println("created election " + election );
+            election = electionRepository.save(election);
+            System.out.println("saved election " + election );
         }
 
         // sets the given election in the transformer
-        dutchConstituencyVotesTransformer.setElection(electionName);
+        dutchConstituencyVotesTransformer.setElection(election);
 
 
-        Election election = new Election(electionId);
         DutchElectionParser electionParser = new DutchElectionParser(
                 new DutchDefinitionTransformer(election),
                 new DutchCandidateTransformer(election),
@@ -56,16 +68,14 @@ public class DutchElectionService {
         );
 
         try {
-            // Assuming the election data is somewhere on the class-path it should be found.
-            // Please note that you can also specify an absolute path to the folder!
+
             electionParser.parseResults(electionId, PathUtils.getResourcePath("/%s".formatted(folderName)));
-            // Do what ever you like to do
             System.out.println("Dutch Election results: " + election);
             // Returns the election
             return electionRepository.findById(electionId);
         } catch (IOException | XMLStreamException | NullPointerException | ParserConfigurationException | SAXException e) {
             // FIXME You should do here some proper error handling! The code below is NOT how you handle errors properly!
-            System.err.println("Failed to process the election results!");
+            System.err.println("Failed to import results: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
