@@ -36,6 +36,12 @@ public class DutchResultTransformer implements VotesTransformer, TagAndAttribute
             return;
         }
 
+        // Check if candidate exists
+        if (election.getCandidates().containsKey(shortCode)) {
+            System.out.println("Candidate already exists: " + shortCode);
+            return; // Skip deze candidate
+        }
+
         Candidate candidate = new Candidate(firstName, lastName, shortCode);
         election.getCandidates().put(shortCode, candidate);
         System.out.printf("Added candidate: %s\n", shortCode);

@@ -16,6 +16,7 @@ public class PartyResult {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
 
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn( name = "election_id")

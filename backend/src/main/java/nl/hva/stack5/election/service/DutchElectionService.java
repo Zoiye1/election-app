@@ -40,10 +40,11 @@ public class DutchElectionService {
             electionRepository.delete(existingElection);
         }
 
+        Election election = new Election(electionId);
+
         // sets the given election in the transformer
         dutchConstituencyVotesTransformer.setElection(election);
 
-        Election election = new Election(electionId);
         DutchElectionParser electionParser = new DutchElectionParser(
                 new DutchDefinitionTransformer(election),
                 new DutchCandidateTransformer(election),
