@@ -1,49 +1,26 @@
 package nl.hva.stack5.election.model;
 
-import jakarta.persistence.*;
-
 /**
- * This Entity holds the name of the constituency and the amount of votes of that constituency
+ * This class holds the name of the constituency and the amount of votes of that constituency
  */
-    @Entity
-    @Table(name = "constituency_votes")
-    public class ConstituencyVotes {
-
-    @Id
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(name = "constituency_name", nullable = false)
+public class ConstituencyVotes {
     private String constituencyName;
+    private String Votes;
 
-    @Column(name = "constituency_votes", nullable = false)
-    private String votes;
-
-    public ConstituencyVotes() {}
     /**
      *
      * @param constituencyName hols the name
-     * @param votes holds the amount of votes
+     * @param Votes holds the amount of votes
      */
-        public ConstituencyVotes(String constituencyName, String votes) {
+        public ConstituencyVotes(String constituencyName, String Votes) {
         this.constituencyName = constituencyName;
-        this.votes = votes;
-    }
-
-    public Long getId() {
-            return id;
+        this.Votes = Votes;
     }
 
     public String getConstituencyName() {
         return constituencyName;
     }
-    public void setConstituencyName(String constituencyName) {
-            this.constituencyName = constituencyName;
-    }
     public String getVotes() {
-            return votes;
-    }
-    public void setVotes(String Votes) {
-            this.votes = votes;
+            return Votes;
     }
 }

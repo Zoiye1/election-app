@@ -13,8 +13,5 @@ export interface PartyConstituencyResult {
 }
 
 export interface Election {
-  Id: string;
-  totalCounted: number;
-  partyResults: Party[];
   partyConstituencyResults: PartyConstituencyResult[];
 }
