@@ -1,5 +1,6 @@
 package nl.hva.stack5.election.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -32,6 +33,7 @@ public class Candidate {
     private String shortCode;
 
     @ManyToMany(mappedBy = "candidates")
+    @JsonIgnore
     private Set<Election> elections = new HashSet<>();
 
     // Default constructor for JPA

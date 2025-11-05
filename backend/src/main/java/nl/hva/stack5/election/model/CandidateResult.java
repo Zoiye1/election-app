@@ -1,5 +1,6 @@
 package nl.hva.stack5.election.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 /**
@@ -20,6 +21,7 @@ public class CandidateResult {
     // Instance variables
     @ManyToOne(cascade = CascadeType.PERSIST)
     @JoinColumn( name = "election_id", nullable = false)
+    @JsonBackReference
     private Election election;
 
     @ManyToOne(cascade = CascadeType.PERSIST)

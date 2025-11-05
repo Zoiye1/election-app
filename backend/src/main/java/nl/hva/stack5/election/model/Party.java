@@ -1,5 +1,6 @@
 package nl.hva.stack5.election.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.util.*;
@@ -20,6 +21,7 @@ public class Party {
     private String registeredName;
 
     @ManyToMany(mappedBy = "parties")
+    @JsonIgnore
     private Set<Election> elections = new HashSet<>();
 
     public Party() {}
