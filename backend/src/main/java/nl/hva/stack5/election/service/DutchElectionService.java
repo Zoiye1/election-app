@@ -42,21 +42,17 @@ public class DutchElectionService {
     }
 
     public Election importResults(String electionId, String folderName) {
-        System.out.println("Processing files...");
+        System.out.println("importing results from folder named " + folderName);
 
         // Check if election already exists in database
-        Election existingElection = electionRepository.findById(electionId);
+        Election election = electionRepository.findById(electionId);
 
-        // If election exists delete from database.
-        if (existingElection != null) {
-            System.out.println("Election " + electionId + " already exists. Deleting old data...");
-            electionRepository.delete(existingElection);
+        // checks if election exists
+        if (election == null) {
+            election = new Election(electionId);
+            election = electionRepository.save(election);
         }
-        Election election = new Election(electionId);
 
-
-        // SAVE ELECTION FIRST, BEFORE PARSING
-        election = electionRepository.save(election);
 
         // sets the given election in the transformer
         dutchConstituencyVotesTransformer.setElection(election);
