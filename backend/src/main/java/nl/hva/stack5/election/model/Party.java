@@ -1,29 +1,50 @@
 package nl.hva.stack5.election.model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import jakarta.persistence.*;
+
+import java.util.*;
+
 
 /**
- * Party class holds the name of a part and the amount votes a party has
+ * Party Entity holds the name of a part and the amount votes a party has
  */
-
+@Entity
+@Table(name = "parties")
 public class Party {
 
-    private String partyName;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "party_name", nullable = false)
+    private String registeredName;
+
+    @ManyToMany(mappedBy = "parties")
+    private Set<Election> elections = new HashSet<>();
+
+    public Party() {}
 
     /**
      *
-     * @param partyName contains the party name
+     * @param registeredName contains the party name
      */
 
-    public Party(String partyName) {
-        this.partyName = partyName;
+    public Party(String registeredName) {
+        this.registeredName = registeredName;
     }
 
-    // returns the part name
-    public String getPartyName() {
-        return partyName;
+    // getters and setters
+    public String getregisteredName() {
+        return registeredName;
+    }
+    public void setregisteredName(String registeredName) {
+        this.registeredName = registeredName;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+
+    public Set<Election> getElections() {return elections;}
 }
