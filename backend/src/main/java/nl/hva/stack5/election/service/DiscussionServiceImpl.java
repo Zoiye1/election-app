@@ -2,6 +2,7 @@ package nl.hva.stack5.election.service;
 
 import nl.hva.stack5.election.dto.DiscussionMapper;
 import nl.hva.stack5.election.dto.DiscussionRequestDTO;
+import nl.hva.stack5.election.dto.DiscussionResponseDTO;
 import nl.hva.stack5.election.model.Discussion;
 import nl.hva.stack5.election.model.User;
 import nl.hva.stack5.election.repository.DiscussionRepository;
@@ -26,11 +27,11 @@ public class DiscussionServiceImpl implements DiscussionService {
     /**
      * @return List of all discussions ordered by most recent
      */
+
     @Override
-    public List<Discussion> getAllDiscussions() {
+    public List<Discussion> getAllDiscussions(DiscussionResponseDTO responseDTO) {
         return discussionRepository.findAllByOrderByCreatedAtDesc();
     }
-
     /**
      * @param id
      * @return Discussion if exists

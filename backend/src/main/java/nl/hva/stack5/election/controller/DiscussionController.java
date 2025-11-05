@@ -22,12 +22,17 @@ public class DiscussionController {
     @Autowired
     private DiscussionMapper discussionMapper;
 
+
     @GetMapping(value = "/{discussionId}")
-    public Discussion getDiscussion(@PathVariable Integer discussionId) {
-        Optional<Discussion> discussion = discussionService.findById(discussionId);
-        if (discussion.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Discussion not found");
-        return discussion.get();
+    public DiscussionResponseDTO getDiscussion(@PathVariable Integer discussionId) {
+        Discussion discussion = discussionService.findById(discussionId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "Discussion not found"));
+
+        return discussionMapper.toResponseDTO(discussion);
     }
+
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
