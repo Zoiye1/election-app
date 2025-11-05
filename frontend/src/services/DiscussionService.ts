@@ -27,9 +27,7 @@ export interface DiscussionResponseDTO {
 export interface CreateDiscussionRequest {
   title: string
   content: string
-  author: {
-    id: number
-  }
+  authorId: number
 }
 
 export interface UpdateDiscussionRequest {

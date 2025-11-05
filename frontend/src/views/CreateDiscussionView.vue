@@ -61,12 +61,10 @@ const handleSubmit = async () => {
 
   try {
     // Use the service to create the discussion
-    const createdDiscussion = await discussionService.createDiscussion({
+    await discussionService.createDiscussion({
       title: title.value,
       content: content.value,
-      author: {
-        id: 1
-      }
+      authorId: 1
     })
 
     router.push('/discussion')
