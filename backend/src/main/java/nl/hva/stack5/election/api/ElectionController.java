@@ -46,4 +46,25 @@ public class ElectionController {
         }
         return election;
     }
+
+    /**
+     * Retrieves total number of votes for a specific election
+     *
+     * @param electionId the identifier for the election ( for example "TK2023" )
+     * @return the total number of votes counted in the election
+     * @throws ResponseStatusException http 404 if election is not found
+     */
+    @GetMapping("{electionId}/total-votes")
+    public long getTotalVotes(@PathVariable String electionId) {
+
+        // retrieve election from database
+        Election election = electionService.readResults(electionId);
+
+        if (election == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+        }
+
+        return election.getTotalCounted();
+
+    }
 }
