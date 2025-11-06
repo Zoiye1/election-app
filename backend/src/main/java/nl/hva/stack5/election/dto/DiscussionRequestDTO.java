@@ -27,7 +27,7 @@ public class DiscussionRequestDTO {
         return content;
     }
 
-    public Integer getId() {
+    public Integer getAuthorId() {
         return authorId;
     }
 
@@ -40,7 +40,7 @@ public class DiscussionRequestDTO {
         this.content = content;
     }
 
-    public void setId(Integer authorId) {
+    public void setAuthorId(Integer authorId) {
         this.authorId = authorId;
     }
 
@@ -75,9 +75,5 @@ public class DiscussionRequestDTO {
             return "Author ID is required";
         }
         return null;
-    }
-
-    public Integer getAuthorId() {
-        return authorId;
     }
 }
