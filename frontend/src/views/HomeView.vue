@@ -11,7 +11,7 @@ const goToDiscussion = () => {
 }
 
 const goToResults = () => {
-  router.push('/electionData')
+  router.push('/national-results')
 }
 
 // Generate particles on mount
