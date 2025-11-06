@@ -6,10 +6,8 @@ interface Discussion {
   id: number
   title: string
   content: string
-  author: {
-    id: number
-    username: string
-  }
+  authorName: string
+  authorId: number
   createdAt: string
   views: number
   replies: number
@@ -38,7 +36,7 @@ const formatDate = (dateString: string) => {
 
 // Generate user initials from username
 const userInitials = computed(() => {
-  const username = props.discussion.author.username
+  const username = props.discussion.authorName
   const words = username.split(' ')
   if (words.length >= 2) {
     return words[0][0].toUpperCase() + words[1][0].toUpperCase()
@@ -58,10 +56,10 @@ const avatarClass = computed(() => {
     'bg-gradient-to-br from-red-400 to-pink-500',
     'bg-gradient-to-br from-purple-400 to-indigo-500'
   ]
-  return colors[props.discussion.author.id % colors.length]
+  return colors[props.discussion.authorId % colors.length]
 })
 
-// Generate some sample tags based on content keywords (you can modify this logic)
+// Generate some sample tags based on content keywords
 const generateTags = computed(() => {
   const content = props.discussion.content.toLowerCase()
   const title = props.discussion.title.toLowerCase()
@@ -109,7 +107,7 @@ const contentPreview = computed(() => {
         {{ userInitials }}
       </div>
       <div>
-        <h3 class="text-lg font-semibold text-gray-800">{{ discussion.author.username }}</h3>
+        <h3 class="text-lg font-semibold text-gray-800">{{ discussion.authorName }}</h3>
         <p class="text-sm text-gray-500">Gestart op {{ formatDate(discussion.createdAt) }}</p>
       </div>
     </div>
@@ -149,7 +147,7 @@ const contentPreview = computed(() => {
         </span>
       </div>
       <button
-        type ="button"
+        type="button"
         @click="goToDetails"
         class="px-5 py-2 bg-gradient-to-r from-blue-500 to-green-500 text-white font-semibold text-sm rounded-full hover:-translate-y-0.5 hover:shadow-lg transition-all duration-300">
         Meer lezen

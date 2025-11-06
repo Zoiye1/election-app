@@ -56,8 +56,8 @@ const formatDate = (dateString: string) => {
 }
 
 const userInitials = computed(() => {
-  if (!discussion.value) return ''
-  const username = discussion.value.author.username
+  if (!discussion.value || !discussion.value.authorName) return ''
+  const username = discussion.value.authorName
   const words = username.split(' ')
   if (words.length >= 2) {
     return words[0][0].toUpperCase() + words[1][0].toUpperCase()
@@ -66,7 +66,7 @@ const userInitials = computed(() => {
 })
 
 const avatarClass = computed(() => {
-  if (!discussion.value) return ''
+  if (!discussion.value || discussion.value.authorId === undefined) return 'bg-gray-400'
   const colors = [
     'bg-gradient-to-br from-cyan-400 to-blue-600',
     'bg-gradient-to-br from-pink-400 to-purple-500',
@@ -77,7 +77,7 @@ const avatarClass = computed(() => {
     'bg-gradient-to-br from-red-400 to-pink-500',
     'bg-gradient-to-br from-purple-400 to-indigo-500'
   ]
-  return colors[discussion.value.author.id % colors.length]
+  return colors[discussion.value.authorId % colors.length]
 })
 
 </script>
@@ -155,7 +155,7 @@ const avatarClass = computed(() => {
               {{ userInitials }}
             </div>
             <div>
-              <h3 class="text-xl font-semibold text-gray-800">{{ discussion.author.username }}</h3>
+              <h3 class="text-xl font-semibold text-gray-800">{{ discussion.authorName }}</h3>
               <p class="text-sm text-gray-500">Gestart op {{ formatDate(discussion.createdAt) }}</p>
             </div>
           </div>

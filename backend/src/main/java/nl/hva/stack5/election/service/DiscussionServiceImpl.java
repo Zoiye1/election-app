@@ -1,7 +1,12 @@
 package nl.hva.stack5.election.service;
 
+import nl.hva.stack5.election.dto.DiscussionMapper;
+import nl.hva.stack5.election.dto.DiscussionRequestDTO;
+import nl.hva.stack5.election.dto.DiscussionResponseDTO;
 import nl.hva.stack5.election.model.Discussion;
+import nl.hva.stack5.election.model.User;
 import nl.hva.stack5.election.repository.DiscussionRepository;
+import nl.hva.stack5.election.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,14 +18,20 @@ public class DiscussionServiceImpl implements DiscussionService {
     @Autowired
     private DiscussionRepository discussionRepository;
 
+    @Autowired
+    private DiscussionMapper discussionMapper;
+
+    @Autowired
+    private UserRepository userRepository;
+
     /**
      * @return List of all discussions ordered by most recent
      */
+
     @Override
-    public List<Discussion> getAllDiscussions() {
+    public List<Discussion> getAllDiscussions(DiscussionResponseDTO responseDTO) {
         return discussionRepository.findAllByOrderByCreatedAtDesc();
     }
-
     /**
      * @param id
      * @return Discussion if exists
@@ -31,12 +42,18 @@ public class DiscussionServiceImpl implements DiscussionService {
     }
 
     /**
-     * @param discussion
+     * @param requestDTO
      * @return Discussion if successfully created
      */
     @Override
-    public Discussion createDiscussion(Discussion discussion) {
+    public Discussion createDiscussion(DiscussionRequestDTO requestDTO) {
+        Discussion discussion = discussionMapper.toEntity(requestDTO);
+
+        User author = userRepository.findById(1).orElseThrow(() -> new RuntimeException("User not found with id: " + requestDTO.getAuthorId()));
+        discussion.setAuthor(author);
+
         return discussionRepository.save(discussion);
+
     }
 
     /**
@@ -55,4 +72,5 @@ public class DiscussionServiceImpl implements DiscussionService {
     public void deleteDiscussion(int id) {
         discussionRepository.deleteById(id);
     }
+
 }
