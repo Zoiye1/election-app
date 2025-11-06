@@ -23,9 +23,6 @@ import java.util.Optional;
 public class DutchElectionService {
 
     @Autowired
-    private DutchConstituencyVotesTransformer dutchConstituencyVotesTransformer;
-
-    @Autowired
     private  ElectionRepository electionRepository;
 
     /**
@@ -42,21 +39,17 @@ public class DutchElectionService {
     }
 
     public Election importResults(String electionId, String folderName) {
-        System.out.println("importing results from folder named " + folderName);
+        System.out.println("Processing files...");
 
         // Check if election already exists in database
-        Election election = electionRepository.findById(electionId);
+        Election existingElection = electionRepository.findById(electionId);
 
-        // checks if election exists
-        if (election == null) {
-            election = new Election(electionId);
-            election = electionRepository.save(election);
+        // If election exists delete from database.
+        if (existingElection != null) {
+            System.out.println("Election " + electionId + " already exists. Deleting old data...");
+            electionRepository.delete(existingElection);
         }
-
-
-        // sets the given election in the transformer
-        dutchConstituencyVotesTransformer.setElection(election);
-
+        Election election = new Election(electionId);
 
 
         DutchElectionParser electionParser = new DutchElectionParser(
@@ -64,7 +57,7 @@ public class DutchElectionService {
                 new DutchCandidateTransformer(election),
                 new DutchResultTransformer(election),
                 new DutchNationalVotesTransformer(election),
-                dutchConstituencyVotesTransformer,
+                new DutchConstituencyVotesTransformer(election),
                 new DutchMunicipalityVotesTransformer(election)
         );
 
