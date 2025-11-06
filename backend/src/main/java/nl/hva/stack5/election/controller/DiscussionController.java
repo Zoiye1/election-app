@@ -42,6 +42,13 @@ public class DiscussionController {
         return discussionMapper.toResponseDTO(created);
     }
 
+    @GetMapping(value = "/{discussionId}")
+    public Discussion getDiscussion(@PathVariable Integer discussionId) {
+        Optional<Discussion> discussion = discussionService.findById(discussionId);
+        if (discussion.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Discussion not found");
+        return discussion.get();
+    }
+
     @PutMapping(value = "/{discussionId}")
     public Discussion updateDiscussion(@PathVariable Integer discussionId, @RequestBody Discussion discussion) {
         Optional<Discussion> existingDiscussion = discussionService.findById(discussionId);
