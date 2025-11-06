@@ -8,7 +8,7 @@ import TotalNationalVotesComponent from '@/components/TotalNationalVotesComponen
 const totalCounted = ref<number>(0);
 
 onMounted(async () => {
-  totalCounted.value = await ElectionService.getTotalVotes("TK2023");
+  totalCounted.value = await ElectionService.getTotalVotes();
 });
 </script>
 
