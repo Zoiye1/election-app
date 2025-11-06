@@ -18,10 +18,6 @@ public class Election {
     @Column(name = "id",  nullable = false)
     private String id;
 
-    // mapped by election tells that election is the owner of the relationship
-    @OneToMany(mappedBy = "election", cascade = CascadeType.ALL)
-    @JsonManagedReference
-    private List<PartyConstituencyResults> partyConstituencyResults = new ArrayList<>();
     private long totalCounted;
 
     //Lists and maps containing info that can be retrieved.
@@ -40,6 +36,13 @@ public class Election {
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<CandidateResult> candidateResults = new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @MapKey( name = "name")
+    private Map<String, Constituency> constituencies = new HashMap<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ConstituencyPartyVotes> constituencyPartyVotes = new ArrayList<>();
 
     public Election() {}
 
@@ -62,17 +65,10 @@ public class Election {
         return candidates;
     }
 
-    public List<PartyConstituencyResults> getPartyConstituencyResults() {
-     return partyConstituencyResults;
-    }
-
     public long getTotalCounted() {
         return totalCounted;
     }
 
-    public void setPartyConstituencyResults(List<PartyConstituencyResults> results) {
-        this.partyConstituencyResults = results;
-    }
     public void setTotalCounted(long totalCounted) {
         this.totalCounted = totalCounted;
     }
@@ -80,4 +76,20 @@ public class Election {
     public List<CandidateResult> getCandidateResults() {return candidateResults;}
 
     public void setCandidateResults(List<CandidateResult> candidateResults) {}
+
+    public Map<String, Constituency> getConstituencies() {
+        return constituencies;
+    }
+
+    public void setConstituencies(Map<String, Constituency> constituencies) {
+        this.constituencies = constituencies;
+    }
+
+    public List<ConstituencyPartyVotes> getConstituencyPartyVotes() {
+        return constituencyPartyVotes;
+    }
+
+    public void setConstituencyPartyVotes(List<ConstituencyPartyVotes> constituencyPartyVotes) {
+        this.constituencyPartyVotes = constituencyPartyVotes;
+    }
 }

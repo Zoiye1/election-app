@@ -3,7 +3,7 @@ import { ElectionService } from '@/services/ElectionService';
 import { ref, onMounted} from 'vue';
 import type { Election } from '@/interfaces/IElectionData';
 
-const electionData = ref<Election>({partyConstituencyResults: []});
+const electionData = ref<Election>({id: "", partyConstituencyResults: []});
 const loading = ref(true)
 
 onMounted(async () => {
@@ -41,7 +41,7 @@ onMounted(async () => {
 
           <!-- Partyname -->
           <div class="text-lg font-bold text-gray-800">
-            {{ result.party.partyName }}
+            {{ result.party.registeredName }}
           </div>
         </div>
 
