@@ -29,8 +29,8 @@
 
   }
 
-  public async getTotalVotes(): Promise<number> {
-    const url: string = `http://localhost:8080/elections/TK2023/TotalVotes`
+  public static async getTotalVotes(): Promise<number> {
+    const url: string = `http://localhost:8080/elections/TK2023/total-votes`
 
     try {
       const response: Response = await fetch(url, {

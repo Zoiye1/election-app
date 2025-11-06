@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ElectionService } from '@/services/ElectionService';
 import { ref, onMounted } from 'vue';
-import type { Election } from '@/interfaces/IElectionData';
 import Navbar from '@/components/Navbar.vue';
 import Footer from '@/components/Footer.vue';
 import TotalNationalVotesComponent from '@/components/TotalNationalVotesComponent.vue';
@@ -9,9 +8,8 @@ import TotalNationalVotesComponent from '@/components/TotalNationalVotesComponen
 const totalCounted = ref<number>(0);
 
 onMounted(async () => {
-  const election = new ElectionService();
-  const data: Election = await election.getElectionData("TK2023", "electiondata");
-  totalCounted.value = data.totalCounted;
+
+  totalCounted.value = await ElectionService.getTotalVotes();
 });
 </script>
 
