@@ -61,12 +61,10 @@ const handleSubmit = async () => {
 
   try {
     // Use the service to create the discussion
-    const createdDiscussion = await discussionService.createDiscussion({
+    await discussionService.createDiscussion({
       title: title.value,
       content: content.value,
-      author: {
-        id: 1
-      }
+      authorId: 1
     })
 
     router.push('/discussion')
@@ -93,7 +91,7 @@ const handleCancel = () => {
     <Navbar/>
 
     <!-- Page content -->
-    <main class="max-w-4xl mx-auto px-4 py-10">
+    <main class="max-w-4xl mx-auto px-4 py-10 my-20">
       <!-- Page Header -->
       <div class="text-center mb-10">
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">Nieuwe discussie starten</h1>
