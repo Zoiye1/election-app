@@ -60,6 +60,7 @@ public class ElectionController {
         // retrieve election from database
         Election election = electionService.readResults(electionId);
 
+        //TODO: Instead of response status use response entity.
         if (election == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
         }

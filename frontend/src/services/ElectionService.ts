@@ -28,4 +28,23 @@
     }
 
   }
+
+  public async getTotalVotes(): Promise<number> {
+    const url: string = `http://localhost:8080/elections/TK2023/TotalVotes`
+
+    try {
+      const response: Response = await fetch(url, {
+        method: "GET",
+        headers:{"Accept": "application/json"}
+      })
+      if(!response.ok){
+        throw new Error("request failed" + response.statusText);
+      }
+      return await response.json();
+    }
+    catch(error) {
+      console.error('Fetch error:', error);
+      throw error;
+    }
+  }
 }
