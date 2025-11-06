@@ -9,6 +9,7 @@ import org.springframework.web.server.ResponseStatusException;
 import nl.hva.stack5.election.dto.DiscussionMapper;
 import nl.hva.stack5.election.dto.DiscussionRequestDTO;
 import nl.hva.stack5.election.dto.DiscussionResponseDTO;
+import java.util.stream.Collectors;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,15 +25,13 @@ public class DiscussionController {
     private DiscussionMapper discussionMapper;
 
 
-    @GetMapping(value = "/{discussionId}")
-    public DiscussionResponseDTO getDiscussion(@PathVariable Integer discussionId) {
-        Discussion discussion = discussionService.findById(discussionId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "Discussion not found"));
-
-        return discussionMapper.toResponseDTO(discussion);
+    @GetMapping
+    public List<DiscussionResponseDTO> getAllDiscussions() {
+        List<Discussion> discussions = discussionService.getAllDiscussions(null);
+        return discussions.stream()
+                .map(discussionMapper::toResponseDTO)
+                .collect(Collectors.toList());
     }
-
 
 
     @PostMapping
