@@ -1,20 +1,23 @@
 export interface Party {
-  partyName: string;
+  id: number
+  registeredName: string;
 }
 
 export interface ConstituencyVotes {
+  id: number
   constituencyName: string;
   votes: number;
 }
 
 export interface PartyConstituencyResult {
+  id: number
   party: Party;
   constituencyVotes: ConstituencyVotes;
 }
 
 export interface Election {
-  Id: string;
-  totalCounted: number;
-  partyResults: Party[];
+  id: string;
+  totalCounted?: number;
+  partyResults?: Party[];
   partyConstituencyResults: PartyConstituencyResult[];
 }

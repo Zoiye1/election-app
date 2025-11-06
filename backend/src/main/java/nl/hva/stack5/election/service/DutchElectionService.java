@@ -23,9 +23,6 @@ import java.util.Optional;
 public class DutchElectionService {
 
     @Autowired
-    private DutchConstituencyVotesTransformer dutchConstituencyVotesTransformer;
-
-    @Autowired
     private  ElectionRepository electionRepository;
 
     /**
@@ -55,20 +52,12 @@ public class DutchElectionService {
         Election election = new Election(electionId);
 
 
-        // SAVE ELECTION FIRST, BEFORE PARSING
-        election = electionRepository.save(election);
-
-        // sets the given election in the transformer
-        dutchConstituencyVotesTransformer.setElection(election);
-
-
-
         DutchElectionParser electionParser = new DutchElectionParser(
                 new DutchDefinitionTransformer(election),
                 new DutchCandidateTransformer(election),
                 new DutchResultTransformer(election),
                 new DutchNationalVotesTransformer(election),
-                dutchConstituencyVotesTransformer,
+                new DutchConstituencyVotesTransformer(election),
                 new DutchMunicipalityVotesTransformer(election)
         );
 
