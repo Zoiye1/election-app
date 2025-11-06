@@ -2,10 +2,8 @@ export interface Discussion {
   id: number
   title: string
   content: string
-  author: {
-    id: number
-    username: string
-  }
+  authorName: string
+  authorId: number
   createdAt: string
   views: number
   replies: number
@@ -15,10 +13,8 @@ export interface DiscussionResponseDTO {
   id: number
   title: string
   content: string
-  author: {
-    id: number
-    username: string
-  }
+  authorName: string
+  authorId: number
   createdAt: string
   views: number
   replies: number
