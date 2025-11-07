@@ -3,21 +3,21 @@ export interface Party {
   registeredName: string;
 }
 
-export interface ConstituencyVotes {
-  id: number
-  constituencyName: string;
-  votes: number;
+export interface Constituency{
+  id: number;
+  name: string;
 }
 
-export interface PartyConstituencyResult {
+export interface ConstituencyPartyVotes {
   id: number
   party: Party;
-  constituencyVotes: ConstituencyVotes;
+  constituency: Constituency;
+  votes: number
 }
 
 export interface Election {
   id: string;
   totalCounted?: number;
   partyResults?: Party[];
-  partyConstituencyResults: PartyConstituencyResult[];
+  constituencyPartyVotes: ConstituencyPartyVotes[];
 }
