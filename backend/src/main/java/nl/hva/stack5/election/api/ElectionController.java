@@ -1,10 +1,13 @@
 package nl.hva.stack5.election.api;
 
+import nl.hva.stack5.election.model.ConstituencyPartyVotes;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.service.DutchElectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+
+import java.util.List;
 
 /**
  * Demo controller for showing how you could load the election data in the backend.
@@ -45,6 +48,16 @@ public class ElectionController {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
         }
         return election;
+    }
+
+    @GetMapping("{electionId}/{constituencyName}")
+    public List<ConstituencyPartyVotes> getConstituencyPartyVotes(@PathVariable String electionId) {
+        Election election = electionService.readResults(electionId);
+        if (election == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+        }
+
+        return election.getConstituencyPartyVotes();
     }
 
     /**
