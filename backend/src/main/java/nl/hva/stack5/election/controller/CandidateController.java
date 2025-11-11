@@ -3,10 +3,8 @@ package nl.hva.stack5.election.controller;
 import nl.hva.stack5.election.model.Candidate;
 import nl.hva.stack5.election.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,5 +21,11 @@ public class CandidateController {
         return candidateService.getAllCandidates();
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<Candidate> getCandidateById(@PathVariable int id) {
+        return candidateService.getCandidateById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
 }
 
