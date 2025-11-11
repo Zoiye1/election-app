@@ -35,6 +35,13 @@ public class CandidateController {
         return candidateService.getAllCandidates();
     }
 
+
+    /**
+     * Retrieves a specific candidate by their ID.
+     *
+     * @param id the unique identifier of the candidate
+     * @return ResponseEntity containing the candidate if found, 404 Not Found otherwise
+     */
     @GetMapping("/{id}")
     public ResponseEntity<Candidate> getCandidateById(@PathVariable int id) {
         return candidateService.getCandidateById(id)
