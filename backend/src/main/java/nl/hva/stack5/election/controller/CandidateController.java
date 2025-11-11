@@ -24,6 +24,12 @@ public class CandidateController {
     @Autowired
     private CandidateService candidateService;
 
+
+    /**
+     * Retrieves all candidates from the database.
+     *
+     * @return List of all candidates
+     */
     @GetMapping
     public List<Candidate> getAllCandidates() {
         return candidateService.getAllCandidates();
