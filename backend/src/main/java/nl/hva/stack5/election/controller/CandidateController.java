@@ -8,6 +8,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+/**
+ * REST Controller for managing Candidate endpoints.
+ * Provides endpoints to retrieve candidate information.
+ *
+ * @author Matisse Ben Addi
+ * @version 1.0
+ */
 @RestController
 @RequestMapping(value = "candidates")
 @CrossOrigin(origins = "http://localhost:5173")
