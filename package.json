@@ -5,7 +5,6 @@
     "tailwindcss": "^4.1.13"
   },
   "dependencies": {
-    "@tailwindcss/cli": "^4.1.13",
-    "primevue": "^4.4.1"
+    "@tailwindcss/cli": "^4.1.13"
   }
 }
