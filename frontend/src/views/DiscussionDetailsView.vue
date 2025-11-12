@@ -56,7 +56,7 @@ const formatDate = (dateString: string) => {
 }
 
 const userInitials = computed(() => {
-  if (!discussion.value || !discussion.value.authorName) return ''
+  if (!discussion.value) return ''
   const username = discussion.value.authorName
   const words = username.split(' ')
   if (words.length >= 2) {
@@ -66,7 +66,7 @@ const userInitials = computed(() => {
 })
 
 const avatarClass = computed(() => {
-  if (!discussion.value || discussion.value.authorId === undefined) return 'bg-gray-400'
+  if (!discussion.value) return ''
   const colors = [
     'bg-gradient-to-br from-cyan-400 to-blue-600',
     'bg-gradient-to-br from-pink-400 to-purple-500',
