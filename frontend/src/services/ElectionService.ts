@@ -11,7 +11,7 @@ import type { ConstituencyPartyVotes } from "@/interfaces/IElectionData";
    * @param constituencyName holds the name of the selected constituency
    * @param folder holds the folder name of where the xml file is located
    */
-  public async getElectionData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes> {
+  public async getElectionData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes[]> {
     const url: string = `http://localhost:8080/elections/${electionId}/${constituencyName}`
     // Response holds the fetch to the endpoint
     try {
