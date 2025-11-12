@@ -1,3 +1,5 @@
+import type { ConstituencyPartyVotes } from "@/interfaces/IElectionData";
+
 /**
  *
  * This service does a fetch to the endpoint /{electionId} to get
@@ -6,10 +8,11 @@
  export class ElectionService {
   /**
    * @param electionId hold the id of the elections, the value of the Id attribute from the ElectionIdentifier tag.
+   * @param constituencyName holds the name of the selected constituency
    * @param folder holds the folder name of where the xml file is located
    */
-  public async getElectionData(electionId: string): Promise<any> {
-    const url: string = `http://localhost:8080/elections/${electionId}`
+  public async getElectionData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes[]> {
+    const url: string = `http://localhost:8080/elections/${electionId}/${constituencyName}`
     // Response holds the fetch to the endpoint
     try {
       // Response holds the fetch to the endpoint

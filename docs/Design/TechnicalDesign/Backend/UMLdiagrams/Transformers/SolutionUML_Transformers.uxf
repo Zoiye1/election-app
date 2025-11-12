@@ -1,4 +1,4 @@
-<diagram program="umletino" version="15.1"><zoom_level>6</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>1758</x><y>642</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchConstituencyVotesTransformer
+<diagram program="umletino" version="15.1"><zoom_level>6</zoom_level><help_text>Space for diagram notes</help_text><element><id>UMLClass</id><coordinates><x>1440</x><y>522</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchConstituencyVotesTransformer
 --
 - election: Election
 --
@@ -7,14 +7,14 @@
 + registerPartyVotes(aggregated: boolean , electionData: Map&lt;String, String&gt; )
 + registerCandidateVotes(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
 + registerMetadata(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>252</x><y>156</y><w>198</w><h>60</h></coordinates><panel_attributes>DutchCandidateTransformer
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>258</x><y>522</y><w>198</w><h>60</h></coordinates><panel_attributes>DutchCandidateTransformer
 --
 - election: Election
 --
 + DutchCandidateTransformer(election: Election)
 --
 + registerCandidate(electionData: Map&lt;String, String&gt;)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>156</y><w>198</w><h>60</h></coordinates><panel_attributes>DutchDefinitionTransformer
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>522</y><w>198</w><h>60</h></coordinates><panel_attributes>DutchDefinitionTransformer
 --
 - election: Election
 --
@@ -22,7 +22,7 @@
 --
 + registerRegion(electionData: Map&lt;String, String&gt;)
 + registerParty(electionData: Map&lt;String, String&gt;)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>870</x><y>642</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchMunicipalityVotesTransformer
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>552</x><y>522</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchMunicipalityVotesTransformer
 --
 - election: Election
 --
@@ -31,7 +31,7 @@
 + registerPartyVotes(aggregated: boolean , electionData: Map&lt;String, String&gt; )
 + registerCandidateVotes(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
 + registerMetadata(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1464</x><y>642</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchNationalVotesTransformer
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1146</x><y>522</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchNationalVotesTransformer
 --
 - election: Election
 --
@@ -40,7 +40,7 @@
 + registerPartyVotes(aggregated: boolean , electionData: Map&lt;String, String&gt; )
 + registerCandidateVotes(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
 + registerMetadata(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1170</x><y>642</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchResultTransformer
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>852</x><y>522</y><w>288</w><h>72</h></coordinates><panel_attributes>DutchResultTransformer
 --
 - election: Election
 --
@@ -49,19 +49,32 @@
 + registerPartyVotes(aggregated: boolean , electionData: Map&lt;String, String&gt; )
 + registerCandidateVotes(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
 + registerMetadata(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>1278</x><y>246</y><w>288</w><h>60</h></coordinates><panel_attributes>&lt;&lt; interface &gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>UMLClass</id><coordinates><x>960</x><y>126</y><w>288</w><h>60</h></coordinates><panel_attributes>&lt;&lt; interface &gt;&gt;
 VotesTransformer
 -
 + registerPartyVotes(aggregated: boolean , electionData: Map&lt;String, String&gt; )
 + registerCandidateVotes(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
 + registerMetadata(aggregated: boolean, electionData:  Map&lt;String, String&gt;) 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>990</x><y>306</y><w>306</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>490;10;10;560</additional_attributes></element><element><id>Relation</id><coordinates><x>1314</x><y>306</y><w>102</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>150;10;10;560</additional_attributes></element><element><id>Relation</id><coordinates><x>1452</x><y>306</y><w>168</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;260;560</additional_attributes></element><element><id>Relation</id><coordinates><x>1554</x><y>306</y><w>360</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;580;560</additional_attributes></element><element><id>UMLClass</id><coordinates><x>258</x><y>0</y><w>198</w><h>42</h></coordinates><panel_attributes>&lt;&lt; interface &gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>672</x><y>186</y><w>306</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>490;10;10;560</additional_attributes></element><element><id>Relation</id><coordinates><x>996</x><y>186</y><w>102</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>150;10;10;560</additional_attributes></element><element><id>Relation</id><coordinates><x>1134</x><y>186</y><w>168</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;260;560</additional_attributes></element><element><id>Relation</id><coordinates><x>1236</x><y>186</y><w>360</w><h>348</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;580;560</additional_attributes></element><element><id>UMLClass</id><coordinates><x>258</x><y>366</y><w>198</w><h>42</h></coordinates><panel_attributes>&lt;&lt; interface &gt;&gt;
 CandidateTransformer
 -
 + registerCandidate(electionData: Map&lt;String, String&gt;) 
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>348</x><y>36</y><w>24</w><h>132</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>20;10;10;200</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>6</y><w>198</w><h>48</h></coordinates><panel_attributes>&lt;&lt; interface &gt;&gt;
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>354</x><y>402</y><w>18</w><h>132</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;200</additional_attributes></element><element><id>UMLClass</id><coordinates><x>0</x><y>372</y><w>198</w><h>48</h></coordinates><panel_attributes>&lt;&lt; interface &gt;&gt;
 DefinitionTransformer
 -
 + registerRegion(electionData: Map&lt;String, String&gt;)
 + registerParty(electionData: Map&lt;String, String&gt;)
-</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>48</y><w>18</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;180</additional_attributes></element></diagram>
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>90</x><y>414</y><w>18</w><h>120</h></coordinates><panel_attributes>lt=&lt;&lt;.</panel_attributes><additional_attributes>10;10;10;180</additional_attributes></element><element><id>UMLClass</id><coordinates><x>342</x><y>102</y><w>498</w><h>108</h></coordinates><panel_attributes>DutchElectionParser
+--
+- DefinitionTransformer: DefinitionTransformer
+- candidateTransformer: CandidateTransformer
+- votesTransformer: ResultTransformer
+- votesTransformer: NationalVotesTransformer
+- votesTransformer:  ConstituencyVotesTransformer
+ - votesTransformer: municipalityVotesTransformer
+--
++ DutchElectionParser(DefinitionTransformer: DefinitionTransformer,  candidateTransformer: CandidateTransformer, votesTransformer: ResultTransformer, votesTransformer: NationalVotesTransformer, votesTransformer:  ConstituencyVotesTransformer, votesTransformer: municipalityVotesTransformer)
+--
++ parseResults(electionId: String, folderName: String)
+- parseFiles(folderName: string, fileFilter: string , emlHandler: EMLHandler )
+</panel_attributes><additional_attributes></additional_attributes></element><element><id>Relation</id><coordinates><x>114</x><y>204</y><w>390</w><h>330</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>11;530;630;10</additional_attributes></element><element><id>Relation</id><coordinates><x>384</x><y>204</y><w>180</w><h>330</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>10;530;280;10</additional_attributes></element><element><id>Relation</id><coordinates><x>564</x><y>204</y><w>126</w><h>330</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>190;530;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>594</x><y>204</y><w>672</w><h>330</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>1100;530;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>588</x><y>204</y><w>900</w><h>330</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>1480;530;10;10</additional_attributes></element><element><id>Relation</id><coordinates><x>570</x><y>204</y><w>414</w><h>336</h></coordinates><panel_attributes>lt=&lt;-</panel_attributes><additional_attributes>670;540;10;10</additional_attributes></element></diagram>
