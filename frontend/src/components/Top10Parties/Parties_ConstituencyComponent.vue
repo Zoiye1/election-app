@@ -33,8 +33,14 @@ onMounted(async () => {
   // selected constituency
   const electionService = new ElectionService();
   try{
-    const election = await electionService.getElectionData("TK2023", selectedConstituency.value);
-    electionData.value = election;
+    const election = await electionService.getConstituencyData("TK2023", selectedConstituency.value);
+    if(!election || election.length == 0){
+      error.value = "Oeps, er is iets mis gegaan. Probeer het later weer opnieuw";
+
+    }
+    else {
+      electionData.value = election;
+    }
   }
   // if the fetch wasn't successfull we display an error
   catch (err){
