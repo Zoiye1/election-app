@@ -51,13 +51,8 @@ public class ElectionController {
     }
 
     @GetMapping("{electionId}/{constituencyName}")
-    public List<ConstituencyPartyVotes> getConstituencyPartyVotes(@PathVariable String electionId) {
-        Election election = electionService.readResults(electionId);
-        if (election == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
-        }
-
-        return election.getConstituencyPartyVotes();
+    public List<ConstituencyPartyVotes> getConstituencyPartyVotes(@PathVariable String electionId, @PathVariable String constituencyName) throws IllegalAccessException {
+        return electionService.getResultsByConstituency(electionId, constituencyName);
     }
 
     /**
