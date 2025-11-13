@@ -254,5 +254,3 @@ Oracle. (2014-c). *Class ArrayDeque<E>*. Java Platform SE 8 Documentation. Retri
 Späth, P. (2018). *Learn Java for Android Development* (3rd ed.). Apress, from https://learning-oreilly-com.rps.hva.nl/library/view/learn-java-for/9781430264545/9781430264545_Contents.xhtml
 
 ---
-
-**Word count:** [Count your words - must be at least 600]
