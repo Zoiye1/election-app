@@ -1,5 +1,6 @@
 package nl.hva.stack5.election.api;
 
+import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.model.ConstituencyPartyVotes;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.service.DutchElectionService;
@@ -51,7 +52,7 @@ public class ElectionController {
     }
 
     @GetMapping("{electionId}/{constituencyName}")
-    public List<ConstituencyPartyVotes> getConstituencyPartyVotes(@PathVariable String electionId, @PathVariable String constituencyName) throws IllegalAccessException {
+    public List<ConstituencyPartyVotesDTO> getConstituencyPartyVotes(@PathVariable String electionId, @PathVariable String constituencyName) throws IllegalAccessException {
         return electionService.getResultsByConstituency(electionId, constituencyName);
     }
 
