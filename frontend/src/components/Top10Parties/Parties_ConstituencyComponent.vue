@@ -10,12 +10,11 @@ const selectedConstituency = ref<string>('Amsterdam');
 const error = ref<string>("")
 
 const constituencies = [
-  'Groningen', 'Leeuwarden', 'Assen', 'Zwolle', 'Lelystad', 'Nijmegen', 'Arnhem',
-  'Utrecht', 'Amsterdam', 'Haarlem', 'Den Haag', 'Rotterdam', 'Dordrecht',
-  'Middelburg', 'Tilburg', '’s-Hertogenbosch', 'Maastricht', 'Eindhoven',
-  'Leiden', 'Enschede'
+  'Amsterdam', 'Arnhem', 'Assen', 'Bonaire', 'Den Helder', 'Dordrecht',
+  'Groningen', 'Haarlem', 'Leeuwarden', 'Leiden', 'Lelystad',
+  'Maastricht', 'Middelburg', 'Nijmegen', 'Rotterdam', 'Tilburg',
+  'Utrecht', "'s-Hertogenbosch", "'s-Gravenhage", 'Zwolle'
 ];
-
 const open = ref(false);
 
 const toggleDropdown = () => {
@@ -55,7 +54,7 @@ watch(selectedConstituency, async (newValue) => {
   loading.value = true;
   const electionService = new ElectionService();
   try {
-    const election = await electionService.getElectionData("TK2023", newValue);
+    const election = await electionService.getConstituencyData("TK2023", newValue);
     electionData.value = election;
   }
   catch (err){
@@ -137,7 +136,7 @@ watch(selectedConstituency, async (newValue) => {
             {{ i + 1 }}
           </div>
           <div class="text-lg font-bold text-gray-800">
-            {{ result.party.registeredName }}
+            {{ result.partyName }}
           </div>
         </div>
 
