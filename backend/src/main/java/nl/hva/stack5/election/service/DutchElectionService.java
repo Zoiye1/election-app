@@ -1,6 +1,8 @@
 package nl.hva.stack5.election.service;
 
+import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.model.*;
+import nl.hva.stack5.election.repository.ConstituencyRepository;
 import nl.hva.stack5.election.repository.ElectionRepository;
 import nl.hva.stack5.election.utils.PathUtils;
 import nl.hva.stack5.election.utils.xml.*;
@@ -12,6 +14,7 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -25,6 +28,9 @@ public class DutchElectionService {
     @Autowired
     private  ElectionRepository electionRepository;
 
+    @Autowired
+    private ConstituencyRepository constituencyRepository;
+
     /**
      *
      * @param electionId holds the election id which is the year
@@ -33,9 +39,16 @@ public class DutchElectionService {
     public Election readResults (String electionId){
         System.out.println("fetching results for election " + electionId);
         return electionRepository.findById(electionId);
+    }
 
+    public List<ConstituencyPartyVotesDTO> getResultsByConstituency (String electionId, String constituencyName ) throws IllegalAccessException {
+        Election election = electionRepository.findById(electionId);
 
+        if (election == null) {
+           throw new IllegalArgumentException("election not found");
 
+        }
+         return constituencyRepository.findByConstituencyAndElectionId(electionId, constituencyName);
     }
 
     public Election importResults(String electionId, String folderName) {
