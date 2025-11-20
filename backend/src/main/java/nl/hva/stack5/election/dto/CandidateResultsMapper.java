@@ -13,4 +13,15 @@ import nl.hva.stack5.election.model.CandidateResult;
  * @version 1.0
  */
 public class CandidateResultsMapper {
+
+    /**
+     * Converts a CandidateResult entity to a TopCandidateResponseDTO.
+     * Combines candidate's first name and surname into full name.
+     *
+     * @param result the candidate result entity to convert
+     * @return TopCandidateResponseDTO containing candidate ranking data
+     */
+    public static TopCandidateResponseDTO toDTO(CandidateResult result) {
+
+    }
 }
