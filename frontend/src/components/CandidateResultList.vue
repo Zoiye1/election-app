@@ -12,3 +12,23 @@ const props = defineProps<{
 const candidateResults = ref<CandidateResult[]>([]);
 const loading = ref<boolean>(true);
 const error = ref<string | null>(null);
+
+/**
+ * Fetches the top candidates for the selected election from the backend.
+ * Updates candidateResults state with the response data.
+ * Handles loading and error states during the fetch operation.
+ */
+async function fetchCandidateResults() {
+  loading.value = true;
+  error.value = null;
+
+  try {
+    candidateResults.value = await getTopCandidatesByElection(props.electionId);
+  } catch (err) {
+    error.value = 'failed to fetch candidate results';
+    console.error(err);
+  } finally {
+    loading.value = false;
+  }
+}
+</script>
