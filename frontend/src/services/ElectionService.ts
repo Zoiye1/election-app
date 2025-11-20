@@ -22,7 +22,7 @@ import type { Election } from "@/interfaces/IElectionData";
         headers: {"Accept": "application/json"}
       })
       if (!response.ok) {
-        throw new Error("request failed" + response.statusText);
+        throw new Error("request failed" + " " + response.statusText);
       }
       return await response.json();
     } catch (error) {
@@ -41,7 +41,7 @@ import type { Election } from "@/interfaces/IElectionData";
         headers: {"Accept": "application/json"}
       })
       if (!response.ok) {
-        throw new Error("request failed" + response.statusText);
+        throw new Error("request failed" + " " + response.statusText);
       }
       return await response.json();
     } catch (error) {
@@ -60,7 +60,7 @@ import type { Election } from "@/interfaces/IElectionData";
         headers: {"Accept": "application/json"}
       })
       if (!response.ok) {
-        throw new Error("request failed" + response.statusText);
+        throw new Error("request failed ${response.statusText}");
       }
       return await response.json();
     } catch (error) {
