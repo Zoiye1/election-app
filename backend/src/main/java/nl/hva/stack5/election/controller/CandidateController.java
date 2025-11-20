@@ -58,13 +58,14 @@ public class CandidateController {
 
 
     /**
+     * Retrieves the top candidates by votes for a specific election.
      *
-     * @param year
-     * @return
+     * @param electionId the election identifier (e.g., "TK2023")
+     * @return List of top 10 candidates with their vote counts
      */
     @GetMapping("/top")
-    public List<TopCandidateResponseDTO> getTopCandidates(@RequestParam String year) {
-        return candidateResultService.getTopCandidatesByYear(year, 10);
+    public List<TopCandidateResponseDTO> getTopCandidates(@RequestParam String electionId) {
+        return candidateResultService.getTopCandidatesByElection(electionId, 10);
     }
 }
 

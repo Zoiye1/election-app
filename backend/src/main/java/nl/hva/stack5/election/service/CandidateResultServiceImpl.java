@@ -31,7 +31,7 @@ public class CandidateResultServiceImpl implements CandidateResultService {
      * @return List of top candidates with their vote counts and party affiliation
      */
     @Override
-    public List<TopCandidateResponseDTO> getTopCandidatesByYear(String electionId, int limit) {
+    public List<TopCandidateResponseDTO> getTopCandidatesByElection(String electionId, int limit) {
         List<CandidateResult> results = candidateResultRepository.findTopByElectionYear(electionId, limit);
 
         return results.stream()

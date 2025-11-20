@@ -22,5 +22,5 @@ public interface CandidateResultService {
      * @param limit the maximum amount of top candidates that needs to be returned.
      * @return List of top candidates with their vote counts and party affiliation
      */
-    List<TopCandidateResponseDTO> getTopCandidatesByYear(String electionId, int limit);
+    List<TopCandidateResponseDTO> getTopCandidatesByElection(String electionId, int limit);
 }
