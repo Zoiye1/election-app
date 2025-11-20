@@ -1,4 +1,4 @@
-import type { CandidateResult } from '@/interfaces/topCandidate';
+import type { CandidateResult } from '@/interfaces/CandidateResult';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
