@@ -1,6 +1,8 @@
 package nl.hva.stack5.election.service;
 
 
+import nl.hva.stack5.election.dto.CandidateMapper;
+import nl.hva.stack5.election.dto.CandidateResponseDTO;
 import nl.hva.stack5.election.model.Candidate;
 import nl.hva.stack5.election.repository.CandidateRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +22,18 @@ public class CandidateServiceImpl implements CandidateService {
         return candidateRepository.findById(candidateId);
     }
 
-    @Override
-    public Optional<Candidate> getCandidateByShortCode(String shortCode) {
-        return candidateRepository.findByShortCode(shortCode);
-    }
 
+    /**
+     * Retrieves all candidates.
+     *
+     * @return List of all candidates as DTOs
+     */
     @Override
-    public List<Candidate> getAllCandidates() {
-        return candidateRepository.findAll();
+    public List<CandidateResponseDTO> getAllCandidates() {
+        return candidateRepository.findAll()
+                .stream()
+                .map(CandidateMapper::toDTO)
+                .toList();
     }
 
 }
