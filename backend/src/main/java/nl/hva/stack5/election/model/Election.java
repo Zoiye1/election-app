@@ -48,7 +48,6 @@ public class Election {
     @MapKey(name = "name")
     private Map<String, Municipality> municipality = new HashMap<>();
 
-    @OneToMany(cascade = CascadeType.All)
     private List<MunicipalityPartyVotes> municipalityPartyVotes = new ArrayList<>();
 
     public Election() {
@@ -93,6 +92,8 @@ public class Election {
     public Map<String, Constituency> getConstituencies() {
         return constituencies;
     }
+
+    public Map<String, Municipality> getMunicipalities() {return municipality;}
 
     public void setConstituencies(Map<String, Constituency> constituencies) {
         this.constituencies = constituencies;

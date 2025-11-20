@@ -3,6 +3,8 @@ package nl.hva.stack5.election.utils.xml.transformers;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.model.Party;
 import nl.hva.stack5.election.utils.xml.VotesTransformer;
+import nl.hva.stack5.election.model.Municipality;
+import nl.hva.stack5.election.model.MunicipalityPartyVotes;
 
 import java.util.Map;
 
