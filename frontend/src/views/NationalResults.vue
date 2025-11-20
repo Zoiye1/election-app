@@ -28,6 +28,30 @@ onMounted(async () => {
         <p class="text-xl opacity-90">Tweede Kamerverkiezingen</p>
       </div>
 
+      <div class="year-selector mb-8">
+        <button
+          @click="selectedElection = 'TK2021'"
+          :class="{ active: selectedElection === 'TK2021' }"
+          class="year-btn"
+        >
+          2021
+        </button>
+        <button
+          @click="selectedElection = 'TK2023'"
+          :class="{ active: selectedElection === 'TK2023' }"
+          class="year-btn"
+        >
+          2023
+        </button>
+        <button
+          @click="selectedElection = 'TK2025'"
+          :class="{ active: selectedElection === 'TK2025' }"
+          class="year-btn"
+        >
+          2025
+        </button>
+      </div>
+
       <!-- Total Votes Card -->
       <div class="max-w-md mx-auto">
         <TotalNationalVotesComponent :totalCounted="totalCounted" />
