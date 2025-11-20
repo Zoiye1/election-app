@@ -65,7 +65,7 @@ public class CandidateController {
      */
     @GetMapping("/top")
     public List<TopCandidateResponseDTO> getTopCandidates(@RequestParam String electionId) {
-        return candidateResultService.getTopCandidatesByElection(electionId, 10);
+        return candidateResultService.getTopCandidatesByElection(electionId, 20);
     }
 }
 
