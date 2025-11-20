@@ -19,12 +19,19 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    @Column(name = "verification_code", length = 64)
+    private String verificationCode;
+
+    @Column(name = "enabled")
+    private boolean enabled;
+
     public User() {}
 
     public User(String username, String email, String password) {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.enabled = false;
     }
 
     public Integer getId() {
@@ -57,5 +64,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getVerificationCode() {
+        return verificationCode;
+    }
+
+    public void setVerificationCode(String verificationCode) {
+        this.verificationCode = verificationCode;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
     }
 }
