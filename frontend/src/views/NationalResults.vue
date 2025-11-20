@@ -84,4 +84,33 @@ onMounted(async () => {
   0%, 100% { opacity: 0.3; }
   50% { opacity: 0.6; }
 }
+.year-selector {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.year-btn {
+  padding: 12px 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.year-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.year-btn.active {
+  background: white;
+  color: #667eea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
 </style>
