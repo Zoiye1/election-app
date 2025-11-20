@@ -17,6 +17,11 @@ public class CandidateServiceImpl implements CandidateService {
     @Autowired
     private CandidateRepository candidateRepository;
 
+    /**
+     *
+     * @param id the candidate ID
+     * @return candidate with given id as DTO, empty optional otherwise.
+     */
     @Override
     public Optional<CandidateResponseDTO> getCandidateById(long id) {
         return candidateRepository.findById(id)
