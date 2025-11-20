@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue';
 import Navbar from '@/components/Navbar.vue';
 
 import TotalNationalVotesComponent from '@/components/TotalNationalVotesComponent.vue';
+import CandidateResultList from '@/components/CandidateResultList.vue'
 
 const selectedElection = ref<string>('TK2025'); // Default on 2025
 
@@ -59,6 +60,7 @@ onMounted(async () => {
     </div>
   </div>
 
+<CandidateResultList :electionId="selectedElection" />
 
 </template>
 
@@ -84,6 +86,7 @@ onMounted(async () => {
   0%, 100% { opacity: 0.3; }
   50% { opacity: 0.6; }
 }
+
 .year-selector {
   display: flex;
   justify-content: center;
