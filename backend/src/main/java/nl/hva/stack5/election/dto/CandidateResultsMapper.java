@@ -33,5 +33,12 @@ public class CandidateResultsMapper {
 
         // Convert String votes to long
         long votes = Long.parseLong(result.getNationalCandidateVotes());
+
+        return new TopCandidateResponseDTO(
+                candidate.getId(),
+                fullName,
+                result.getParty().getRegisteredName(),
+                votes
+        );
     }
 }
