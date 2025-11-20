@@ -1,5 +1,6 @@
 package nl.hva.stack5.election.repository;
 
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 @Repository
 @Transactional
-public class CandidateResultRepositoryImpl {
+public class CandidateResultRepositoryImpl implements CandidateResultRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -32,7 +33,7 @@ public class CandidateResultRepositoryImpl {
      * @return List of top candidate results ordered by votes descending
      */
     @Override
-    public List<CandidateResult> findByTopElectionYear (String electionId, int limit) {
+    public List<CandidateResult> findTopByElectionYear (String electionId, int limit) {
         TypedQuery<CandidateResult> query = entityManager.createQuery(
                 "SELECT cr FROM CandidateResult cr " +
                         "WHERE cr.election.id = :electionId " +
