@@ -18,8 +18,9 @@ public class CandidateServiceImpl implements CandidateService {
     private CandidateRepository candidateRepository;
 
     @Override
-    public Optional<Candidate> getCandidateById(int candidateId) {
-        return candidateRepository.findById(candidateId);
+    public Optional<CandidateResponseDTO> getCandidateById(long id) {
+        return candidateRepository.findById(id)
+                .map(CandidateMapper::toDTO);
     }
 
 
