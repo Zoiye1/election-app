@@ -22,5 +22,17 @@ public class CandidateResponseDTO {
     //Default constructor
     public CandidateResponseDTO () {}
 
+    //GETTERS
+    public Long getCandidateId() {
+        return candidateId;
+    }
+
+    public String getCandidateName() {
+        return candidateName;
+    }
+
+    public String getCandidateSurname() {
+        return candidateSurname;
+    }
 
 }
