@@ -10,6 +10,11 @@ import nl.hva.stack5.election.dto.DiscussionMapper;
 import nl.hva.stack5.election.dto.DiscussionRequestDTO;
 import nl.hva.stack5.election.dto.DiscussionResponseDTO;
 import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.server.ResponseStatusException;
+import nl.hva.stack5.election.utils.JwtUtil;
+import nl.hva.stack5.election.repository.UserRepository;
+import nl.hva.stack5.election.model.User;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,6 +29,12 @@ public class DiscussionController {
     @Autowired
     private DiscussionMapper discussionMapper;
 
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRepository userRepository;
+
 
     @GetMapping
     public List<DiscussionResponseDTO> getAllDiscussions() {
@@ -37,7 +48,25 @@ public class DiscussionController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DiscussionResponseDTO createDiscussion(
+            @RequestHeader("Authorization") String authHeader,  // ← ADD THIS
             @RequestBody DiscussionRequestDTO requestDTO) {
+
+        // Extract token
+        String token = authHeader.replace("Bearer ", "");
+
+        // Get user email from token
+        String email = jwtUtil.extractUsername(token);
+
+        // Find user in database
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found");
+        }
+        requestDTO.setAuthorId(user.getId());
+
+        // Create discussion with user
+
         Discussion created = discussionService.createDiscussion(requestDTO);
         return discussionMapper.toResponseDTO(created);
     }
