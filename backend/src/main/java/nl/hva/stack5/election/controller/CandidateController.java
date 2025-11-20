@@ -2,6 +2,7 @@ package nl.hva.stack5.election.controller;
 
 import nl.hva.stack5.election.dto.CandidateResponseDTO;
 import nl.hva.stack5.election.model.Candidate;
+import nl.hva.stack5.election.service.CandidateResultService;
 import nl.hva.stack5.election.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,8 @@ public class CandidateController {
     @Autowired
     private CandidateService candidateService;
 
+    @Autowired
+    private CandidateResultService candidateResultService;
 
     /**
      * Retrieves all candidates from the database.

@@ -22,6 +22,14 @@ public class CandidateResultServiceImpl implements CandidateResultService {
     @Autowired
     private CandidateResultRepository candidateResultRepository;
 
+
+    /**
+     * Retrieves the top candidates by number of votes for a specific election.
+     *
+     * @param electionId the election identifier (e.g., "TK2023")
+     * @param limit the maximum number of candidates to return
+     * @return List of top candidates with their vote counts and party affiliation
+     */
     @Override
     public List<TopCandidateResponseDTO> getTopCandidatesByYear(String electionId, int limit) {
         List<CandidateResult> results = candidateResultRepository.findTopByElectionYear(electionId, limit);
