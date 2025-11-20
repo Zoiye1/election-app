@@ -69,4 +69,8 @@ public class Candidate {
     public Set<Election> getElections() {
         return elections;
     }
+
+    public long getId() {
+        return id;
+    }
 }
