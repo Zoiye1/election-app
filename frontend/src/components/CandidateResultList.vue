@@ -31,4 +31,12 @@ async function fetchCandidateResults() {
     loading.value = false;
   }
 }
+
+// this method watches prop changes and refetches data
+watch(() => props.electionId, () => {
+  fetchCandidateResults();
+}, { immediate: true });
+
+
+
 </script>
