@@ -42,13 +42,11 @@ watch(
 )
 </script>
 
-
-//Component with ranking, votes and names displayed.
 <template>
   <div class="top-candidates-container">
     <div class="top-candidates-card">
       <div class="header">
-        <h2>Top 5 Meest Gestemde Kandidaten</h2>
+        <h2>Top 20 Meest Gestemde Kandidaten</h2>
       </div>
 
       <div v-if="loading" class="loading">
@@ -67,7 +65,7 @@ watch(
         >
           <div class="rank">{{ index + 1 }}</div>
 
-          <div class="info">  <!-- ← Wrapper ROND naam en party -->
+          <div class="info">
             <h3>{{ candidate.fullName }}</h3>
             <p class="party">{{ candidate.party }}</p>
           </div>
@@ -154,6 +152,26 @@ watch(
   max-height: 480px;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-right: 8px;
+}
+
+/* Scrollbar styling */
+.candidates-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+.candidates-list::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.candidates-list::-webkit-scrollbar-thumb {
+  background: #667eea;
+  border-radius: 10px;
+}
+
+.candidates-list::-webkit-scrollbar-thumb:hover {
+  background: #5568d3;
 }
 
 .candidate-row {
@@ -189,11 +207,11 @@ watch(
 /* Candidate info */
 .info {
   flex: 1;
-  min-width: 0; /* Voorkomt overflow issues */
+  min-width: 0;
 }
 
 .info h3 {
-  margin: 0 0 4px 0;  /* Ruimte onder naam */
+  margin: 0 0 4px 0;
   font-size: 18px;
   font-weight: 600;
   color: #1a202c;
