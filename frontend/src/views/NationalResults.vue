@@ -5,6 +5,8 @@ import Navbar from '@/components/Navbar.vue';
 
 import TotalNationalVotesComponent from '@/components/TotalNationalVotesComponent.vue';
 
+const selectedElection = ref<string>('TK2025'); // Default on 2025
+
 const totalCounted = ref<number>(0);
 
 onMounted(async () => {
