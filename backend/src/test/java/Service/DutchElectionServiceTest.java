@@ -17,6 +17,10 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+/**
+ * This class tests the dutchElectionService with all it's
+ * important function (Happyflow and Unhappyflow)
+ */
 @ExtendWith(MockitoExtension.class)
 class DutchElectionServiceTest {
 
