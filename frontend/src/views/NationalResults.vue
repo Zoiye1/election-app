@@ -2,7 +2,7 @@
 import { ElectionService } from '@/services/ElectionService';
 import { ref, onMounted } from 'vue';
 import Navbar from '@/components/Navbar.vue';
-import Footer from '@/components/Footer.vue';
+
 import TotalNationalVotesComponent from '@/components/TotalNationalVotesComponent.vue';
 
 const totalCounted = ref<number>(0);
@@ -33,7 +33,7 @@ onMounted(async () => {
     </div>
   </div>
 
-  <Footer />
+
 </template>
 
 <style scoped>
