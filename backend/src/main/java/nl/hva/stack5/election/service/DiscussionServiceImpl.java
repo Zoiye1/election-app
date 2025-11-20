@@ -49,7 +49,8 @@ public class DiscussionServiceImpl implements DiscussionService {
     public Discussion createDiscussion(DiscussionRequestDTO requestDTO) {
         Discussion discussion = discussionMapper.toEntity(requestDTO);
 
-        User author = userRepository.findById(1).orElseThrow(() -> new RuntimeException("User not found with id: " + requestDTO.getAuthorId()));
+        User author = userRepository.findById(requestDTO.getAuthorId())
+                .orElseThrow(() -> new IllegalArgumentException("Author not found with id: " + requestDTO.getAuthorId()));
         discussion.setAuthor(author);
 
         return discussionRepository.save(discussion);

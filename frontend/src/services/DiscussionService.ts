@@ -37,7 +37,7 @@ export class DiscussionService {
   /**
    * Get all discussions from the API
    */
-  public async getAllDiscussions(): Promise<Discussion[]> {
+  public async getAllDiscussions(): Promise<DiscussionResponseDTO[]> {
     try {
       const response: Response = await fetch(this.baseUrl, {
         method: 'GET',
@@ -87,14 +87,28 @@ export class DiscussionService {
    */
   public async createDiscussion(data: CreateDiscussionRequest): Promise<DiscussionResponseDTO> {
     try {
+      // Get JWT token from sessionStorage
+      const token = sessionStorage.getItem('authToken');
+
+      if (!token) {
+        throw new Error('Not authenticated - please login');
+      }
+
       const response: Response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`  // ← ADD THIS!
         },
         body: JSON.stringify(data)
       })
+
+      if (response.status === 401) {
+        // Token invalid or expired - redirect to login
+        window.location.href = '/login';
+        throw new Error('Unauthorized - please login again');
+      }
 
       if (!response.ok) {
         throw new Error('Request failed: ' + response.statusText)
