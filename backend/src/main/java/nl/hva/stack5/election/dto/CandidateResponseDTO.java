@@ -35,4 +35,16 @@ public class CandidateResponseDTO {
         return candidateSurname;
     }
 
+    //SETTERS
+    public void setCandidateId(Long candidateId) {
+        this.candidateId = candidateId;
+    }
+
+    public void setCandidateName(String candidateName) {
+        this.candidateName = candidateName;
+    }
+
+    public void setCandidateSurname(String candidateSurname) {
+        this.candidateSurname = candidateSurname;
+    }
 }
