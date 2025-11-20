@@ -42,10 +42,11 @@ watch(
 )
 </script>
 
+
+//Component with ranking, votes and names displayed.
 <template>
   <div class="top-candidates-container">
     <div class="top-candidates-card">
-
       <div class="header">
         <h2>Top 5 Meest Gestemde Kandidaten</h2>
       </div>
@@ -55,14 +56,26 @@ watch(
       </div>
 
       <div v-else-if="error" class="error">
-        {{error}}
+        {{ error }}
       </div>
 
       <div v-else class="candidates-list">
-      <div v-for="(candidate, index) in CandidateResult.slice"
-           :key="candidate.id">
-
-
+        <div
+          v-for="(candidate, index) in candidateResults"
+          :key="candidate.id"
+          class="candidate-row"
+        >
+          <div class="rank">{{ index + 1 }}</div>
+          <h3>{{ candidate.fullName }}</h3>
+          <p>{{ candidate.party }}</p>
+          <div class="info">
+            <div class="votes">
+              {{ candidate.votes.toLocaleString('nl-NL') }}
+              <span class="label">stemmen</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
