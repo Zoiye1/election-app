@@ -8,5 +8,5 @@ const API_BASE_URL = 'http://localhost:8080/api';
  * @returns {Promise<Candidate[]>} List of all candidates
  */
 export async function getAllCandidates (): Promise<Candidate[]>{
-
+  const response = await fetch(`${API_BASE_URL}/candidates`);
 }
