@@ -44,7 +44,7 @@ public class CandidateController {
      * @return ResponseEntity containing the candidate if found, 404 Not Found otherwise
      */
     @GetMapping("/{id}")
-    public ResponseEntity<Candidate> getCandidateById(@PathVariable int id) {
+    public ResponseEntity<CandidateResponseDTO> getCandidateById(@PathVariable long id) {
         return candidateService.getCandidateById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
