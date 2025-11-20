@@ -9,6 +9,7 @@ package nl.hva.stack5.election.dto;
  * @version 1.0
  */
 public class TopCandidateResponseDTO {
+
     private long id;
     private String fullName;
     private String party;
@@ -16,4 +17,12 @@ public class TopCandidateResponseDTO {
 
     //Default constructor
     public TopCandidateResponseDTO() {}
+
+    // Constructor with all fields
+    public TopCandidateResponseDTO(long id, String fullName, String party, long votes) {
+        this.id = id;
+        this.fullName = fullName;
+        this.party = party;
+        this.votes = votes;
+    }
 }
