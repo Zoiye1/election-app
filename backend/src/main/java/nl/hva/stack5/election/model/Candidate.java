@@ -29,7 +29,7 @@ public class Candidate {
     @Column(nullable = false)
     private String surname;
 
-    @Column(unique = true, nullable = false)
+    @Column(nullable = false)
     private String shortCode;
 
     @ManyToMany(mappedBy = "candidates")
