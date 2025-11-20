@@ -5,6 +5,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Implementation of CandidateResultService.
+ * Handles business logic for candidate result operations.
+ *
+ * @author Matisse Ben Addi
+ * @version 1.0
+ */
 @Service
 public class CandidateResultServiceImpl implements CandidateResultService {
 
