@@ -22,6 +22,16 @@ public class CandidateResultsMapper {
      * @return TopCandidateResponseDTO containing candidate ranking data
      */
     public static TopCandidateResponseDTO toDTO(CandidateResult result) {
+        if (result == null) {
+            return null;
+        }
 
+        Candidate candidate = result.getCandidate();
+
+        //Combine first and surname
+        String fullName = candidate.getFirstName() + " " + candidate.getSurname();
+
+        // Convert String votes to long
+        long votes = Long.parseLong(result.getNationalCandidateVotes());
     }
 }
