@@ -39,5 +39,11 @@ public class CandidateResultRepositoryImpl {
                         "ORDER BY CAST(cr.nationalCandidateVotes AS long) DESC",
                 CandidateResult.class
         );
+
+        query.setParameter("electionId", electionId);
+        query.setMaxResults(limit);
+
+        return query.getResultList();
+
     }
 }
