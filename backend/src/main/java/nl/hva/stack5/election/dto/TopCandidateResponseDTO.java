@@ -25,4 +25,38 @@ public class TopCandidateResponseDTO {
         this.party = party;
         this.votes = votes;
     }
+
+    //GETTERS
+    public long getId() {
+        return id;
+    }
+
+    public String getFullName() {
+        return fullName;
+    }
+
+    public String getParty() {
+        return party;
+    }
+
+    public long getVotes() {
+        return votes;
+    }
+
+    //SETTERS
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setParty(String party) {
+        this.party = party;
+    }
+
+    public void setVotes(long votes) {
+        this.votes = votes;
+    }
 }
