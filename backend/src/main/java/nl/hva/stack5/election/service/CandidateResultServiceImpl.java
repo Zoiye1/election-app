@@ -1,6 +1,8 @@
 package nl.hva.stack5.election.service;
 
 import nl.hva.stack5.election.dto.TopCandidateResponseDTO;
+import nl.hva.stack5.election.repository.CandidateResultRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,6 +16,9 @@ import java.util.List;
  */
 @Service
 public class CandidateResultServiceImpl implements CandidateResultService {
+
+    @Autowired
+    private CandidateResultRepository candidateResultRepository;
 
     @Override
     public List<TopCandidateResponseDTO> getTopCandidatesByYear(String electionId, int limit) {
