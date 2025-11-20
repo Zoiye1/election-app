@@ -9,10 +9,17 @@ import java.util.Optional;
 public interface CandidateService {
 
     // Read
-    Optional<Candidate> getCandidateById(int candidateId);
+    /**
+     * Retrieves a candidate by their ID.
+     *
+     * @param id the candidate ID
+     * @return Optional containing the candidate DTO if found
+     */
+    Optional<CandidateResponseDTO> getCandidateById(long id);
+
     /**
      *
-     * Retrieves all candidates.
+     * Retrieves a list all candidates.
      *
      * @return List of all candidates as DTOs
      */
