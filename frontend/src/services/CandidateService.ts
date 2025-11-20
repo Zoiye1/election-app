@@ -9,4 +9,8 @@ const API_BASE_URL = 'http://localhost:8080/api';
  */
 export async function getAllCandidates (): Promise<Candidate[]>{
   const response = await fetch(`${API_BASE_URL}/candidates`);
+
+  if (!response.ok) {
+    throw new Error(`HTTP error! status: ${response.status}`);
+  }
 }
