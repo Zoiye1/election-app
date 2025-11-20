@@ -18,4 +18,9 @@ public class CandidateResponseDTO {
         this.candidateName = candidateName;
         this.candidateSurname = candidateSurname;
     }
+
+    //Default constructor
+    public CandidateResponseDTO () {}
+
+
 }
