@@ -3,10 +3,13 @@ package nl.hva.stack5.election.controller;
 import nl.hva.stack5.election.dto.CandidateResponseDTO;
 import nl.hva.stack5.election.model.Candidate;
 import nl.hva.stack5.election.service.CandidateResultService;
+import nl.hva.stack5.election.dto.TopCandidateResponseDTO;
 import nl.hva.stack5.election.service.CandidateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+
 
 import java.util.List;
 
@@ -51,6 +54,17 @@ public class CandidateController {
         return candidateService.getCandidateById(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+
+    /**
+     *
+     * @param year
+     * @return
+     */
+    @GetMapping("/top")
+    public List<TopCandidateResponseDTO> getTopCandidates(@RequestParam String year) {
+        return candidateResultService.getTopCandidatesByYear(year, 10);
     }
 }
 
