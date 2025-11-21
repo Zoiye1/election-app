@@ -37,6 +37,10 @@ public class CandidateResultServiceTest {
      */
     @Test
     void getTopCandidatesByElection_shouldReturnTopCandidates_whenResultsExist() {
+        //Arrange
 
+        //Act
+
+        //Assert
     }
 }
