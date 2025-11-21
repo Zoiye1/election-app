@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -58,7 +60,10 @@ public class CandidateResultServiceTest {
         //Act (calls real service method with arranged parameters.)
         List<TopCandidateResponseDTO> result = candidateResultService.getTopCandidatesByElection(electionId, limit);
 
-        //Assert
+        //Assert (check if result is not null and size and param equal the expecter results)
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Geert Wilders", result.get(0).getFullName());
     }
 
     private List<CandidateResult> createMockCandidateResults() {
