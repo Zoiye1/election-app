@@ -6,25 +6,11 @@ import type { ConstituencyPartyVotes } from '@/interfaces/IElectionData';
 // electionData holds the array of constituency party votes
 const electionData = ref<ConstituencyPartyVotes[]>([]);
 const loading = ref(true);
-const selectedConstituency = ref<string>('Amsterdam');
+const selectedConstituency = defineProps<{
+  name: string
+}>();
 const error = ref<string>("")
 
-const constituencies = [
-  'Amsterdam', 'Arnhem', 'Assen', 'Bonaire', 'Den Helder', 'Dordrecht',
-  'Groningen', 'Haarlem', 'Leeuwarden', 'Leiden', 'Lelystad',
-  'Maastricht', 'Middelburg', 'Nijmegen', 'Rotterdam', 'Tilburg',
-  'Utrecht', "'s-Hertogenbosch", "'s-Gravenhage", 'Zwolle'
-];
-const open = ref(false);
-
-const toggleDropdown = () => {
-  open.value = !open.value;
-};
-
-const selectConstituency = (constituency: string) => {
-  selectedConstituency.value = constituency;
-  open.value = false;
-};
 
 onMounted(async () => {
 
@@ -32,7 +18,7 @@ onMounted(async () => {
   // selected constituency
   const electionService = new ElectionService();
   try{
-    const election = await electionService.getConstituencyData("TK2023", selectedConstituency.value);
+    const election = await electionService.getConstituencyData("TK2023", selectedConstituency.name);
     if(!election || election.length == 0){
       error.value = "Oeps, er is iets mis gegaan. Probeer het later weer opnieuw";
 
@@ -54,7 +40,7 @@ watch(selectedConstituency, async (newValue) => {
   loading.value = true;
   const electionService = new ElectionService();
   try {
-    const election = await electionService.getConstituencyData("TK2023", newValue);
+    const election = await electionService.getConstituencyData("TK2023", newValue.name);
     electionData.value = election;
   }
   catch (err){
@@ -72,49 +58,6 @@ watch(selectedConstituency, async (newValue) => {
       <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
         📈 Partijen Ranking
       </h2>
-
-      <!-- Dropdown -->
-      <div class="relative w-56 text-gray-700">
-        <button
-          @click="toggleDropdown"
-          class="w-full flex items-center justify-between bg-white border border-gray-300 rounded-xl px-4 py-2 shadow-sm
-                 hover:border-purple-400 focus:ring-2 focus:ring-purple-200 focus:border-purple-500 transition-all duration-200"
-        >
-          <span>{{ selectedConstituency || 'Kieskring' }}</span>
-          <svg
-            class="w-4 h-4 ml-2 text-gray-500 transition-transform duration-200"
-            :class="{ 'rotate-180': open }"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-          </svg>
-        </button>
-
-        <transition
-          enter-active-class="transition ease-out duration-200"
-          enter-from-class="opacity-0 translate-y-1"
-          enter-to-class="opacity-100 translate-y-0"
-          leave-active-class="transition ease-in duration-150"
-          leave-from-class="opacity-100 translate-y-0"
-          leave-to-class="opacity-0 translate-y-1"
-        >
-          <ul
-            v-if="open"
-            class="absolute bottom-full mb-2 w-full bg-white border border-gray-200 rounded-xl shadow-lg max-h-20 overflow-y-auto z-10"
-          >
-            <li
-              v-for="(city, index) in constituencies"
-              :key="index"
-              @click="selectConstituency(city)"
-              class="px-4 py-2 cursor-pointer hover:bg-purple-50 transition-colors rounded-lg"
-            >
-              {{ city }}
-            </li>
-          </ul>
-        </transition>
-      </div>
     </div>
 
     <!--  Result list -->
@@ -142,7 +85,7 @@ watch(selectedConstituency, async (newValue) => {
 
         <div class="text-right">
           <div class="text-2xl font-bold text-purple-600">
-            {{ result.votes }}
+            {{ result.votes.toLocaleString("nl-NL") }}
           </div>
           <div class="text-xs text-gray-400">stemmen</div>
         </div>
