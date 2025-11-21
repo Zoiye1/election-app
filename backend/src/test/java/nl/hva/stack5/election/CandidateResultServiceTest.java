@@ -99,7 +99,7 @@ public class CandidateResultServiceTest {
         // Act (calls real service method)
         List<TopCandidateResponseDTO> result = candidateResultService.getTopCandidatesByElection(electionId, limit);
 
-        // Assert (checck if results are not null and if the result is empty as expectes)
+        // Assert (check if results are not null and if the result is empty as expectes)
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
