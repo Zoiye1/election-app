@@ -23,6 +23,9 @@ public class CandidateResultServiceImpl implements CandidateResultService {
     private CandidateResultRepository candidateResultRepository;
 
 
+    public CandidateResultServiceImpl(CandidateResultRepository candidateResultRepository) {
+        this.candidateResultRepository = candidateResultRepository;
+    }
     /**
      * Retrieves the top candidates by number of votes for a specific election.
      *

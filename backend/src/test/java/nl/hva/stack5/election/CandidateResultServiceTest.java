@@ -1,9 +1,14 @@
 package nl.hva.stack5.election;
 
 
+import nl.hva.stack5.election.repository.CandidateRepository;
 import nl.hva.stack5.election.repository.CandidateResultRepository;
 import nl.hva.stack5.election.service.CandidateResultService;
+import nl.hva.stack5.election.service.CandidateResultServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+
+import static org.mockito.Mockito.mock;
+
 
 /**
  * Unit tests for CandidateResultService.
@@ -19,6 +24,7 @@ public class CandidateResultServiceTest {
 
     @BeforeEach
     public void setUp() {
-
+        candidateResultRepository = mock(CandidateResultRepository.class);
+        candidateResultService = new CandidateResultServiceImpl(candidateResultRepository);
     }
 }
