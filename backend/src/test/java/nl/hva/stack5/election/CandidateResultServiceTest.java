@@ -1,6 +1,7 @@
 package nl.hva.stack5.election;
 
 
+import nl.hva.stack5.election.dto.TopCandidateResponseDTO;
 import nl.hva.stack5.election.model.Candidate;
 import nl.hva.stack5.election.model.CandidateResult;
 import nl.hva.stack5.election.model.Election;
@@ -53,7 +54,9 @@ public class CandidateResultServiceTest {
         // when method is called upon, repo has to return mockresults.
         when(candidateResultRepository.findTopByElectionYear(electionId, limit))
                 .thenReturn(mockResults);
-        //Act
+
+        //Act (calls real service method with arranged parameters.)
+        List<TopCandidateResponseDTO> result = candidateResultService.getTopCandidatesByElection(electionId, limit);
 
         //Assert
     }
