@@ -6,6 +6,7 @@ import nl.hva.stack5.election.repository.CandidateResultRepository;
 import nl.hva.stack5.election.service.CandidateResultService;
 import nl.hva.stack5.election.service.CandidateResultServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.mockito.Mockito.mock;
 
@@ -26,5 +27,16 @@ public class CandidateResultServiceTest {
     public void setUp() {
         candidateResultRepository = mock(CandidateResultRepository.class);
         candidateResultService = new CandidateResultServiceImpl(candidateResultRepository);
+    }
+
+
+    /**
+     * getTopCandidatesByElection = the method that is being tested
+     * shouldReturnTopCandidates = the expected response
+     * whenResultsExist = is the condition under which the expected response should be given.
+     */
+    @Test
+    void getTopCandidatesByElection_shouldReturnTopCandidates_whenResultsExist() {
+
     }
 }
