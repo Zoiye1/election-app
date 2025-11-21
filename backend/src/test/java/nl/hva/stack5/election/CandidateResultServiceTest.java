@@ -13,10 +13,10 @@ import nl.hva.stack5.election.service.CandidateResultServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -81,5 +81,26 @@ public class CandidateResultServiceTest {
 
         //returns a list of the candidateresult we made above
         return List.of(result1);
+    }
+
+    /**
+     * The same test but with empty results to see the UNHAPPY path flow.
+     */
+    @Test
+    void getTopCandidatesByElection_shouldReturnEmptyList_whenNoResultsFound() {
+        // Arrange
+        String electionId = "TK2099";
+        int limit = 10;
+
+        // when method is called upon, repo returns empty list
+        when(candidateResultRepository.findTopByElectionYear(electionId, limit))
+                .thenReturn(Collections.emptyList());
+
+        // Act (calls real service method)
+        List<TopCandidateResponseDTO> result = candidateResultService.getTopCandidatesByElection(electionId, limit);
+
+        // Assert (checck if results are not null and if the result is empty as expectes)
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 }
