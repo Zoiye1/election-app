@@ -15,6 +15,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 
 /**
@@ -48,6 +49,10 @@ public class CandidateResultServiceTest {
         int limit = 10;
         //Mock repo results
         List<CandidateResult> mockResults = createMockCandidateResults();
+
+        // when method is called upon, repo has to return mockresults.
+        when(candidateResultRepository.findTopByElectionYear(electionId, limit))
+                .thenReturn(mockResults);
         //Act
 
         //Assert
