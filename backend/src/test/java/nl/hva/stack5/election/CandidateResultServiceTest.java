@@ -41,6 +41,7 @@ public class CandidateResultServiceTest {
 
 
     /**
+     * Happy Flow
      * getTopCandidatesByElection = the method that is being tested
      * shouldReturnTopCandidates = the expected response
      * whenResultsExist = is the condition under which the expected response should be given.
@@ -100,23 +101,6 @@ public class CandidateResultServiceTest {
         List<TopCandidateResponseDTO> result = candidateResultService.getTopCandidatesByElection(electionId, limit);
 
         // Assert (check if results are not null and if the result is empty as expectes)
-        assertNotNull(result);
-        assertTrue(result.isEmpty());
-    }
-
-    @Test
-    void getTopCandidatesByElection_shouldReturnEmptyList_whenNoResultFound() {
-        String electionId = "TK2023";
-        int limit = 10;
-
-        // When method is called with null, repo returns empty list
-        when(candidateResultRepository.findTopByElectionYear(electionId, limit))
-                .thenReturn(Collections.emptyList());
-
-        // Act
-        List<TopCandidateResponseDTO> result = candidateResultService.getTopCandidatesByElection(electionId, limit);
-
-        // Assert
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
