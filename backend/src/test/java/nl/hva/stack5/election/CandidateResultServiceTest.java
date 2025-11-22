@@ -103,4 +103,16 @@ public class CandidateResultServiceTest {
         assertNotNull(result);
         assertTrue(result.isEmpty());
     }
+
+    @Test
+    void getTopCandidatesByElection_shouldReturnEmptyList_whenNoResultFound() {
+        String electionId = "TK2023";
+        int limit = 10;
+
+        when(candidateResultRepository.findTopByElectionYear(electionId, limit))
+                .thenReturn(Collections.emptyList());
+
+        // Act
+        List<TopCandidateResponseDTO> result = candidateResultService.getTopCandidatesByElection(electionId, limit);
+    }
 }
