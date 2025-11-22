@@ -15,6 +15,8 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -36,6 +38,11 @@ class CandidateResultRepositoryTest {
         candidateResultRepository = new CandidateResultRepositoryImpl(entityManager);
     }
 
+
+    /**
+     * Tests that findTopByElectionYear returns candidate results when data exists.
+     * Mocks EntityManager and TypedQuery to simulate database interaction.
+     */
     @Test
     void findTopCandidatesByCandidate_shouldReturnTopCandidates_whenResultsExist()
     {
@@ -47,16 +54,26 @@ class CandidateResultRepositoryTest {
 
         List<CandidateResult> mockResults = createMockCandidateResults();
 
-        // Act
         when(entityManager.createQuery(anyString(), eq(CandidateResult.class)))
                         .thenReturn(mockQuery);
         when(mockQuery.setParameter(anyString(), any())).thenReturn(mockQuery);
         when(mockQuery.setMaxResults(anyInt())).thenReturn(mockQuery);
         when(mockQuery.getResultList()).thenReturn(mockResults);
 
-        // Assert
+        // Act, calls on method and method starts query
+        List<CandidateResult> result = candidateResultRepository.findTopByElectionYear(electionId, limit);
+
+        // Assert, checks if result is null and size of list equals expected results
+        assertNotNull(result);
+        assertEquals(1, result.size());
+        assertEquals("Geert", result.get(0).getCandidate().getFirstName());
     }
 
+    /**
+     * Creates a list of mock CandidateResult objects for testing purposes.
+     *
+     * @return list containing one mock CandidateResult with test data
+     */
     private List<CandidateResult> createMockCandidateResults() {
         Candidate candidate = new Candidate("Geert", "Wilders", "WildersG");
         Party party = new Party("PVV");
