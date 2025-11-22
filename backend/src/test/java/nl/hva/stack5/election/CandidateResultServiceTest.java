@@ -109,10 +109,15 @@ public class CandidateResultServiceTest {
         String electionId = "TK2023";
         int limit = 10;
 
+        // When method is called with null, repo returns empty list
         when(candidateResultRepository.findTopByElectionYear(electionId, limit))
                 .thenReturn(Collections.emptyList());
 
         // Act
         List<TopCandidateResponseDTO> result = candidateResultService.getTopCandidatesByElection(electionId, limit);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
     }
 }

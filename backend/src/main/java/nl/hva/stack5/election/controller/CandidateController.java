@@ -1,5 +1,6 @@
 package nl.hva.stack5.election.controller;
 
+import jakarta.validation.constraints.NotBlank;
 import nl.hva.stack5.election.dto.CandidateResponseDTO;
 import nl.hva.stack5.election.model.Candidate;
 import nl.hva.stack5.election.service.CandidateResultService;
@@ -64,8 +65,9 @@ public class CandidateController {
      * @return List of top 10 candidates with their vote counts
      */
     @GetMapping("/top")
-    public List<TopCandidateResponseDTO> getTopCandidates(@RequestParam String electionId) {
-        return candidateResultService.getTopCandidatesByElection(electionId, 20);
+    public ResponseEntity<List<TopCandidateResponseDTO>> getTopCandidates(@RequestParam @NotBlank(message = "Election ID cannot be empty") String electionId) {
+        List<TopCandidateResponseDTO> candidates = candidateResultService.getTopCandidatesByElection(electionId, 20);
+        return ResponseEntity.ok(candidates);
     }
 }
 
