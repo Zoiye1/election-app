@@ -24,6 +24,10 @@ public class CandidateResultRepositoryImpl implements CandidateResultRepository 
     @PersistenceContext
     private EntityManager entityManager;
 
+    public CandidateResultRepositoryImpl(EntityManager entityManager) {
+        this.entityManager = entityManager;
+    }
+
     /**
      * Finds the top candidates by number of votes for a specific election.
      * Results are ordered by vote count in descending order.
