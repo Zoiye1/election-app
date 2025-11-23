@@ -12,6 +12,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -47,6 +48,7 @@ public class CandidateControllerTest {
     }
 
     /**
+     * HAPPY PATH
      * Tests getTopCandidates with existing data.
      * Verifies correct service call and response.
      */
@@ -91,4 +93,44 @@ public class CandidateControllerTest {
         return Arrays.asList(candidate1, candidate2);
     }
 
+    /**
+     * UNHAPPY PATH
+     * Tests getTopCandidates with no data.
+     * Verifies empty list is returned.
+     */
+    @Test
+    void getTopCandidates_shouldReturnEmptyList_whenNoDataExists() {
+        // Arrange
+        String electionId = "TK2099";
+
+        when(candidateResultService.getTopCandidatesByElection(electionId, 20))
+                .thenReturn(Collections.emptyList());
+
+        // Act
+        ResponseEntity<List<TopCandidateResponseDTO>> response =
+                candidateController.getTopCandidates(electionId);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().isEmpty());
+
+        // Verify
+        verify(candidateResultService, times(1))
+                .getTopCandidatesByElection(electionId, 20);
+    }
+
+    /**
+     * Helper method to set private fields using reflection.
+     */
+    private void setField(Object target, String fieldName, Object value) {
+        try {
+            java.lang.reflect.Field field = target.getClass().getDeclaredField(fieldName);
+            field.setAccessible(true);
+            field.set(target, value);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
