@@ -30,10 +30,12 @@ public class DutchMunicipalityVotesTransformer implements VotesTransformer {
             return;
         }
 
-        String constantName = electionData.get("ConstantName");
+        String ContestName = electionData.get("ContestName");
         String validVotes = electionData.get("ValidVotes");
 
-        Municipality municipality = election.getMunicipalities().computeIfAbsent(constantName, Municipality::new);
+        Municipality municipality = election.getMunicipalities().computeIfAbsent(ContestName, Municipality::new);
+        System.out.println("electionData keys: " + electionData.keySet());
+        System.out.println("ContestName value: " + electionData.get("ContestName"));
 
         MunicipalityPartyVotes municipalityVotes = new MunicipalityPartyVotes(
                 election,

@@ -35,7 +35,7 @@ public class DiscussionController {
     @Autowired
     private UserRepository userRepository;
 
-
+    
     @GetMapping
     public List<DiscussionResponseDTO> getAllDiscussions() {
         List<Discussion> discussions = discussionService.getAllDiscussions(null);

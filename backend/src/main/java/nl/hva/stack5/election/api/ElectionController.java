@@ -2,6 +2,7 @@ package nl.hva.stack5.election.api;
 
 import nl.hva.stack5.election.model.ConstituencyPartyVotes;
 import nl.hva.stack5.election.model.Election;
+import nl.hva.stack5.election.model.MunicipalityPartyVotes;
 import nl.hva.stack5.election.service.DutchElectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +34,9 @@ public class ElectionController {
     @PostMapping("{electionId}")
     public Election importResults(@PathVariable String electionId, @RequestParam(required = false) String folderName) {
         if (folderName == null) {
-            System.out.println("No folder name provided");
-            return electionService.importResults(electionId, folderName);
-        } else {
-            System.out.println(" folder name provided");
-            return electionService.importResults(electionId, folderName);
+            folderName = electionId;
         }
+        return electionService.importResults(electionId, folderName);
     }
 
     @GetMapping("{electionId}")
@@ -60,6 +58,16 @@ public class ElectionController {
         return election.getConstituencyPartyVotes();
     }
 
+
+    @GetMapping("{electionId}/municipalities/{municipalityName}")
+    public List<MunicipalityPartyVotes> getMunicipalityPartyVotes(@PathVariable String electionId) {
+        Election election = electionService.readResults(electionId);
+        if (election == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+
+        }
+        return election.getMunicipalityPartyVotes();
+    }
     /**
      * Retrieves total number of votes for a specific election
      *

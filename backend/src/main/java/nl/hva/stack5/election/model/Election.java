@@ -48,6 +48,7 @@ public class Election {
     @MapKey(name = "name")
     private Map<String, Municipality> municipality = new HashMap<>();
 
+    @OneToMany(cascade = CascadeType.ALL)
     private List<MunicipalityPartyVotes> municipalityPartyVotes = new ArrayList<>();
 
     public Election() {
