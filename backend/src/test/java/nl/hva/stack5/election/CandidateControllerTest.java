@@ -3,10 +3,13 @@ package nl.hva.stack5.election;
 import nl.hva.stack5.election.controller.CandidateController;
 import nl.hva.stack5.election.service.CandidateResultService;
 import nl.hva.stack5.election.service.CandidateService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 
 /**
@@ -26,4 +29,13 @@ public class CandidateControllerTest {
     private CandidateService candidateService;
 
     private CandidateController candidateController;
+
+    @BeforeEach
+    void setUp() {
+        candidateController = new CandidateController();
+        setField(candidateController, "candidateResultService", candidateResultService);
+        setField(candidateController, "candidateService", candidateService);
+    }
+
+
 }
