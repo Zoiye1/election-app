@@ -41,16 +41,6 @@ public class DutchElectionService {
         return electionRepository.findById(electionId);
     }
 
-    public List<ConstituencyPartyVotesDTO> getResultsByConstituency (String electionId, String constituencyName ) throws IllegalAccessException {
-        Election election = electionRepository.findById(electionId);
-
-        if (election == null) {
-           throw new IllegalArgumentException("election not found");
-
-        }
-         return constituencyRepository.findByConstituencyAndElectionId(electionId, constituencyName);
-    }
-
     public Election importResults(String electionId, String folderName) {
         System.out.println("Processing files...");
 
