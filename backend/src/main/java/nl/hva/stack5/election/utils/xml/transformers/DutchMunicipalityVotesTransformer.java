@@ -6,6 +6,7 @@ import nl.hva.stack5.election.utils.xml.VotesTransformer;
 import nl.hva.stack5.election.model.Municipality;
 import nl.hva.stack5.election.model.MunicipalityPartyVotes;
 
+
 import java.util.Map;
 
 /**
@@ -30,12 +31,12 @@ public class DutchMunicipalityVotesTransformer implements VotesTransformer {
             return;
         }
 
-        String ContestName = electionData.get("ContestName");
+        String AuthorityIdentifier = electionData.get("AuthorityIdentifier");
         String validVotes = electionData.get("ValidVotes");
 
-        Municipality municipality = election.getMunicipalities().computeIfAbsent(ContestName, Municipality::new);
+        Municipality municipality = election.getMunicipalities().computeIfAbsent(AuthorityIdentifier, Municipality::new);
         System.out.println("electionData keys: " + electionData.keySet());
-        System.out.println("ContestName value: " + electionData.get("ContestName"));
+        System.out.println("AuthorityIdentifier value: " + electionData.get("AuthorityIdentifier"));
 
         MunicipalityPartyVotes municipalityVotes = new MunicipalityPartyVotes(
                 election,
