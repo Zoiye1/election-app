@@ -23,7 +23,7 @@ import static org.mockito.Mockito.*;
  * important function (Happyflow and Unhappyflow)
  */
 @ExtendWith(MockitoExtension.class)
-class DutchElectionServiceTest {
+class ConstituencyServiceTest {
 
     @Mock
     private ElectionRepository electionRepository;
@@ -37,6 +37,7 @@ class DutchElectionServiceTest {
     @InjectMocks
     private ConstituencyService constituencyService;
 
+//  TESTS FOR THE METHOD getResultsByConstituency
     @Test
     void getResultsByConstituency_existingElection_returnsResults() throws Exception {
         // ARRANGE
@@ -120,4 +121,33 @@ class DutchElectionServiceTest {
                 .findByConstituencyAndElectionId(any(), any());
     }
 
+    // TESTS FOR THE METHOD CalculateVotesPercentage
+
+    @Test
+    void CalculateVotesPercentage_No_results() throws IllegalAccessException {
+        // ARRANGE
+        Election election = new Election();
+        election.setTotalCounted(1000);
+
+        when(electionRepository.findById("TK2023")).thenReturn(election);
+
+        List<ConstituencyPartyVotesDTO> dummyResults = new ArrayList<>();
+        when(constituencyRepository.findByConstituencyAndElectionId("TK2023", "Rotterdam"))
+                .thenReturn(dummyResults);
+
+        // ACT
+        double result = constituencyService.CalculateVotesPercentage("TK2023", "Rotterdam");
+
+        // ASSERT
+        assertEquals(0.0, result); //
+        verify(constituencyRepository).findByConstituencyAndElectionId("TK2023", "Rotterdam");
+    }
+
+
+
+
 }
+
+
+
+
