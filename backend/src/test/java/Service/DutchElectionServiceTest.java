@@ -4,6 +4,7 @@ import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.repository.ConstituencyRepository;
 import nl.hva.stack5.election.repository.ElectionRepository;
+import nl.hva.stack5.election.service.ConstituencyService;
 import nl.hva.stack5.election.service.DutchElectionService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -33,6 +34,9 @@ class DutchElectionServiceTest {
     @InjectMocks
     private DutchElectionService dutchElectionService;
 
+    @InjectMocks
+    private ConstituencyService constituencyService;
+
     @Test
     void getResultsByConstituency_existingElection_returnsResults() throws Exception {
         // ARRANGE
@@ -47,7 +51,7 @@ class DutchElectionServiceTest {
 
         // ACT
         List<ConstituencyPartyVotesDTO> result =
-                dutchElectionService.getResultsByConstituency("TK2023", "Amsterdam");
+                constituencyService.getResultsByConstituency("TK2023", "Amsterdam");
 
         // ASSERT
         assertEquals(1, result.size());
@@ -67,7 +71,7 @@ class DutchElectionServiceTest {
 
         // ASSERT
 
-        Throwable exception =  assertThrows(IllegalArgumentException.class, () -> dutchElectionService.getResultsByConstituency("TK2023", "Amsterdam"));
+        Throwable exception =  assertThrows(IllegalArgumentException.class, () -> constituencyService.getResultsByConstituency("TK2023", "Amsterdam"));
         assertEquals("election not found",  exception.getMessage());
 
 
@@ -88,7 +92,7 @@ class DutchElectionServiceTest {
 
         // ACT
         List<ConstituencyPartyVotesDTO> result =
-                dutchElectionService.getResultsByConstituency("TK2023", "Den Haag");
+                constituencyService.getResultsByConstituency("TK2023", "Den Haag");
 
 
         // ASSERT
@@ -106,7 +110,7 @@ class DutchElectionServiceTest {
         // ACT + ASSERT
         IllegalArgumentException exception = assertThrows(
                 IllegalArgumentException.class,
-                () -> dutchElectionService.getResultsByConstituency(null, null)
+                () -> constituencyService.getResultsByConstituency(null, null)
         );
 
         assertEquals("election not found", exception.getMessage());
