@@ -9,3 +9,15 @@ const availableElections = [
   { year: '2023', id: 'TK2023'},
   { year: '2025', id: 'TK2025'},
 ]
+
+export function useElection() {
+  function setElection(electionId: string) {
+    selectedElection.value = electionId
+  }
+
+  return {
+    selectedElection,
+    availableElections,
+    setElection
+  }
+}
