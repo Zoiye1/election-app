@@ -2,9 +2,10 @@
 import { ElectionService } from '@/services/ElectionService';
 import { ref, onMounted } from 'vue';
 import Navbar from '@/components/Navbar.vue';
-import Footer from '@/components/Footer.vue';
 import TotalNationalVotesComponent from '@/components/TotalNationalVotesComponent.vue';
+import CandidateResultList from '@/components/CandidateResultList.vue';
 
+const selectedElection = ref<string>('TK2025');
 const totalCounted = ref<number>(0);
 
 onMounted(async () => {
@@ -17,8 +18,7 @@ onMounted(async () => {
     <Navbar />
   </main>
 
-  <div class="gradient-background min-h-screen py-12 pt-24">
-    <!-- ↑ Voeg pt-24 toe voor extra padding-top -->
+  <div class="gradient-background py-12 pt-24">
     <div class="max-w-7xl mx-auto px-6">
       <!-- Header -->
       <div class="text-center text-white mb-8">
@@ -26,14 +26,42 @@ onMounted(async () => {
         <p class="text-xl opacity-90">Tweede Kamerverkiezingen</p>
       </div>
 
+      <!-- Year Selector -->
+      <div class="year-selector mb-8">
+        <button
+          @click="selectedElection = 'TK2021'"
+          :class="{ active: selectedElection === 'TK2021' }"
+          class="year-btn"
+        >
+          2021
+        </button>
+        <button
+          @click="selectedElection = 'TK2023'"
+          :class="{ active: selectedElection === 'TK2023' }"
+          class="year-btn"
+        >
+          2023
+        </button>
+        <button
+          @click="selectedElection = 'TK2025'"
+          :class="{ active: selectedElection === 'TK2025' }"
+          class="year-btn"
+        >
+          2025
+        </button>
+      </div>
+
       <!-- Total Votes Card -->
-      <div class="max-w-md mx-auto">
+      <div class="max-w-md mx-auto mb-8">
         <TotalNationalVotesComponent :totalCounted="totalCounted" />
       </div>
     </div>
   </div>
 
-  <Footer />
+  <!-- Candidate List OUTSIDE gradient -->
+  <div class="candidates-section">
+    <CandidateResultList :electionId="selectedElection" />
+  </div>
 </template>
 
 <style scoped>
@@ -48,8 +76,7 @@ onMounted(async () => {
   position: absolute;
   width: 100%;
   height: 100%;
-  background-image:
-    radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
   background-size: 50px 50px;
   animation: twinkle 3s infinite;
 }
@@ -57,5 +84,40 @@ onMounted(async () => {
 @keyframes twinkle {
   0%, 100% { opacity: 0.3; }
   50% { opacity: 0.6; }
+}
+
+.year-selector {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.year-btn {
+  padding: 12px 40px;
+  border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 25px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  backdrop-filter: blur(10px);
+}
+
+.year-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.year-btn.active {
+  background: white;
+  color: #667eea;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.candidates-section {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  padding: 40px 0;
 }
 </style>
