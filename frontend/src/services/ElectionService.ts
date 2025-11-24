@@ -67,6 +67,29 @@ import type { Election } from "@/interfaces/IElectionData";
       console.error('Fetch error:', error);
       throw error;
     }
+  }
+
+  public static async getConstituencyVotesPercentage(electionId: string, constituencyName: string): Promise<number> {
+    const url: string = `http://localhost:8080/elections/${electionId}/${constituencyName}/votes-percentage`
+    // Response holds the fetch to the endpoint
+    try {
+      // Response holds the fetch to the endpoint
+      const response: Response = await fetch(url, {
+        method: "GET",
+        headers: {"Accept": "application/json"}
+      })
+      if (!response.ok) {
+        throw new Error("request failed ${response.statusText}");
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error;
+    }
+
+
 
   }
+
+
 }
