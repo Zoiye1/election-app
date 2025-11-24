@@ -1,24 +1,36 @@
 <script setup lang="ts">
-import { computed, defineProps, ref, onMounted } from 'vue';
+import { computed, defineProps, ref, onMounted, watch } from 'vue';
 import { ElectionService } from '@/services/ElectionService';
+import type { ConstituencyPartyVotes } from '@/interfaces/IElectionData';
+
 
 const selectedConstituency = defineProps<{
   name: string
 }>();
 
 
-const totalCounted = ref<number>(0);
+const percentage = ref<number>(0);
 onMounted(async () => {
-  totalCounted.value = await ElectionService.getTotalVotes();
+  const constituencyVotesPercentage = await ElectionService.getConstituencyVotesPercentage("TK2023", selectedConstituency.name);
+  percentage.value = constituencyVotesPercentage;
 });
 
+
 const formattedVotes = computed(() => {
-  return totalCounted.value.toLocaleString("nl-NL");
+  return percentage.value.toLocaleString("nl-NL", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+});
+
+watch(selectedConstituency, async (newValue) => {
+
+    const election = await ElectionService.getConstituencyVotesPercentage("TK2023", newValue.name);
+    percentage.value = election;
+
+
 });
 </script>
 
 <template>
-  <div class="bg-white rounded-2xl shadow-md p-6 flex items-center gap-4">
+  <div class="bg-white rounded-2xl shadow-md p-5 flex items-center gap-4">
     <!-- Icon -->
     <div class="bg-purple-100 rounded-xl p-3 flex-shrink-0">
       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -29,7 +41,11 @@ const formattedVotes = computed(() => {
     <!-- Content -->
     <div class="flex-1">
       <p class="text-gray-600 font-medium text-sm mb-1">Percentage van totaal stemmen</p>
-      <p class="text-3xl font-bold text-gray-800">{{ formattedVotes }}</p>
+      <p class="text-2xl font-bold text-gray-800">
+        <span class="text-purple-600">{{ formattedVotes }}%</span>
+        van de stemmers komt uit
+        {{ selectedConstituency.name }}
+      </p>
     </div>
   </div>
 </template>
