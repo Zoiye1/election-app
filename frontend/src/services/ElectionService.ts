@@ -13,7 +13,7 @@ import type { Election } from "@/interfaces/IElectionData";
    * @param folder holds the folder name of where the xml file is located
    */
   public async getConstituencyData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes[]> {
-    const url: string = `http://localhost:8080/elections/${electionId}/${constituencyName}`
+    const url: string = `http://localhost:8080/api/elections/${electionId}/${constituencyName}`
     // Response holds the fetch to the endpoint
     try {
       // Response holds the fetch to the endpoint
@@ -33,7 +33,7 @@ import type { Election } from "@/interfaces/IElectionData";
   }
 
   public static async getTotalVotes(): Promise<number> {
-    const url: string = `http://localhost:8080/elections/TK2023/total-votes`
+    const url: string = `http://localhost:8080/api/elections/TK2023/total-votes`
 
     try {
       const response: Response = await fetch(url, {
@@ -51,7 +51,7 @@ import type { Election } from "@/interfaces/IElectionData";
   }
 
   public async getElection(electionId: string): Promise<Election> {
-    const url: string = `http://localhost:8080/elections/${electionId}`
+    const url: string = `http://localhost:8080/api/elections/${electionId}`
     // Response holds the fetch to the endpoint
     try {
       // Response holds the fetch to the endpoint
@@ -70,7 +70,7 @@ import type { Election } from "@/interfaces/IElectionData";
   }
 
   public static async getConstituencyVotesPercentage(electionId: string, constituencyName: string): Promise<number> {
-    const url: string = `http://localhost:8080/elections/${electionId}/${constituencyName}/votes-percentage`
+    const url: string = `http://localhost:8080/api/elections/${electionId}/${constituencyName}/votes-percentage`
     // Response holds the fetch to the endpoint
     try {
       // Response holds the fetch to the endpoint
