@@ -4,6 +4,7 @@ import DiscussionView from '@/views/DiscussionView.vue'
 import ElectionDataView from '@/views/ElectionDataView.vue'
 import LoginPage from "@/views/LoginPage.vue";
 import CreateDiscussionView from '@/views/CreateDiscussionView.vue'
+import MunicipalityView from "@/views/MunicipalityView.vue";
 
 
 
@@ -35,6 +36,11 @@ const router = createRouter({
       component: LoginPage
     },
 
+    {
+      path: '/municipality-results/:electionId/:municipalityName',
+      name: 'municipality-results',
+      component: MunicipalityView
+    },
 
     {
       path: '/register',
