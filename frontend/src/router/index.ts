@@ -37,7 +37,7 @@ const router = createRouter({
     },
 
     {
-      path: '/municipality-results/:electionId/:municipalityName',
+      path: '/municipality-results',
       name: 'municipality-results',
       component: MunicipalityView
     },

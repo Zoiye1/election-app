@@ -60,12 +60,11 @@ public class ElectionController {
     }
 
 
-    @GetMapping("{electionId}/municipalities/{municipalityName}")
-    public List<MunicipalityPartyVotes> getMunicipalityPartyVotes(@PathVariable String electionId) {
+    @GetMapping("{electionId}/municipalities")
+    public List<MunicipalityPartyVotes> getAllMunicipalityPartyVotes(@PathVariable String electionId) {
         Election election = electionService.readResults(electionId);
         if (election == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
-
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election " + electionId + " not found");
         }
         return election.getMunicipalityPartyVotes();
     }
