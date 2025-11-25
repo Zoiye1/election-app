@@ -56,8 +56,8 @@ function select(c: string) {
     >
       <ul
         v-if="open"
-        class="absolute mt-2 w-full bg-white border border-gray-200 rounded-2xl shadow-lg
-               max-h-48 overflow-y-auto z-20 py-2"
+        class="absolute mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg
+               max-h-30 overflow-y-auto z-20 py-2"
       >
         <li
           v-for="(city, i) in constituencies"
