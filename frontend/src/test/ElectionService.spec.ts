@@ -7,6 +7,7 @@ import type { ConstituencyPartyVotes, Constituency } from '@/interfaces/IElectio
  * it's functions
  */
 
+// TESTS  FOR GET CONSTITUENCY DATA
 describe('ElectionService', () => {
   let service: ElectionService;
 
@@ -71,4 +72,53 @@ describe('ElectionService', () => {
       .rejects
       .toThrow('Network error');
   });
+
+
 });
+
+// TESTS FOR getConstituencyVotesPercentage
+
+describe("getConstituencyVotesPercentage", () => {
+
+  it("should return the numeric value from the backend", async () => {
+    // Arrange
+    const mockJson = vi.fn().mockResolvedValue(42.3);
+    const mockResponse = { ok: true, json: mockJson } as unknown as Response;
+
+    global.fetch = vi.fn().mockResolvedValue(mockResponse);
+
+    // Act
+    const result = await ElectionService.getConstituencyVotesPercentage("TK2023", "Rotterdam");
+
+    // Assert
+    expect(result).toBe(42.3);
+  });
+
+  it("should throw an error when response is not ok", async () => {
+    // Arrange
+    const mockResponse = {
+      ok: false,
+      statusText: "Not Found",
+      json: vi.fn()
+    } as unknown as Response;
+
+    global.fetch = vi.fn().mockResolvedValue(mockResponse);
+
+    // Act + Assert
+    await expect(
+      ElectionService.getConstituencyVotesPercentage("TK2023", "Unknown")
+    ).rejects.toThrow();
+  });
+
+  it("should throw when fetch fails", async () => {
+    // Arrange
+    global.fetch = vi.fn().mockRejectedValue(new Error("Network failure"));
+
+    // Act + Assert
+    await expect(
+      ElectionService.getConstituencyVotesPercentage("TK2023", "Amsterdam")
+    ).rejects.toThrow("Network failure");
+  });
+
+
+})
