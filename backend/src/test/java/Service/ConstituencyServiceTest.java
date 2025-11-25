@@ -124,7 +124,7 @@ class ConstituencyServiceTest {
     // TESTS FOR THE METHOD CalculateVotesPercentage
 
     @Test
-    void CalculateVotesPercentage_No_results() throws IllegalAccessException {
+    void CalculateVotesPercentage_Expect_Results_toBe_0() throws IllegalAccessException {
         // ARRANGE
         Election election = new Election();
         election.setTotalCounted(1000);
@@ -141,6 +141,55 @@ class ConstituencyServiceTest {
         // ASSERT
         assertEquals(0.0, result); //
         verify(constituencyRepository).findByConstituencyAndElectionId("TK2023", "Rotterdam");
+    }
+
+    @Test
+    void CalculateVotesPercentage_Returns_RightResults() throws IllegalAccessException {
+        // ARRANGE
+        Election election = new Election();
+        when(electionRepository.findById("TK2023")).thenReturn(election);
+
+        election.setTotalCounted(100);
+
+      List<ConstituencyPartyVotesDTO> constituencyPartyVotesDTO =  new ArrayList<>();
+      constituencyPartyVotesDTO.add(new ConstituencyPartyVotesDTO("", "", 25L));
+
+      when(constituencyRepository.findByConstituencyAndElectionId("TK2023", "Amsterdam")).thenReturn(constituencyPartyVotesDTO);
+
+
+        // ACT
+
+        double results = constituencyService.CalculateVotesPercentage("TK2023", "Amsterdam");
+
+        // ASSERT
+        assertEquals(25.0, results);
+        verify(constituencyRepository).findByConstituencyAndElectionId("TK2023", "Amsterdam");
+
+    }
+
+    @Test
+    void CaluclateVotesPercentage_RightRounding() throws IllegalAccessException {
+
+        // ARRANGE
+        Election election = new Election();
+        when(electionRepository.findById("TK2023")).thenReturn(election);
+
+        election.setTotalCounted(12558);
+
+        List<ConstituencyPartyVotesDTO> constituencyPartyVotesDTO =  new ArrayList<>();
+        constituencyPartyVotesDTO.add(new ConstituencyPartyVotesDTO("", "", 8756L));
+
+        when(constituencyRepository.findByConstituencyAndElectionId("TK2023", "Amsterdam")).thenReturn(constituencyPartyVotesDTO);
+
+
+        // ACT
+        double results = constituencyService.CalculateVotesPercentage("TK2023", "Amsterdam");
+
+
+
+        // ASSERT
+       assertEquals(69.7, results);
+        verify(constituencyRepository).findByConstituencyAndElectionId("TK2023", "Amsterdam");
     }
 
 
