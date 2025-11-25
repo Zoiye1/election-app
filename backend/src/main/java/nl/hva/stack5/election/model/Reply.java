@@ -1,18 +1,41 @@
 package nl.hva.stack5.election.model;
 
+import jakarta.persistence.*;
+
 import java.time.LocalDateTime;
 
+/**
+ * Candidate represents an individual reply under a discussion,
+ * storing the content with a unique identifier.
+ *
+ * @author Matisse Ben Addi
+ * @version 1.0
+ */
+@Entity
+@Table(name = "reply")
 public class Reply {
+
+    @Id
+    @Column(name = "id", nullable = false, updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "content", nullable = false, columnDefinition = "TEXT" )
     private String content;
+
+    @ManyToOne
+    @JoinColumn(name = "discussion_id", nullable = false)
     private Discussion discussion;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User author;
+
+    @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
     //default constructor
-    public Reply() {
-        this.createdAt = LocalDateTime.now();
-    }
+    public Reply() {}
 
 
     public Reply(String content, Discussion discussion, User author) {
