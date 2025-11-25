@@ -18,7 +18,7 @@ public class Reply {
     @Id
     @Column(name = "id", nullable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @Column(name = "content", nullable = false, columnDefinition = "TEXT" )
     private String content;
@@ -46,7 +46,7 @@ public class Reply {
     }
 
     //GETTERS
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -67,7 +67,7 @@ public class Reply {
     }
 
     //SETTERS
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

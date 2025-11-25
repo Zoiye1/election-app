@@ -2,6 +2,8 @@ package nl.hva.stack5.election.repository;
 
 import nl.hva.stack5.election.model.Reply;
 
+import java.util.Optional;
+
 public interface ReplyRepository {
 
 
@@ -12,4 +14,7 @@ public interface ReplyRepository {
      * @return the saved reply with generated ID
      */
     Reply save(Reply reply);
+
+    Optional<Reply> findById (long id);
+
 }
