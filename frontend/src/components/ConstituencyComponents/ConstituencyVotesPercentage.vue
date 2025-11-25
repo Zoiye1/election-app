@@ -4,14 +4,15 @@ import { ElectionService } from '@/services/ElectionService';
 import type { ConstituencyPartyVotes } from '@/interfaces/IElectionData';
 
 
-const selectedConstituency = defineProps<{
+const props = defineProps<{
   name: string
+  election: string
 }>();
 
 
 const percentage = ref<number>(0);
 onMounted(async () => {
-  const constituencyVotesPercentage = await ElectionService.getConstituencyVotesPercentage("TK2023", selectedConstituency.name);
+  const constituencyVotesPercentage = await ElectionService.getConstituencyVotesPercentage(props.election, props.name);
   percentage.value = constituencyVotesPercentage;
 });
 
@@ -20,9 +21,9 @@ const formattedVotes = computed(() => {
   return percentage.value.toLocaleString("nl-NL", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 });
 
-watch(selectedConstituency, async (newValue) => {
+watch(props, async (newValue) => {
 
-    const election = await ElectionService.getConstituencyVotesPercentage("TK2023", newValue.name);
+    const election = await ElectionService.getConstituencyVotesPercentage(newValue.election, newValue.name);
     percentage.value = election;
 
 
@@ -44,7 +45,7 @@ watch(selectedConstituency, async (newValue) => {
       <p class="text-2xl font-bold text-gray-800">
         <span class="text-purple-600">{{ formattedVotes }}%</span>
         van de stemmers komt uit
-        {{ selectedConstituency.name }}
+        {{ props.name }}
       </p>
     </div>
   </div>

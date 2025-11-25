@@ -6,8 +6,9 @@ import type { ConstituencyPartyVotes } from '@/interfaces/IElectionData';
 // electionData holds the array of constituency party votes
 const electionData = ref<ConstituencyPartyVotes[]>([]);
 const loading = ref(true);
-const selectedConstituency = defineProps<{
+const props = defineProps<{
   name: string
+  election: string
 }>();
 const error = ref<string>("")
 
@@ -18,7 +19,7 @@ onMounted(async () => {
   // selected constituency
   const electionService = new ElectionService();
   try{
-    const election = await electionService.getConstituencyData("TK2023", selectedConstituency.name);
+    const election = await electionService.getConstituencyData(props.election, props.name);
     if(!election || election.length == 0){
       error.value = "Oeps, er is iets mis gegaan. Probeer het later weer opnieuw";
 
@@ -36,11 +37,11 @@ onMounted(async () => {
 });
 
 // we update the selected constituency if the user selects something else
-watch(selectedConstituency, async (newValue) => {
+watch(props, async (newValue) => {
   loading.value = true;
   const electionService = new ElectionService();
   try {
-    const election = await electionService.getConstituencyData("TK2023", newValue.name);
+    const election = await electionService.getConstituencyData(props.election, newValue.name);
     electionData.value = election;
   }
   catch (err){
