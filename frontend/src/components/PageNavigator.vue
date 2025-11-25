@@ -1,55 +1,87 @@
 <script setup lang="ts">
-import { ref, computed } from "vue";
-import { useRouter } from "vue-router";
-import { PlayIcon, PauseIcon } from '@heroicons/vue/24/solid'
-
+import { ref, computed, watch } from "vue";
+import { useRouter, useRoute } from "vue-router";
+import { PlayIcon } from "@heroicons/vue/24/solid";
 
 const router = useRouter();
+const route = useRoute();
 
-// here you put the pathname in the router
-const pages = ["municipality", "/electionData", "/national-results"];
+// all paths
+const pages = ["municipality", "electionData", "national-results"];
 
-// Bepaal huidige index op basis van route
-const currentIndex = ref(pages.indexOf("/electionData")); // voorbeeld
+//
+const currentIndex = ref(
+  pages.indexOf(route.path.replace("/", "")) // "/municipality" → "municipality"
+);
+
+//change index if path changes
+watch(
+  () => route.path,
+  (newPath) => {
+    const clean = newPath.replace("/", "");
+    currentIndex.value = pages.indexOf(clean);
+  }
+);
+
+// left function
+
 
 function goLeft() {
-  if (currentIndex.value > 0) {
-    currentIndex.value--;
-    router.push(`/results/${pages[currentIndex.value]}`);
-  }
+  currentIndex.value =
+    (currentIndex.value - 1 + pages.length) % pages.length;
+
+  router.push(`/${pages[currentIndex.value]}`);
 }
 
+// Rechts
 function goRight() {
-  if (currentIndex.value < pages.length - 1) {
-    currentIndex.value++;
-    router.push(`${pages[currentIndex.value]}`);
-  }
+  currentIndex.value = (currentIndex.value + 1) % pages.length;
+  router.push(`/${pages[currentIndex.value]}`);
 }
 
+// title changes when path changes
 const title = computed(() => {
-  switch (pages[currentIndex.value]) {
-    case "municipality": return "Gemeente Uitslagen";
-    case "/electionData": return "Kieskring Uitslagen";
-    case "/national-results": return "Nationale Uitslagen";
-  }
+  const map: Record<string, string> = {
+    municipality: "Gemeente Uitslagen",
+    electionData: "Kieskring Uitslagen",
+    "national-results": "Nationale Uitslagen",
+  };
+
+  return map[pages[currentIndex.value]];
 });
 </script>
 
+
 <template>
-  <div class="flex items-center justify-center gap-4 text-white text-3xl font-bold">
+  <div class="flex flex-col items-center justify-center gap-2 text-white text-3xl font-bold">
 
-    <!-- LEFT ARROW -->
-    <button @click="goLeft" class="p-2 rounded hover:bg-purple-700 active:bg-purple-800 transition-colors">
-      <PlayIcon class="w-8 h-6 rotate-180"/>
-    </button>
+    <!-- NAV BUTTONS -->
+    <div class="flex items-center gap-4">
+      <button @click="goLeft" class="p-2 rounded hover:bg-purple-700 active:bg-purple-800 transition-colors">
+        <PlayIcon class="w-8 h-6 rotate-180" />
+      </button>
 
-    <!-- TITLE -->
-    <span>{{ title }}</span>
+      <span>{{ title }}</span>
 
-    <!-- RIGHT ARROW -->
-    <button @click="goRight" class="p-2 rounded hover:bg-purple-700 active:bg-purple-800 transition-colors">
-      <PlayIcon class="w-8 h-6"/>
-    </button>
+
+      <button @click="goRight" class="p-2 rounded hover:bg-purple-700 active:bg-purple-800 transition-colors">
+        <PlayIcon class="w-8 h-6" />
+      </button>
+    </div>
+    <p class="text-xl opacity-90">Tweede Kamerverkiezingen</p>
+
+    <!-- STEP INDICATOR -->
+    <div class="flex gap-2 justify-center mt-1">
+      <span
+        v-for="(page, index) in pages"
+        :key="index"
+        class="block rounded-full transition-all duration-300"
+        :class="index === currentIndex
+          ? 'bg-purple-500 w-3 h-3'
+          : 'bg-purple-200 w-3 h-3 opacity-50'"
+      ></span>
+    </div>
 
   </div>
 </template>
+
