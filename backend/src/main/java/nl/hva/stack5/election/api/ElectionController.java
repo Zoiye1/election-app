@@ -1,7 +1,8 @@
 package nl.hva.stack5.election.api;
 
-import nl.hva.stack5.election.model.ConstituencyPartyVotes;
+import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.model.Election;
+import nl.hva.stack5.election.service.ConstituencyService;
 import nl.hva.stack5.election.service.DutchElectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +17,11 @@ import java.util.List;
 @RequestMapping("elections")
 public class ElectionController {
     private final DutchElectionService electionService;
+    private final ConstituencyService constituencyService;
 
-    public ElectionController(DutchElectionService electionService) {
+    public ElectionController(DutchElectionService electionService, ConstituencyService constituencyService) {
         this.electionService = electionService;
+        this.constituencyService = constituencyService;
     }
 
     /**
@@ -51,13 +54,8 @@ public class ElectionController {
     }
 
     @GetMapping("{electionId}/{constituencyName}")
-    public List<ConstituencyPartyVotes> getConstituencyPartyVotes(@PathVariable String electionId) {
-        Election election = electionService.readResults(electionId);
-        if (election == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
-        }
-
-        return election.getConstituencyPartyVotes();
+    public List<ConstituencyPartyVotesDTO> getConstituencyPartyVotes(@PathVariable String electionId, @PathVariable String constituencyName) throws IllegalAccessException {
+        return constituencyService.getResultsByConstituency(electionId, constituencyName);
     }
 
     /**
@@ -79,6 +77,28 @@ public class ElectionController {
         }
 
         return election.getTotalCounted();
+
+    }
+
+    /**
+     *
+     * @param electionId holds the identifier for an election
+     * @param constituencyName holds the name of an election
+     * @return the percentage of the total votes for a constituency compared to the total national votes
+     */
+
+    @GetMapping("{electionId}/{constituencyName}/votes-percentage")
+    public Double getVotesPercentage(@PathVariable String electionId, @PathVariable String constituencyName) throws IllegalAccessException {
+
+        // retrieve election from database
+        Election election = electionService.readResults(electionId);
+
+        //TODO: Instead of response status use response entity.
+        if (election == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+        }
+
+        return constituencyService.CalculateVotesPercentage(electionId, constituencyName);
 
     }
 }

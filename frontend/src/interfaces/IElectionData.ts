@@ -1,6 +1,6 @@
 export interface Party {
   id: number
-  registeredName: string;
+  partyName: string;
 }
 
 export interface Constituency{
@@ -10,7 +10,7 @@ export interface Constituency{
 
 export interface ConstituencyPartyVotes {
   id: number
-  party: Party;
+  partyName: string;
   constituency: Constituency;
   votes: number
 }

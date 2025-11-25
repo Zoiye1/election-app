@@ -50,3 +50,6 @@ Thumbs.db
 
 # MS-office files
 ~$*.*
+*.db
+data/electiondb.mv.db
+data/electiondb.trace.db
