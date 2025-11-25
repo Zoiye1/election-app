@@ -5,8 +5,11 @@ import Parties_ConstituencyComponent from '@/components/ConstituencyComponents/P
 import ConstituencyVotesPercentage from '@/components/ConstituencyComponents/ConstituencyVotesPercentage.vue';
 import ConstituencyFilter from '@/components/Filters/ConstituencyFilter.vue';
 import Navbar from '@/components/Navbar.vue';
+import ElectionSelector from '@/components/ElectionSelector.vue';
+import { useElection } from '@/composables/useElection';
 
 const selectedConstituency = ref<string>("Amsterdam");
+const { selectedElection } = useElection();
 
 // Generate particles on mount
 onMounted(() => {
@@ -34,6 +37,17 @@ onMounted(() => {
 
     <div class="mt-20 max-w-5xl mx-auto px-6 py-10 flex flex-col gap-10">
 
+      <div class="text-center text-white">
+        <h1 class="text-4xl font-bold mb-2">Kieskring Uitslagen</h1>
+        <p class="text-xl opacity-90">Tweede Kamerverkiezingen</p>
+      </div>
+
+      <div class="mb-1">
+        <ElectionSelector />
+      </div>
+
+
+
       <!-- FILTER + PERCENTAGE -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
@@ -45,14 +59,14 @@ onMounted(() => {
 
         <!-- PERCENTAGE -->
         <div>
-          <ConstituencyVotesPercentage :name="selectedConstituency" />
+          <ConstituencyVotesPercentage :name="selectedConstituency" :election="selectedElection" />
         </div>
 
       </div>
 
       <!-- PARTIJEN ONDERAAN VOLLEDIGE BREEDTE -->
       <div>
-        <Parties_ConstituencyComponent :name="selectedConstituency" />
+        <Parties_ConstituencyComponent :name="selectedConstituency" :election="selectedElection"/>
       </div>
 
     </div>
