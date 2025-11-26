@@ -20,7 +20,6 @@ public class DutchMunicipalityVotesTransformer implements VotesTransformer {
 
     @Override
     public void registerPartyVotes(boolean aggregated, Map<String, String> electionData) {
-//        System.out.printf("%s party votes: %s\n", aggregated ? "Municipality" : "Polling station", electionData);
 
         String partyName = electionData.get("RegisteredName");
 
@@ -51,12 +50,10 @@ public class DutchMunicipalityVotesTransformer implements VotesTransformer {
 
     @Override
     public void registerCandidateVotes(boolean aggregated, Map<String, String> electionData) {
-//        System.out.printf("%s candidate votes: %s\n", aggregated ? "Municipality" : "Polling station", electionData);
     }
 
     @Override
     public void registerMetadata(boolean aggregated, Map<String, String> electionData) {
-//        System.out.printf("%s meta data: %s\n", aggregated ? "Municipality" : "Polling station", electionData);
     }
 
 }
