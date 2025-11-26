@@ -41,9 +41,19 @@ public class ReplyRepositoryImpl implements ReplyRepository {
         return reply;
     }
 
+    // ===== READ =====
+
+    /**
+     *
+     * Finds the reply by ID
+     *
+     * @param id the reply ID
+     * @return Optional containing the reply if found
+     */
     @Override
     public Optional<Reply> findById(long id) {
-        return Optional.empty();
+        Reply reply = entityManager.find(Reply.class, id);
+        return Optional.ofNullable(reply);
     }
 
     @Override
