@@ -75,7 +75,7 @@ watch(props, async (newValue) => {
       >
         <div class="flex items-center gap-4">
           <div
-            class="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0"
+            class="w-12 h-12 bg-[linear-gradient(135deg,#667eea_0%,#764ba2_100%)] text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0"
           >
             {{ i + 1 }}
           </div>
