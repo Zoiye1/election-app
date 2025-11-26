@@ -137,15 +137,32 @@ public class ReplyRepositoryImpl implements ReplyRepository {
 
     // ==== UPDATE ====
 
+    /**
+     * Updates an existing reply in the database.
+     *
+     * @param reply the reply to update (must have a valid ID)
+     * @return the updated reply
+     */
     @Override
     public Reply update(Reply reply) {
-        return null;
+        return entityManager.merge(reply);
     }
 
     // ==== DELETE ====
 
+
+    /**
+     * Deletes Reply by specific ID
+     *
+     * @param id The reply ID
+     */
     @Override
     public void deleteById(long id) {
+    Reply reply = entityManager.find(Reply.class, id); // retrieves reply by ID
 
+        // if reply exists, remove the comment
+        if (reply != null) {
+            entityManager.remove(reply);
+        }
     }
 }
