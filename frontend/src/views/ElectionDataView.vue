@@ -1,6 +1,5 @@
 <script setup lang="ts" xmlns="http://www.w3.org/1999/html">
 import { onMounted, ref } from 'vue';
-import { ElectionService } from '@/services/ElectionService';
 import Parties_ConstituencyComponent from '@/components/ConstituencyComponents/Parties_ConstituencyComponent.vue';
 import ConstituencyVotesPercentage from '@/components/ConstituencyComponents/ConstituencyVotesPercentage.vue';
 import ConstituencyFilter from '@/components/Filters/ConstituencyFilter.vue';
@@ -8,6 +7,7 @@ import Navbar from '@/components/Navbar.vue';
 import ElectionSelector from '@/components/ElectionSelector.vue';
 import { useElection } from '@/composables/useElection';
 import PageNavigator from '@/components/PageNavigator.vue';
+import TotalConstituencyVotes from '@/components/ConstituencyComponents/TotalConstituencyVotes.vue';
 
 const selectedConstituency = ref<string>("Amsterdam");
 const { selectedElection } = useElection();
@@ -36,7 +36,7 @@ onMounted(() => {
 
   <div class="min-h-screen bg-gradient-to-br from-[#667eea] to-[#764ba2] relative overflow-hidden">
 
-    <div class="mt-15 max-w-5xl mx-auto px-6 py-10 flex flex-col gap-10">
+    <div class="mt-15 max-w-8xl mx-auto px-6 py-10 flex flex-col gap-10">
 
       <div class="text-center text-white">
         <PageNavigator />
@@ -50,7 +50,11 @@ onMounted(() => {
 
 
       <!-- FILTER + PERCENTAGE -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <div>
+          <TotalConstituencyVotes :name="selectedConstituency" :election="selectedElection" />
+        </div>
 
         <!-- FILTER -->
         <div class="bg-white/20 backdrop-blur-md p-6 rounded-2xl shadow-lg">
@@ -62,7 +66,6 @@ onMounted(() => {
         <div>
           <ConstituencyVotesPercentage :name="selectedConstituency" :election="selectedElection" />
         </div>
-
       </div>
 
       <!-- PARTIJEN ONDERAAN VOLLEDIGE BREEDTE -->

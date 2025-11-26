@@ -1,10 +1,15 @@
 package nl.hva.stack5.election.service;
+import jakarta.persistence.EntityNotFoundException;
 import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.repository.ConstituencyRepository;
 import nl.hva.stack5.election.repository.ElectionRepository;
+import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 
 import java.util.List;
@@ -19,17 +24,17 @@ public class ConstituencyService {
 
     /**
      *
-     * @param electionId ho
-     * @param constituencyName
-     * @return
-     * @throws IllegalAccessException
+     * @param electionId holds the identifier
+     * @param constituencyName holds the name of a constituency
+     * @return the votes percentage
+     * @throws EntityNotFoundException
      */
 
-    public double CalculateVotesPercentage(String electionId, String constituencyName) throws IllegalAccessException{
+    public double CalculateVotesPercentage(String electionId, String constituencyName) throws ResponseStatusException{
         Election election = electionRepository.findById(electionId);
 
         if (election == null) {
-            throw new IllegalArgumentException("election not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
         }
 
        long totalCounted = election.getTotalCounted();
@@ -50,13 +55,31 @@ public class ConstituencyService {
 
     }
 
-    public List<ConstituencyPartyVotesDTO> getResultsByConstituency (String electionId, String constituencyName ) throws IllegalAccessException {
+    public List<ConstituencyPartyVotesDTO> getResultsByConstituency (String electionId, String constituencyName ) throws ResponseStatusException {
         Election election = electionRepository.findById(electionId);
 
         if (election == null) {
-            throw new IllegalArgumentException("election not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "election" + electionId + "not found");
 
         }
         return constituencyRepository.findByConstituencyAndElectionId(electionId, constituencyName);
+    }
+
+    public long getTotalConstituencyVotes(String electionId, String constituencyName) throws ResponseStatusException {
+        Election election = electionRepository.findById(electionId);
+
+        if (election == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+        }
+
+        long totalCounted = election.getTotalCounted();
+
+        List<ConstituencyPartyVotesDTO> results =  constituencyRepository.findByConstituencyAndElectionId(electionId, constituencyName);
+
+        long totalConstituencyVotes =  0;
+        for (ConstituencyPartyVotesDTO votes : results) {
+            totalConstituencyVotes += votes.getVotes();
+        }
+        return totalConstituencyVotes;
     }
 }
