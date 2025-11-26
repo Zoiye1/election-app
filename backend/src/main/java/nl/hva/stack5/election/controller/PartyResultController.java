@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * REST Controller for managing NationalResult endpoints.
- * Provides endpoints to retrieve candidate information.
+ * REST controller for national party results.
+ * Provides endpoints for retrieving top parties by election.
  *
  * @author Matisse Ben Addi
  * @version 1.0
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PartyResultController {
 
     @Autowired
-    private PartyResultService partyResultService;
+    private PartyResultServiceImpl partyResultServiceImpl;
 
     @Autowired
     private PartyService partyService;
