@@ -1,8 +1,15 @@
 package nl.hva.stack5.election.controller;
 
 
+import nl.hva.stack5.election.dto.ReplyRequestDTO;
+import nl.hva.stack5.election.dto.ReplyResponseDTO;
+import nl.hva.stack5.election.model.Reply;
 import nl.hva.stack5.election.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,9 +22,15 @@ import org.springframework.web.bind.annotation.RestController;
  * @version 1.0
  */
 @RestController
-@RequestMapping("/replies")
+@RequestMapping("/v1/replies")
 public class ReplyController {
 
     @Autowired
     private ReplyService replyService;
+
+    @PostMapping
+    public ResponseEntity<ReplyResponseDTO> createReply (@RequestBody ReplyRequestDTO dto) {
+        ReplyResponseDTO createdReply = replyService.createReply(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdReply);
+    }
 }
