@@ -2,6 +2,7 @@ package nl.hva.stack5.election.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import nl.hva.stack5.election.model.Reply;
 import org.springframework.stereotype.Repository;
@@ -56,9 +57,20 @@ public class ReplyRepositoryImpl implements ReplyRepository {
         return Optional.ofNullable(reply);
     }
 
+
+    /**
+     * Finds all replies in the database.
+     * Ordered from oldest to newest.
+     *
+     * @return List of all replies
+     */
     @Override
     public List<Reply> findByDiscussionId(Integer discussionId) {
-        return List.of();
+        TypedQuery<Reply> query = entityManager.createQuery(
+                "SELECT r FROM Reply r ORDER BY r.createdAt ASC",
+                Reply.class
+        );
+        return query.getResultList();
     }
 
     @Override
