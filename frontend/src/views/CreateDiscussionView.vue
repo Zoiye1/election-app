@@ -60,11 +60,10 @@ const handleSubmit = async () => {
   loading.value = true
 
   try {
-    // Use the service to create the discussion
+    // Backend gets author from JWT token automatically
     await discussionService.createDiscussion({
       title: title.value,
       content: content.value,
-      authorId: 1
     })
 
     router.push('/discussion')
