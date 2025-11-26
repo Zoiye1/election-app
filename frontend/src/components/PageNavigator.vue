@@ -7,7 +7,7 @@ const router = useRouter();
 const route = useRoute();
 
 // all paths
-const pages = ["municipalityData", "electionData", "national-results"];
+const pages = ["municipality-results", "electionData", "national-results"];
 
 //
 const currentIndex = ref(
