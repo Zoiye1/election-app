@@ -2,7 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
-import { DiscussionService, type Discussion } from '@/services/DiscussionService'
+import { DiscussionService, type DiscussionResponseDTO } from '@/services/DiscussionService'
 import { computed } from 'vue'
 
 // Initialize router and service
@@ -14,7 +14,7 @@ const discussionService = new DiscussionService()
 const discussionId = route.params.id
 const loading = ref(true)
 const error = ref('')
-const discussion = ref<Discussion | null>(null)
+const discussion = ref<DiscussionResponseDTO | null>(null)
 
 // Fetch discussions from API
 const fetchDiscussion = async () => {
