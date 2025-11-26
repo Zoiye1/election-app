@@ -59,18 +59,24 @@ public class ReplyRepositoryImpl implements ReplyRepository {
 
 
     /**
-     * Finds all replies in the database.
+     *Finds all replies for a specific discussion.
      * Ordered from oldest to newest.
      *
-     * @return List of all replies
+     * @param discussionId The discussion identifier
+     * @return List of replies for the discussion
      */
     @Override
     public List<Reply> findByDiscussionId(Integer discussionId) {
         TypedQuery<Reply> query = entityManager.createQuery(
-                "SELECT r FROM Reply r ORDER BY r.createdAt ASC",
+                "SELECT r FROM Reply r " +
+                        "WHERE r.discussion.id = :discussionId " +
+                        "ORDER BY r.createdAt ASC",
                 Reply.class
         );
+        // Bind the discussionId parameter to the :discussionId placeholder in the query
+        query.setParameter("discussionId", discussionId);
         return query.getResultList();
+
     }
 
     @Override
@@ -83,9 +89,19 @@ public class ReplyRepositoryImpl implements ReplyRepository {
         return 0L;
     }
 
+    /**
+     * Finds all replies in the database.
+     * Ordered from oldest to newest.
+     *
+     * @return List of all replies
+     */
     @Override
     public List<Reply> findAll() {
-        return List.of();
+        TypedQuery<Reply> query = entityManager.createQuery(
+                "SELECT r FROM Reply r ORDER BY r.createdAt ASC",
+                Reply.class
+        );
+        return query.getResultList();
     }
 
     @Override
