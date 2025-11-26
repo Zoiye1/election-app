@@ -3,7 +3,8 @@ import HomeView from '../views/HomeView.vue'
 import DiscussionView from '@/views/DiscussionView.vue'
 import ElectionDataView from '@/views/ElectionDataView.vue'
 import LoginPage from "@/views/LoginPage.vue";
-import CreateDiscussionView from '@/views/CreateDiscussionView.vue'
+import CreateDiscussionView from '@/views/CreateDiscussionView.vue';
+import MunicipalityDataView from '@/views/MunicipalityDataView.vue';
 
 
 
@@ -33,6 +34,17 @@ const router = createRouter({
       path: '/login',  // Verander van '/user/verify' naar '/login'
       name: 'login',   // Was 'UserVerification'
       component: LoginPage
+    },
+    {
+      path: '/login',  // Verander van '/user/verify' naar '/login'
+      name: 'login',   // Was 'UserVerification'
+      component: LoginPage
+    },
+
+    {
+      path: '/municipalityData',  // Verander van '/user/verify' naar '/login'
+      name: 'municipalityData',   // Was 'UserVerification'
+      component: MunicipalityDataView
     },
 
 

@@ -7,7 +7,7 @@ const router = useRouter();
 const route = useRoute();
 
 // all paths
-const pages = ["municipality", "electionData", "national-results"];
+const pages = ["municipalityData", "electionData", "national-results"];
 
 //
 const currentIndex = ref(
@@ -42,7 +42,7 @@ function goRight() {
 // title changes when path changes
 const title = computed(() => {
   const map: Record<string, string> = {
-    municipality: "Gemeente Uitslagen",
+    municipalityData: "Gemeente Uitslagen",
     electionData: "Kieskring Uitslagen",
     "national-results": "Nationale Uitslagen",
   };
