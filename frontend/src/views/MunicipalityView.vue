@@ -12,7 +12,7 @@ const error = ref<string | null>(null);
 const selectedMunicipality = ref<string>('Amsterdam');
 
 const municipalities = ref<string[]>([
-  'Amsterdam', 'Rotterdam', 'Den Haag', 'Utrecht', 'Eindhoven',
+  'Amsterdam', 'Rotterdam', 'Utrecht', 'Eindhoven',
   'Groningen', 'Tilburg', 'Almere', 'Breda', 'Nijmegen',
   'Enschede', 'Haarlem', 'Arnhem', 'Zaanstad', 'Amersfoort'
   // voeg meer toe
@@ -41,7 +41,7 @@ watch(selectedMunicipality, loadMunicipalityData, { immediate: true });
   <div class="min-h-screen bg-gradient-to-br from-[#667eea] to-[#764ba2]">
     <Navbar />
 
-    <div class="max-w-5xl mx-auto px-6 py-10">
+    <div class="max-w-5xl mx-auto px-6 pt-24 pb-10">  <!-- hier -->
       <PageNavigator />
 
       <h1 class="text-white text-3xl font-bold text-center my-8">Municipality Results</h1>
@@ -57,7 +57,6 @@ watch(selectedMunicipality, loadMunicipalityData, { immediate: true });
           </option>
         </select>
       </div>
-
       <div v-if="loading" class="text-center text-white text-xl">Loading...</div>
       <div v-else-if="error" class="text-center text-red-300 text-xl">{{ error }}</div>
 

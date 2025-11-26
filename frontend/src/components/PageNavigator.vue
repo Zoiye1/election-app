@@ -42,7 +42,7 @@ function goRight() {
 // title changes when path changes
 const title = computed(() => {
   const map: Record<string, string> = {
-    municipalityData: "Gemeente Uitslagen",
+    "municipality-results": "Gemeente Uitslagen",
     electionData: "Kieskring Uitslagen",
     "national-results": "Nationale Uitslagen",
   };
