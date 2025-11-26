@@ -128,9 +128,27 @@ public class RelplyServiceImpl implements ReplyService {
 
     // ==== UPDATE ====
 
+    /**
+     * Updates an existing reply.
+     *
+     * @param id the reply ID
+     * @param dto the updated reply data
+     * @return the updated reply as DTO
+     */
     @Override
     public ReplyResponseDTO updateReply(Long id, ReplyRequestDTO dto) {
-        return null;
+        // get reply by id
+        Reply reply = replyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reply not found with id: " + id));
+
+        // update the content
+        reply.setContent(dto.getContent());
+
+        // save updated reply
+        Reply updatedReply = replyRepository.update(reply);
+
+        // convert to DTO and return
+        return replyMapper.toDTO(updatedReply);
     }
 
     // ==== DELETE ====
