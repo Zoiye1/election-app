@@ -1,6 +1,7 @@
 package nl.hva.stack5.election.api;
 
 import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
+import nl.hva.stack5.election.dto.MunicipalityPartyVotesDTO;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.service.ConstituencyService;
 import nl.hva.stack5.election.model.MunicipalityPartyVotes;
@@ -8,7 +9,6 @@ import nl.hva.stack5.election.service.DutchElectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import java.util.List;
 
 /**
@@ -61,12 +61,9 @@ public class ElectionController {
 
 
     @GetMapping("{electionId}/municipalities")
-    public List<MunicipalityPartyVotes> getAllMunicipalityPartyVotes(@PathVariable String electionId) {
-        Election election = electionService.readResults(electionId);
-        if (election == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election " + electionId + " not found");
-        }
-        return election.getMunicipalityPartyVotes();
+    public List<MunicipalityPartyVotesDTO> getAllMunicipalityPartyVotes(@PathVariable String electionId) {
+        return constituencyService.getAllMunicipalityPartyVotes(electionId);
+
     }
     /**
      * Retrieves total number of votes for a specific election
