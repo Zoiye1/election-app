@@ -1,14 +1,3 @@
-export interface Discussion {
-  id: number
-  title: string
-  content: string
-  authorName: string
-  authorId: number
-  createdAt: string
-  views: number
-  replies: number
-}
-
 export interface DiscussionResponseDTO {
   id: number
   title: string
@@ -23,12 +12,11 @@ export interface DiscussionResponseDTO {
 export interface CreateDiscussionRequest {
   title: string
   content: string
-  authorId: number
 }
 
 export interface UpdateDiscussionRequest {
-  title?: string
-  content?: string
+  title: string
+  content: string
 }
 
 export class DiscussionService {
@@ -60,7 +48,7 @@ export class DiscussionService {
   /**
    * Get a single discussion by ID
    */
-  public async getDiscussionById(id: number): Promise<Discussion> {
+  public async getDiscussionById(id: number): Promise<DiscussionResponseDTO> {
     const url: string = `${this.baseUrl}/${id}`
 
     try {
@@ -144,7 +132,7 @@ export class DiscussionService {
     }
   }
 
-  public async updateDiscussion(id: number, data: UpdateDiscussionRequest): Promise<Discussion> {
+  public async updateDiscussion(id: number, data: UpdateDiscussionRequest): Promise<DiscussionResponseDTO> {
     const url: string = `${this.baseUrl}/${id}`
 
     try {
