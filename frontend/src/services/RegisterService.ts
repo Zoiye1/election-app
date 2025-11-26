@@ -13,7 +13,7 @@ export interface RegisterResponse {
 
 export class RegisterService {
   public async registerUser(username: string, email: string, password: string): Promise<RegisterResponse> {
-    const url: string = `http://localhost:8080/user`
+    const url: string = `http://localhost:8080/api/user`
     const requestBody: RegisterRequest = {
       username: username,
       email: email,
