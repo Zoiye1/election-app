@@ -4,11 +4,10 @@ package nl.hva.stack5.election.controller;
 
 import jakarta.validation.constraints.NotBlank;
 import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
-import nl.hva.stack5.election.model.PartyResult;
-import nl.hva.stack5.election.service.CandidateService;
+
 import nl.hva.stack5.election.service.NationalPartyResultService;
-import nl.hva.stack5.election.service.PartyService;
-import org.apache.logging.log4j.message.Message;
+
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -32,7 +31,7 @@ public class PartyResultController {
 
     @GetMapping("/top")
     public ResponseEntity<List<TopNationalPartiesResponseDTO>> getTopParties(
-            @RequestParam @NotBlank(message = "ElectionId cannot be empty") String electionId{
+            @RequestParam @NotBlank(message = "ElectionId cannot be empty") String electionId ) {
         // Retrieve top parties
         List<TopNationalPartiesResponseDTO> parties = nationalPartyResultService.getTopPartiesByYear(electionId, 20);
 
