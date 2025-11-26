@@ -12,7 +12,9 @@ import nl.hva.stack5.election.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of ReplyService Interface.
@@ -78,14 +80,38 @@ public class RelplyServiceImpl implements ReplyService {
         return replyMapper.toDTO(reply);
     }
 
+    /**
+     * Gets all replies for a specific discussion.
+     *
+     * @param discussionId the discussion ID
+     * @return list of replies as DTOs
+     */
     @Override
     public List<ReplyResponseDTO> getRepliesByDiscussionId(Integer discussionId) {
-        return List.of();
+        // get all replies for this discussion
+        List<Reply> replies = replyRepository.findByDiscussionId(discussionId);
+
+        // Convert each Reply to DTO and return
+        return replies.stream()
+            .map(replyMapper::toDTO)
+                .collect(Collectors.toList());
     }
 
+    /**
+     * Gets all replies by a specific user.
+     *
+     * @param authorId the author/user ID
+     * @return list of replies as DTOs
+     */
     @Override
-    public List<ReplyResponseDTO> getRepliesByUserId(Integer userId) {
-        return List.of();
+    public List<ReplyResponseDTO> getRepliesByAuthorId(long authorId) {
+        // get all replies for this Author (user)
+        List<Reply> replies = replyRepository.findByAuthorId(authorId);
+
+        // Convert each Reply ro DTO and return
+        return  replies.stream()
+            .map(replyMapper::toDTO)
+            .collect(Collectors.toList());
     }
 
     @Override

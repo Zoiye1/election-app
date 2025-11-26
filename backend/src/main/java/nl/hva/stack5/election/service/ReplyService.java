@@ -45,10 +45,10 @@ public interface ReplyService {
     /**
      * Gets all replies by a specific user.
      *
-     * @param userId the user ID
+     * @param authorId the user ID
      * @return list of replies as DTOs
      */
-    List<ReplyResponseDTO> getRepliesByUserId(Integer userId);
+    List<ReplyResponseDTO> getRepliesByAuthorId(long authorId);
 
     /**
      * Gets the total count of replies for a discussion.
