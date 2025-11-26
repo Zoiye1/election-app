@@ -3,6 +3,8 @@ package nl.hva.stack5.election.service;
 import nl.hva.stack5.election.dto.ReplyRequestDTO;
 import nl.hva.stack5.election.dto.ReplyResponseDTO;
 
+import java.util.List;
+
 /**
  * Service interface for Reply operations.
  * Defines business logic methods for managing replies.
@@ -11,6 +13,7 @@ import nl.hva.stack5.election.dto.ReplyResponseDTO;
  * @version 1.0
  */
 public interface ReplyService {
+
     // ===== CREATE =====
 
     /**
@@ -20,4 +23,39 @@ public interface ReplyService {
      * @return the created reply as DTO
      */
     ReplyResponseDTO createReply(ReplyRequestDTO dto);
+
+    // ===== READ =====
+
+    /**
+     * Gets a reply by its ID.
+     *
+     * @param id the reply ID
+     * @return the reply as DTO
+     */
+    ReplyResponseDTO getReplyById(long id);
+
+    /**
+     * Gets all replies for a specific discussion.
+     *
+     * @param discussionId the discussion ID
+     * @return list of replies as DTOs
+     */
+    List<ReplyResponseDTO> getRepliesByDiscussionId(Integer discussionId);
+
+    /**
+     * Gets all replies by a specific user.
+     *
+     * @param userId the user ID
+     * @return list of replies as DTOs
+     */
+    List<ReplyResponseDTO> getRepliesByUserId(Integer userId);
+
+    /**
+     * Gets the total count of replies for a discussion.
+     *
+     * @param discussionId the discussion ID
+     * @return number of replies
+     */
+    Long getReplyCount(Integer discussionId);
+
 }
