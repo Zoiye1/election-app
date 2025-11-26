@@ -25,7 +25,7 @@ function select(c: string) {
 </script>
 
 <template>
-  <div class="relative w-64 mx-auto text-gray-700">
+  <div class="relative w-64 mx-auto  text-gray-700">
     <button
       @click="toggle"
       class="w-full flex items-center justify-between bg-white border border-gray-300 rounded-2xl px-4 py-3

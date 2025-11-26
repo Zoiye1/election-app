@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { ElectionService } from '@/services/ElectionService';
 import { ref, onMounted, watch } from 'vue';
 import type { ConstituencyPartyVotes } from '@/interfaces/IElectionData';
+import { ConstituencyService } from '@/services/ConstituencyService';
 
 // electionData holds the array of constituency party votes
 const electionData = ref<ConstituencyPartyVotes[]>([]);
@@ -17,9 +17,9 @@ onMounted(async () => {
 
   // we try to get the election data and fill electioData with the array of PartyConstituencyVotes of the
   // selected constituency
-  const electionService = new ElectionService();
+  const constituencyService = new ConstituencyService();
   try{
-    const election = await electionService.getConstituencyData(props.election, props.name);
+    const election = await ConstituencyService.getConstituencyData(props.election, props.name);
     if(!election || election.length == 0){
       error.value = "Oeps, er is iets mis gegaan. Probeer het later weer opnieuw";
 
@@ -39,9 +39,9 @@ onMounted(async () => {
 // we update the selected constituency if the user selects something else
 watch(props, async (newValue) => {
   loading.value = true;
-  const electionService = new ElectionService();
+  const constituencyService = new ConstituencyService();
   try {
-    const election = await electionService.getConstituencyData(props.election, newValue.name);
+    const election = await ConstituencyService.getConstituencyData(props.election, newValue.name);
     electionData.value = election;
   }
   catch (err){

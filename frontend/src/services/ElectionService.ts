@@ -6,6 +6,7 @@ import type { Election } from "@/interfaces/IElectionData";
  * This service does a fetch to the endpoint /{electionId} to get
  * the constituency data results
  */
+const API_BASE_URL = 'http://localhost:8080/api';
  export class ElectionService {
   /**
    * @param electionId hold the id of the elections, the value of the Id attribute from the ElectionIdentifier tag.
@@ -49,10 +50,9 @@ import type { Election } from "@/interfaces/IElectionData";
       throw error;
     }
 
-  }
 
   public static async getTotalVotes(): Promise<number> {
-    const url: string = `http://localhost:8080/api/elections/TK2023/total-votes`
+    const url: string = `${API_BASE_URL}/elections/TK2023/total-votes`
 
     try {
       const response: Response = await fetch(url, {
@@ -69,8 +69,9 @@ import type { Election } from "@/interfaces/IElectionData";
     }
   }
 
+
   public async getElection(electionId: string): Promise<Election> {
-    const url: string = `http://localhost:8080/api/elections/${electionId}`
+    const url: string = `${API_BASE_URL}elections/${electionId}`
     // Response holds the fetch to the endpoint
     try {
       // Response holds the fetch to the endpoint
@@ -87,28 +88,5 @@ import type { Election } from "@/interfaces/IElectionData";
       throw error;
     }
   }
-
-  public static async getConstituencyVotesPercentage(electionId: string, constituencyName: string): Promise<number> {
-    const url: string = `http://localhost:8080/api/elections/${electionId}/${constituencyName}/votes-percentage`
-    // Response holds the fetch to the endpoint
-    try {
-      // Response holds the fetch to the endpoint
-      const response: Response = await fetch(url, {
-        method: "GET",
-        headers: {"Accept": "application/json"}
-      })
-      if (!response.ok) {
-        throw new Error("request failed ${response.statusText}");
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Fetch error:', error);
-      throw error;
-    }
-
-
-
-  }
-
 
 }

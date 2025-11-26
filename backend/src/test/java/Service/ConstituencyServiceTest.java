@@ -1,5 +1,6 @@
 package Service;
 
+import jakarta.persistence.EntityNotFoundException;
 import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.repository.ConstituencyRepository;
@@ -72,7 +73,7 @@ class ConstituencyServiceTest {
 
         // ASSERT
 
-        Throwable exception =  assertThrows(IllegalArgumentException.class, () -> constituencyService.getResultsByConstituency("TK2023", "Amsterdam"));
+        Throwable exception =  assertThrows(EntityNotFoundException.class, () -> constituencyService.getResultsByConstituency("TK2023", "Amsterdam"));
         assertEquals("election not found",  exception.getMessage());
 
 
@@ -104,7 +105,7 @@ class ConstituencyServiceTest {
     }
 
     @Test
-    void getResultsByConstituency_NullParameters_Exception() throws IllegalAccessException {
+    void getResultsByConstituency_NullParameters_Exception() throws EntityNotFoundException {
         // ARRANGE
         when(electionRepository.findById(null)).thenReturn(null);
 

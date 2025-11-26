@@ -11,19 +11,19 @@ const props = defineProps<{
 
 const percentage = ref<number>(0);
 onMounted(async () => {
-  const constituencyVotesPercentage = await ConstituencyService.getConstituencyVotesPercentage(props.election, props.name);
-  percentage.value = constituencyVotesPercentage;
+  const constituencyVotes = await ConstituencyService.getTotalConstituencyVote(props.election, props.name);
+  percentage.value = constituencyVotes;
 });
 
 
 const formattedVotes = computed(() => {
-  return percentage.value.toLocaleString("nl-NL", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+  return percentage.value.toLocaleString("nl-NL");
 });
 
 watch(props, async (newValue) => {
 
-    const election = await ConstituencyService.getConstituencyVotesPercentage(newValue.election, newValue.name);
-    percentage.value = election;
+  const election = await ConstituencyService.getTotalConstituencyVote(newValue.election, newValue.name);
+  percentage.value = election;
 
 
 });
@@ -40,11 +40,10 @@ watch(props, async (newValue) => {
 
     <!-- Content -->
     <div class="flex-1">
-      <p class="text-gray-600 font-medium text-sm mb-1">Percentage van totaal stemmen</p>
-      <p class="text-2xl font-bold text-gray-800"> Uit
-        {{ props.name }} komt
-        <span class="text-purple-600">{{ formattedVotes }}%</span>
-        van de totale stemmers
+      <p class="text-gray-600 font-medium text-sm mb-1">Totaal kieskring stemmen</p>
+      <p class="text-2xl font-bold text-gray-800">
+        <span class="text-purple-600">{{ formattedVotes }}</span> stemmen komen uit
+        {{ props.name }}
       </p>
     </div>
   </div>
