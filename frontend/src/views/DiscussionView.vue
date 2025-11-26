@@ -3,14 +3,14 @@ import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import DiscussionCard from '../components/DiscussionCard.vue'
-import { DiscussionService, type Discussion } from '@/services/DiscussionService'
+import { DiscussionService, type DiscussionResponseDTO } from '@/services/DiscussionService'
 
 // Initialize router and service
 const router = useRouter()
 const discussionService = new DiscussionService()
 
 // State
-const discussions = ref<Discussion[]>([])
+const discussions = ref<DiscussionResponseDTO[]>([])
 const loading = ref(true)
 const error = ref('')
 
