@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import nl.hva.stack5.election.model.Reply;
+import nl.hva.stack5.election.model.User;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -68,9 +69,9 @@ public class ReplyRepositoryImpl implements ReplyRepository {
     @Override
     public List<Reply> findByDiscussionId(Integer discussionId) {
         TypedQuery<Reply> query = entityManager.createQuery(
-                "SELECT r FROM Reply r " +
-                        "WHERE r.discussion.id = :discussionId " +
-                        "ORDER BY r.createdAt ASC",
+                "SELECT r FROM Reply r " + // Select all replies
+                        "WHERE r.discussion.id = :discussionId " + // Filter by specific discussion
+                        "ORDER BY r.createdAt ASC", // Order oldest first
                 Reply.class
         );
         // Bind the discussionId parameter to the :discussionId placeholder in the query
@@ -79,14 +80,44 @@ public class ReplyRepositoryImpl implements ReplyRepository {
 
     }
 
+
+    /**
+     * Finds all replies by a specific author.
+     * ordered from oldest to newest.
+     *
+     * @param authorId the user/author identifier
+     * @return List of replies by the author
+     */
     @Override
     public List<Reply> findByAuthorId(Long authorId) {
-        return List.of();
+        TypedQuery<Reply> query = entityManager.createQuery(
+                "SELECT r FROM Reply r" + // Select all replies
+                    " WHERE r.author.id = :authorId " + // filter by authorId
+                "ORDER BY r.createdAt ASC", // Order oldest first
+                Reply.class
+        );
+        query.setParameter("authorId", authorId);
+        // Bind the discussionId parameter to the :discussionId placeholder in the query
+        return query.getResultList();
     }
 
+
+    /**
+     * Counts the number of replies for a specific discussion.
+     *
+     * @param discussionId the discussion identifier
+     * @return the number of replies
+     */
     @Override
     public Long countByDiscussionId(Integer discussionId) {
-        return 0L;
+        TypedQuery<Long> query = entityManager.createQuery(
+                "SELECT COUNT(r) FROM Reply r" + // Counts all replies found
+                        " WHERE r.discussion.id = :discussionId", // for the specific discussionId
+                Long.class
+        );
+        // Bind the discussionId parameter to the :discussionId placeholder in the query
+        query.setParameter("discussionId", discussionId);
+        return query.getSingleResult();
     }
 
     /**
@@ -104,10 +135,14 @@ public class ReplyRepositoryImpl implements ReplyRepository {
         return query.getResultList();
     }
 
+    // ==== UPDATE ====
+
     @Override
     public Reply update(Reply reply) {
         return null;
     }
+
+    // ==== DELETE ====
 
     @Override
     public void deleteById(long id) {
