@@ -1,5 +1,11 @@
 package nl.hva.stack5.election.dto;
-
+/**
+ * Data Transfer Object for top PartyResult information.
+ * Contains partyResult details with their election results including votes and party affiliation.
+ *
+ * @author Matisse Ben Addi
+ * @version 1.0
+ */
 public class TopNationalPartiesResponseDTO {
 
     private long id;
@@ -11,16 +17,11 @@ public class TopNationalPartiesResponseDTO {
 
     // Constructor with all fields
     public TopNationalPartiesResponseDTO(long id, String partyName, long votes) {
-        this.id = id;
         this.partyName = partyName;
         this.votes = votes;
     }
 
     // GETTERS
-    public long getId() {
-        return id;
-    }
-
     public String getPartyName() {
         return partyName;
     }
@@ -30,10 +31,6 @@ public class TopNationalPartiesResponseDTO {
     }
 
     //SETTERS
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public void setPartyName(String partyName) {
         this.partyName = partyName;
