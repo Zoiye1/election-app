@@ -16,7 +16,7 @@ public class TopNationalPartiesResponseDTO {
     public TopNationalPartiesResponseDTO() {}
 
     // Constructor with all fields
-    public TopNationalPartiesResponseDTO(long id, String partyName, long votes) {
+    public TopNationalPartiesResponseDTO(String partyName, long votes) {
         this.partyName = partyName;
         this.votes = votes;
     }
@@ -31,11 +31,6 @@ public class TopNationalPartiesResponseDTO {
     }
 
     //SETTERS
-
-    public void setPartyName(String partyName) {
-        this.partyName = partyName;
-    }
-
     public void setVotes(long votes) {
         this.votes = votes;
     }

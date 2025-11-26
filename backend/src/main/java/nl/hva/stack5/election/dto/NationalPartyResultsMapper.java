@@ -1,6 +1,5 @@
-package nl.hva.stack5.election.mapper;
+package nl.hva.stack5.election.dto;
 
-import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
 import nl.hva.stack5.election.model.PartyResult;
 
 /**
@@ -24,7 +23,7 @@ public class NationalPartyResultsMapper {
         }
 
         return new TopNationalPartiesResponseDTO(
-                result.getParty(),
+                result.getParty().getRegisteredName(),
                 result.getVotes()
         );
     }
