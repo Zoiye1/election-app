@@ -31,7 +31,7 @@ public class ReplyResponseDTO {
     }
 
     // GETTERS
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
@@ -52,7 +52,7 @@ public class ReplyResponseDTO {
     }
 
     // SETTERS
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
     public void setContent(String content) {

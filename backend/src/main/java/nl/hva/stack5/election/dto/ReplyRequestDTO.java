@@ -32,7 +32,7 @@ public class ReplyRequestDTO {
         return discussionId;
     }
 
-    public Integer getUserId() {
+    public Long getUserId() {
         return userId;
     }
 
@@ -45,7 +45,7 @@ public class ReplyRequestDTO {
         this.discussionId = discussionId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(Long userId) {
         this.userId = userId;
     }
 }

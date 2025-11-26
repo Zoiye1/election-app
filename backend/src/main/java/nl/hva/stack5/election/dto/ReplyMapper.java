@@ -1,7 +1,9 @@
 package nl.hva.stack5.election.dto;
 
 
+import nl.hva.stack5.election.model.Discussion;
 import nl.hva.stack5.election.model.Reply;
+import nl.hva.stack5.election.model.User;
 import org.springframework.stereotype.Component;
 
 /**
@@ -36,23 +38,24 @@ public class ReplyMapper {
         );
     }
 
-
     /**
-     *Converts DTO to reply entity
-     * Note: Discussion and User objects must be set separately in the service.
+     * Converts a ReplyRequestDTO to a Reply entity with Discussion and User.
      *
-     * @param dto The request DTO
-     * @return Reply entity (without discussions and UserObjects set)
+     * @param dto the request DTO
+     * @param discussion the discussion entity
+     * @param user the user entity
+     * @return Reply entity with all relationships set
      */
-    public Reply toEntity(ReplyRequestDTO dto) {
+    public Reply toEntity(ReplyRequestDTO dto, Discussion discussion, User user) {
         if (dto == null) {
             return null;
         }
 
-        Reply reply = new Reply();
-        reply.setContent(dto.getContent());
-
-        return reply;
+        return new Reply(
+                dto.getContent(),
+                discussion,
+                user
+        );
     }
 
 }
