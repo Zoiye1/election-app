@@ -4,6 +4,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -12,16 +13,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-@Component // Spring will manage this as a bean
+// Utility class for JWT token operations
+@Component
 public class JwtUtil {
 
-    // Secret key for signing JWT tokens
-    private final String SECRET_KEY = "StemSlimSecretKeyForJWTTokenGenerationAndValidation2025";
+    // Secret key from application.properties, minimum 256 bits required
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
 
-    // Token validity: 10 hours
-    private final long JWT_TOKEN_VALIDITY = 10 * 60 * 60 * 1000;
+    // Token validity period in milliseconds
+    @Value("${jwt.expiration}")
+    private long JWT_TOKEN_VALIDITY;
 
-    // Extract username from token
+    // Extract username from token subject claim
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
@@ -31,13 +35,13 @@ public class JwtUtil {
         return extractClaim(token, Claims::getExpiration);
     }
 
-    // Extract specific claim from token
+    // Extract specific claim using resolver function
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
 
-    // Parse and extract all claims from token
+    // Parse token and extract all claims
     private Claims extractAllClaims(String token) {
         return Jwts.parserBuilder()
                 .setSigningKey(getSignKey())
@@ -51,18 +55,18 @@ public class JwtUtil {
         return extractExpiration(token).before(new Date());
     }
 
-    // Generate token for user with email
+    // Generate token with email as subject, no extra claims
     public String generateToken(String email) {
         Map<String, Object> claims = new HashMap<>();
         return createToken(claims, email);
     }
 
-    // Generate token with extra claims
+    // Generate token with email and custom claims
     public String generateToken(String email, Map<String, Object> extraClaims) {
         return createToken(extraClaims, email);
     }
 
-    // Create JWT token with claims and subject
+    // Build JWT with claims, subject, timestamps and signature
     private String createToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
@@ -73,13 +77,13 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Validate token by checking username and expiration
+    // Validate token by checking username match and expiration
     public Boolean validateToken(String token, String email) {
         final String username = extractUsername(token);
         return (username.equals(email) && !isTokenExpired(token));
     }
 
-    // Generate signing key from secret
+    // Convert secret string to HMAC-SHA key
     private Key getSignKey() {
         return Keys.hmacShaKeyFor(SECRET_KEY.getBytes());
     }

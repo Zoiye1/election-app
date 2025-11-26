@@ -76,6 +76,9 @@ public class UserController {
         errorResponse.put("success", false);
         errorResponse.put("message", "Invalid credentials");
 
+        // Return error if login failed
+
+
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 }
