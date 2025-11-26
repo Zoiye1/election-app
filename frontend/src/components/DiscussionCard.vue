@@ -1,20 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { useRouter } from 'vue-router'
-
-interface Discussion {
-  id: number
-  title: string
-  content: string
-  authorName: string
-  authorId: number
-  createdAt: string
-  views: number
-  replies: number
-}
+import { type DiscussionResponseDTO } from '@/services/DiscussionService'
 
 const props = defineProps<{
-  discussion: Discussion
+  discussion: DiscussionResponseDTO
 }>()
 
 const router = useRouter()

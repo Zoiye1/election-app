@@ -7,6 +7,7 @@ import ConstituencyFilter from '@/components/Filters/ConstituencyFilter.vue';
 import Navbar from '@/components/Navbar.vue';
 import ElectionSelector from '@/components/ElectionSelector.vue';
 import { useElection } from '@/composables/useElection';
+import PageNavigator from '@/components/PageNavigator.vue';
 
 const selectedConstituency = ref<string>("Amsterdam");
 const { selectedElection } = useElection();
@@ -35,12 +36,12 @@ onMounted(() => {
 
   <div class="min-h-screen bg-gradient-to-br from-[#667eea] to-[#764ba2] relative overflow-hidden">
 
-    <div class="mt-20 max-w-5xl mx-auto px-6 py-10 flex flex-col gap-10">
+    <div class="mt-15 max-w-5xl mx-auto px-6 py-10 flex flex-col gap-10">
 
       <div class="text-center text-white">
-        <h1 class="text-4xl font-bold mb-2">Kieskring Uitslagen</h1>
-        <p class="text-xl opacity-90">Tweede Kamerverkiezingen</p>
+        <PageNavigator />
       </div>
+
 
       <div class="mb-1">
         <ElectionSelector />
