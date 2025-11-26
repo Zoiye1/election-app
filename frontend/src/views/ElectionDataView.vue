@@ -1,78 +1,71 @@
-<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
-import { onMounted, ref } from 'vue';
+<script setup lang="ts">
+import { onMounted, ref, computed } from 'vue';
 import { ElectionService } from '@/services/ElectionService';
-import Parties_ConstituencyComponent from '@/components/ConstituencyComponents/Parties_ConstituencyComponent.vue';
-import ConstituencyVotesPercentage from '@/components/ConstituencyComponents/ConstituencyVotesPercentage.vue';
-import ConstituencyFilter from '@/components/Filters/ConstituencyFilter.vue';
 import Navbar from '@/components/Navbar.vue';
-import ElectionSelector from '@/components/ElectionSelector.vue';
-import { useElection } from '@/composables/useElection';
 import PageNavigator from '@/components/PageNavigator.vue';
 
-const selectedConstituency = ref<string>("Amsterdam");
-const { selectedElection } = useElection();
+const electionService = new ElectionService();
 
-// Generate particles on mount
-onMounted(() => {
-  const particlesContainer = document.getElementById('particles')
-  if (particlesContainer) {
-    for (let i = 0; i < 50; i++) {
-      const particle = document.createElement('div')
-      particle.className = 'absolute w-1 h-1 bg-white/30 rounded-full'
-      particle.style.left = Math.random() * 100 + '%'
-      particle.style.top = Math.random() * 100 + '%'
-      particle.style.animation = `float ${6 + Math.random() * 3}s ease-in-out infinite`
-      particle.style.animationDelay = Math.random() * 6 + 's'
-      particlesContainer.appendChild(particle)
+const municipalityData = ref<any[]>([]);
+const loading = ref(true);
+const error = ref<string | null>(null);
+
+const groupedData = computed(() => {
+  const grouped: Record<string, any[]> = {};
+  municipalityData.value.forEach(vote => {
+    const name = vote.municipality.name;
+    if (!grouped[name]) {
+      grouped[name] = [];
     }
+    grouped[name].push(vote);
+  });
+  return grouped;
+});
+
+onMounted(async () => {
+  try {
+    municipalityData.value = await electionService.getAllMunicipalityData('TK2023');
+  } catch (e) {
+    error.value = 'Failed to load data';
+    console.error(e);
+  } finally {
+    loading.value = false;
   }
-})
+});
 </script>
 
 <template>
-  <main>
+  <div class="min-h-screen bg-gradient-to-br from-[#667eea] to-[#764ba2]">
     <Navbar />
-  </main>
 
-  <div class="min-h-screen bg-gradient-to-br from-[#667eea] to-[#764ba2] relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-6 py-10">
+      <PageNavigator />
 
-    <div class="mt-15 max-w-5xl mx-auto px-6 py-10 flex flex-col gap-10">
+      <h1 class="text-white text-3xl font-bold text-center my-8">Municipality Results</h1>
 
-      <div class="text-center text-white">
-        <PageNavigator />
-      </div>
+      <div v-if="loading" class="text-center text-white text-xl">Loading...</div>
+      <div v-else-if="error" class="text-center text-red-300 text-xl">{{ error }}</div>
 
-
-      <div class="mb-1">
-        <ElectionSelector />
-      </div>
-
-
-
-      <!-- FILTER + PERCENTAGE -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-        <!-- FILTER -->
-        <div class="bg-white/20 backdrop-blur-md p-6 rounded-2xl shadow-lg">
-          <h2 class="text-white font-semibold text-lg mb-4">Selecteer een kieskring</h2>
-          <ConstituencyFilter v-model="selectedConstituency" class="w-full" />
+      <div v-else class="space-y-8">
+        <div v-for="(votes, municipalityName) in groupedData" :key="municipalityName"
+             class="bg-white/10 backdrop-blur-sm p-6 rounded-lg">
+          <h2 class="text-white text-xl font-semibold mb-4">{{ municipalityName }}</h2>
+          <table class="w-full">
+            <thead>
+            <tr class="border-b border-white/20">
+              <th class="text-left text-white py-2">Party</th>
+              <th class="text-right text-white py-2">Votes</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="vote in votes" :key="vote.id" class="border-b border-white/10">
+              <td class="text-white py-2">{{ vote.party.registeredName }}</td>
+              <td class="text-white text-right py-2">{{ vote.votes.toLocaleString() }}</td>
+            </tr>
+            </tbody>
+          </table>
         </div>
-
-        <!-- PERCENTAGE -->
-        <div>
-          <ConstituencyVotesPercentage :name="selectedConstituency" :election="selectedElection" />
-        </div>
-
       </div>
-
-      <!-- PARTIJEN ONDERAAN VOLLEDIGE BREEDTE -->
-      <div>
-        <Parties_ConstituencyComponent :name="selectedConstituency" :election="selectedElection"/>
-      </div>
-
     </div>
-
-    <div class="fixed inset-0 pointer-events-none" id="particles"></div>
   </div>
 </template>
-

@@ -1,7 +1,9 @@
-<template>
-  <div class="container">
-    <h1>Municipality Results - TK2023</h1>
 
+<template>
+  <main>
+    <Navbar/>
+  </main>
+  <div class="container">
     <div v-if="loading" class="loading">Loading data...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
 
@@ -28,6 +30,7 @@
 </template>
 
 <script setup lang="ts">
+import Navbar from '../components/Navbar.vue'
 import { ref, onMounted, computed } from 'vue';
 import { ElectionService } from '@/services/ElectionService';
 
