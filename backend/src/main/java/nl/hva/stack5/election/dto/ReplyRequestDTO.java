@@ -23,5 +23,29 @@ public class ReplyRequestDTO {
         this.userId = userId;
     }
 
+    // GETTERS
+    public String getContent() {
+        return content;
+    }
 
+    public Integer getDiscussionId() {
+        return discussionId;
+    }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    //SETTERS
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public void setDiscussionId(Integer discussionId) {
+        this.discussionId = discussionId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 }
