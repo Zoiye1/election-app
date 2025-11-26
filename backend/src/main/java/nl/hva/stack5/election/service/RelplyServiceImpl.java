@@ -114,9 +114,16 @@ public class RelplyServiceImpl implements ReplyService {
             .collect(Collectors.toList());
     }
 
+
+    /**
+     * Gets the total count of replies for a discussion.
+     *
+     * @param discussionId the discussion ID
+     * @return number of replies
+     */
     @Override
     public Long getReplyCount(Integer discussionId) {
-        return 0L;
+        return replyRepository.countByDiscussionId(discussionId);
     }
 
     // ==== UPDATE ====
