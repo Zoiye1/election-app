@@ -153,8 +153,14 @@ public class RelplyServiceImpl implements ReplyService {
 
     // ==== DELETE ====
 
+    /**
+     *
+     * Deletes the reply by specific ID
+     *
+     * @param id the reply ID
+     */
     @Override
     public void deleteReply(Long id) {
-
+        replyRepository.deleteById(id);
     }
 }
