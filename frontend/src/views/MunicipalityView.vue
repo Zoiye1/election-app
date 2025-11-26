@@ -1,24 +1,78 @@
+<script setup lang="ts">
+import { ref, watch } from 'vue';
+import { ElectionService } from '@/services/ElectionService';
+import Navbar from '@/components/Navbar.vue';
+import PageNavigator from '@/components/PageNavigator.vue';
+
+const electionService = new ElectionService();
+
+const municipalityData = ref<any[]>([]);
+const loading = ref(false);
+const error = ref<string | null>(null);
+const selectedMunicipality = ref<string>('Amsterdam');
+
+const municipalities = ref<string[]>([
+  'Amsterdam', 'Rotterdam', 'Utrecht', 'Eindhoven',
+  'Groningen', 'Tilburg', 'Almere', 'Breda', 'Nijmegen',
+  'Enschede', 'Haarlem', 'Arnhem', 'Zaanstad', 'Amersfoort'
+  // voeg meer toe
+]);
+
+const loadMunicipalityData = async () => {
+  if (!selectedMunicipality.value) return;
+
+  loading.value = true;
+  error.value = null;
+
+  try {
+    municipalityData.value = await electionService.getMunicipalityData('TK2023', selectedMunicipality.value);
+  } catch (e) {
+    error.value = 'Failed to load data';
+    console.error(e);
+  } finally {
+    loading.value = false;
+  }
+};
+
+watch(selectedMunicipality, loadMunicipalityData, { immediate: true });
+</script>
+
 <template>
-  <div>
-    <h1>All Municipality Results</h1>
+  <div class="min-h-screen bg-gradient-to-br from-[#667eea] to-[#764ba2]">
+    <Navbar />
 
-    <div v-if="loading">Loading...</div>
-    <div v-else-if="error">{{ error }}</div>
+    <div class="max-w-5xl mx-auto px-6 pt-24 pb-10">  <!-- hier -->
+      <PageNavigator />
 
-    <div v-else>
-      <div v-for="(votes, municipalityName) in groupedData" :key="municipalityName" style="margin-bottom: 2rem;">
-        <h2>{{ municipalityName }}</h2>
-        <table>
+      <h1 class="text-white text-3xl font-bold text-center my-8">Municipality Results</h1>
+
+      <div class="bg-white/10 backdrop-blur-sm p-6 rounded-lg mb-8">
+        <label class="text-white font-semibold mb-2 block">Select Municipality:</label>
+        <select
+          v-model="selectedMunicipality"
+          class="w-full px-4 py-2 rounded-lg bg-white text-gray-800"
+        >
+          <option v-for="municipality in municipalities" :key="municipality" :value="municipality">
+            {{ municipality }}
+          </option>
+        </select>
+      </div>
+      <div v-if="loading" class="text-center text-white text-xl">Loading...</div>
+      <div v-else-if="error" class="text-center text-red-300 text-xl">{{ error }}</div>
+
+      <div v-else-if="municipalityData.length > 0" class="bg-white/10 backdrop-blur-sm p-6 rounded-lg">
+        <h2 class="text-white text-xl font-semibold mb-4">{{ selectedMunicipality }}</h2>
+        <table class="w-full">
           <thead>
-          <tr>
-            <th>Party</th>
-            <th>Votes</th>
+          <tr class="border-b border-white/20">
+            <th class="text-left text-white py-2">Party</th>
+            <th class="text-right text-white py-2">Votes</th>
           </tr>
           </thead>
           <tbody>
-          <tr v-for="vote in votes" :key="vote.id">
-            <td>{{ vote.party.registeredName }}</td>
-            <td>{{ vote.votes }}</td>
+          <tr v-for="vote in municipalityData" :key="vote.id" class="border-b border-white/10">
+            <td class="text-white py-2">{{ vote.party.registeredName }}</td>
+            <td class="text-white text-right py-2">{{ vote.votes.toLocaleString() }}</td>
           </tr>
           </tbody>
         </table>
@@ -26,36 +80,3 @@
     </div>
   </div>
 </template>
-
-<script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
-import { ElectionService } from '@/services/ElectionService';
-
-const electionService = new ElectionService();
-const municipalityData = ref<any[]>([]);
-const loading = ref(true);
-const error = ref<string | null>(null);
-
-const groupedData = computed(() => {
-  const grouped: Record<string, any[]> = {};
-  municipalityData.value.forEach(vote => {
-    const name = vote.municipality.name;
-    if (!grouped[name]) {
-      grouped[name] = [];
-    }
-    grouped[name].push(vote);
-  });
-  return grouped;
-});
-
-onMounted(async () => {
-  try {
-    municipalityData.value = await electionService.getAllMunicipalityData('TK2023');
-  } catch (e) {
-    error.value = 'Failed to load data';
-    console.error(e);
-  } finally {
-    loading.value = false;
-  }
-});
-</script>

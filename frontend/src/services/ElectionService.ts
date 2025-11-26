@@ -7,7 +7,8 @@ import type { Election } from "@/interfaces/IElectionData";
  * the constituency data results
  */
 const API_BASE_URL = 'http://localhost:8080/api';
- export class ElectionService {
+
+export class ElectionService {
   /**
    * @param electionId hold the id of the elections, the value of the Id attribute from the ElectionIdentifier tag.
    * @param constituencyName holds the name of the selected constituency
@@ -15,13 +16,13 @@ const API_BASE_URL = 'http://localhost:8080/api';
    */
 
   public async getAllMunicipalityData(electionId: string): Promise<any[]> {
-    const url: string = `http://localhost:8080/api/elections/${electionId}/municipalities`
+    const url: string = `http://localhost:8080/api/elections/${electionId}/municipalities`;
 
     try {
       const response: Response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
-      })
+      });
       if (!response.ok) {
         throw new Error("request failed " + response.statusText);
       }
@@ -32,15 +33,14 @@ const API_BASE_URL = 'http://localhost:8080/api';
     }
   }
 
- public async getMunicipalityData(electionId: string, municipalityName: string): Promise<ConstituencyPartyVotes[]> {
-    const url: string = `http://localhost:8080/api/elections/${electionId}/municipalities/${municipalityName}`
-    // Response holds the fetch to the endpoint
+  public async getMunicipalityData(electionId: string, municipalityName: string): Promise<ConstituencyPartyVotes[]> {
+    const url: string = `http://localhost:8080/api/elections/${electionId}/municipalities/${municipalityName}`;
+
     try {
-      // Response holds the fetch to the endpoint
       const response: Response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
-      })
+      });
       if (!response.ok) {
         throw new Error("request failed" + " " + response.statusText);
       }
@@ -49,16 +49,16 @@ const API_BASE_URL = 'http://localhost:8080/api';
       console.error('Fetch error:', error);
       throw error;
     }
-
+  }
 
   public static async getTotalVotes(): Promise<number> {
-    const url: string = `${API_BASE_URL}/elections/TK2023/total-votes`
+    const url: string = `http://localhost:8080/api/elections/TK2023/total-votes`;
 
     try {
       const response: Response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
-      })
+      });
       if (!response.ok) {
         throw new Error("request failed" + " " + response.statusText);
       }
@@ -69,18 +69,16 @@ const API_BASE_URL = 'http://localhost:8080/api';
     }
   }
 
-
   public async getElection(electionId: string): Promise<Election> {
-    const url: string = `${API_BASE_URL}elections/${electionId}`
-    // Response holds the fetch to the endpoint
+    const url: string = `http://localhost:8080/api/elections/${electionId}`;
+
     try {
-      // Response holds the fetch to the endpoint
       const response: Response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
-      })
+      });
       if (!response.ok) {
-        throw new Error("request failed ${response.statusText}");
+        throw new Error(`request failed ${response.statusText}`);
       }
       return await response.json();
     } catch (error) {
@@ -89,4 +87,39 @@ const API_BASE_URL = 'http://localhost:8080/api';
     }
   }
 
+  public async getConstituencyData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes[]> {
+    const url: string = `http://localhost:8080/api/elections/${electionId}/${constituencyName}`;
+
+    try {
+      const response: Response = await fetch(url, {
+        method: "GET",
+        headers: {"Accept": "application/json"}
+      });
+      if (!response.ok) {
+        throw new Error("request failed" + " " + response.statusText);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error;
+    }
+  }
+
+  public static async getConstituencyVotesPercentage(electionId: string, constituencyName: string): Promise<number> {
+    const url: string = `http://localhost:8080/api/elections/${electionId}/${constituencyName}/votes-percentage`;
+
+    try {
+      const response: Response = await fetch(url, {
+        method: "GET",
+        headers: {"Accept": "application/json"}
+      });
+      if (!response.ok) {
+        throw new Error(`request failed ${response.statusText}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error;
+    }
+  }
 }
