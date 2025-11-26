@@ -63,9 +63,19 @@ public class RelplyServiceImpl implements ReplyService {
 
     // ==== READ ====
 
+    /**
+     * Gets a reply by its ID.
+     *
+     * @param id the reply ID
+     * @return the reply as DTO
+     */
     @Override
     public ReplyResponseDTO getReplyById(long id) {
-        return null;
+        // get reply from database
+        Reply reply = replyRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Reply not found with id: " + id));
+
+        return replyMapper.toDTO(reply);
     }
 
     @Override
