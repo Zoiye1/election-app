@@ -69,5 +69,12 @@ public interface ReplyService {
      */
     ReplyResponseDTO updateReply(Long id, ReplyRequestDTO dto);
 
+    // ===== DELETE =====
 
+    /**
+     * Deletes a reply by its ID.
+     *
+     * @param id the reply ID
+     */
+    void deleteReply(Long id);
 }
