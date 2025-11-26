@@ -72,11 +72,25 @@ public class DiscussionController {
     }
 
     @PutMapping(value = "/{discussionId}")
-    public Discussion updateDiscussion(@PathVariable Integer discussionId, @RequestBody Discussion discussion) {
+    public DiscussionResponseDTO updateDiscussion(
+            @PathVariable Integer discussionId,
+            @RequestBody DiscussionRequestDTO requestDTO) {
+
         Optional<Discussion> existingDiscussion = discussionService.findById(discussionId);
-        if (existingDiscussion.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Discussion not found");
+        if (existingDiscussion.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Discussion not found");
+        }
+
+        // Use the mapper to update the existing entity
+        Discussion discussion = existingDiscussion.get();
+        discussionMapper.updateEntityFromDTO(requestDTO, discussion);
         discussion.setId(discussionId);
-        return discussionService.updateDiscussion(discussion);
+
+        // Save the updated discussion
+        Discussion updated = discussionService.updateDiscussion(discussion);
+
+        // Return as DTO
+        return discussionMapper.toResponseDTO(updated);
     }
 
     @DeleteMapping(value = "/{discussionId}")
