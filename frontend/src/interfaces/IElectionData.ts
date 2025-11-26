@@ -21,3 +21,22 @@ export interface Election {
   partyResults?: Party[];
   constituencyPartyVotes: ConstituencyPartyVotes[];
 }
+
+export interface Municipality {
+  id: number;
+  name: string;
+}
+
+export interface MunicipalityPartyVotes {
+  id: number;
+  partyName: string;
+  municipality: Municipality;
+  votes: number;
+}
+
+export interface MunicipalityElection {
+  id: string;
+  totalCounted?: number;
+  partyResults?: Party[];
+  municipalityPartyVotes: MunicipalityPartyVotes[];
+}
