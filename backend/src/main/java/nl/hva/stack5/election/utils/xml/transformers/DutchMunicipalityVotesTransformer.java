@@ -34,9 +34,6 @@ public class DutchMunicipalityVotesTransformer implements VotesTransformer {
         String validVotes = electionData.get("ValidVotes");
 
         Municipality municipality = election.getMunicipalities().computeIfAbsent(AuthorityIdentifier, Municipality::new);
-        System.out.println("electionData keys: " + electionData.keySet());
-        System.out.println("AuthorityIdentifier value: " + electionData.get("AuthorityIdentifier"));
-
         MunicipalityPartyVotes municipalityVotes = new MunicipalityPartyVotes(
                 election,
                 municipality,
