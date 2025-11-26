@@ -43,7 +43,7 @@ function goRight() {
 const title = computed(() => {
   const map: Record<string, string> = {
     "municipality-results": "Gemeente Uitslagen",
-    electionData: "Kieskring Uitslagen",
+    "electionData": "Kieskring Uitslagen",
     "national-results": "Nationale Uitslagen",
   };
 
