@@ -59,19 +59,19 @@ public class ElectionController {
         return election;
     }
 
-    @GetMapping("{electionId}/{constituencyName}")
-    public List<ConstituencyPartyVotesDTO> getConstituencyPartyVotes(@PathVariable String electionId, @PathVariable String constituencyName) throws IllegalAccessException {
-        return constituencyService.getResultsByConstituency(electionId, constituencyName);
-    }
+    @GetMapping("{electionId}/municipalities/{municipalityName}")
+    public List<MunicipalityPartyVotes> getMunicipalityVotes(
+            @PathVariable String electionId,
+            @PathVariable String municipalityName) {
 
-
-    @GetMapping("{electionId}/municipalities")
-    public List<MunicipalityPartyVotes> getAllMunicipalityPartyVotes(@PathVariable String electionId) {
         Election election = electionService.readResults(electionId);
         if (election == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election " + electionId + " not found");
         }
-        return election.getMunicipalityPartyVotes();
+
+        return election.getMunicipalityPartyVotes().stream()
+                .filter(vote -> vote.getMunicipality().getName().equalsIgnoreCase(municipalityName))
+                .toList();
     }
     /**
      * Retrieves total number of votes for a specific election
