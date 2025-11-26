@@ -58,4 +58,16 @@ public interface ReplyService {
      */
     Long getReplyCount(Integer discussionId);
 
+    // ===== UPDATE =====
+
+    /**
+     * Updates an existing reply.
+     *
+     * @param id the reply ID
+     * @param dto the updated reply data
+     * @return the updated reply as DTO
+     */
+    ReplyResponseDTO updateReply(Long id, ReplyRequestDTO dto);
+
+
 }
