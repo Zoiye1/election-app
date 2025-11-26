@@ -1,6 +1,6 @@
 export class LoginService {
   public async verifyUser(email: string, password: string): Promise<boolean> {
-    const url: string = `http://localhost:8080/user/verify`
+    const url: string = `http://localhost:8080/api/user/verify`
     const requestBody = {
       email: email,
       password: password
