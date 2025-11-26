@@ -11,13 +11,13 @@ public class ReplyRequestDTO {
 
     private String content;
     private Integer discussionId;
-    private Integer userId;
+    private Long userId;
 
     //Constructors
     public ReplyRequestDTO() {
     }
 
-    public ReplyRequestDTO(String content, Integer discussionId, Integer userId) {
+    public ReplyRequestDTO(String content, Integer discussionId, Long userId) {
         this.content = content;
         this.discussionId = discussionId;
         this.userId = userId;
