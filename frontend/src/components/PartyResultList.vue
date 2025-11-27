@@ -49,6 +49,13 @@ watch(
             📈 Top Partijen Nationaal
           </h2>
         </div>
+
+        <!-- Error message -->
+        <div v-if="error" class="bg-red-50 text-red-600 border border-red-200 rounded-lg px-4 py-3 mb-4">
+          {{ error }}
+        </div>
+
+
       </div>
     </template>
 
