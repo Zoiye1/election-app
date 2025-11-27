@@ -76,7 +76,12 @@ watch(
                 {{ result.partyName }}
               </div>
             </div>
-
+            <div class="text-right">
+              <div class="text-2xl font-bold text-purple-600">
+                {{ result.votes.toLocaleString("nl-NL") }}
+              </div>
+              <div class="text-xs text-gray-400">stemmen</div>
+            </div>
       </div>
     </template>
 
