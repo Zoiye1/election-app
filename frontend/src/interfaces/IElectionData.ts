@@ -40,3 +40,11 @@ export interface MunicipalityElection {
   partyResults?: Party[];
   municipalityPartyVotes: MunicipalityPartyVotes[];
 }
+
+/**
+ * Interface for top national party results
+ */
+export interface TopNationalParty {
+  partyName: string;
+  votes: number;
+}

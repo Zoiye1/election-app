@@ -7,6 +7,7 @@ import CandidateResultList from '@/components/CandidateResultList.vue';
 import ElectionSelector from '@/components/ElectionSelector.vue';
 import { useElection } from '@/composables/useElection';
 import PageNavigator from '@/components/PageNavigator.vue';
+import PartyResultList from '@/components/PartyResultList.vue'
 
 // Gebruik de shared state uit de composable
 const { selectedElection } = useElection();
@@ -44,6 +45,12 @@ onMounted(async () => {
       <div class="mt-10">
         <CandidateResultList :electionId="selectedElection" />
       </div>
+
+      <!-- Top Parties List -->
+      <div class="mt-10">
+        <PartyResultList :electionId="selectedElection" />
+      </div>
+
     </div>
   </div>
 </template>
