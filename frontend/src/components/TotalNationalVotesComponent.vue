@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, defineProps } from 'vue';
+import { computed, defineProps, onMounted } from 'vue';
 
 const props = defineProps<{
   totalCounted: number
@@ -7,7 +7,24 @@ const props = defineProps<{
 
 const formattedVotes = computed(() => {
   return props.totalCounted.toLocaleString('nl-NL');
+
+
 });
+
+onMounted(() => {
+  const particlesContainer = document.getElementById('particles')
+  if (particlesContainer) {
+    for (let i = 0; i < 50; i++) {
+      const particle = document.createElement('div')
+      particle.className = 'absolute w-1 h-1 bg-white/30 rounded-full'
+      particle.style.left = Math.random() * 100 + '%'
+      particle.style.top = Math.random() * 100 + '%'
+      particle.style.animation = `float ${6 + Math.random() * 3}s ease-in-out infinite`
+      particle.style.animationDelay = Math.random() * 6 + 's'
+      particlesContainer.appendChild(particle)
+    }
+  }
+})
 </script>
 
 <template>
@@ -24,6 +41,7 @@ const formattedVotes = computed(() => {
       <p class="text-gray-600 font-medium text-sm mb-1">Totaal Stemmen</p>
       <p class="text-3xl font-bold text-gray-800">{{ formattedVotes }}</p>
     </div>
+    <div class="fixed inset-0 pointer-events-none" id="particles"></div>
   </div>
 </template>
 

@@ -91,6 +91,7 @@ export class ElectionService {
     const url: string = `http://localhost:8080/api/elections/${electionId}/${constituencyName}`;
 
     try {
+      // Response holds the fetch to the endpoint
       const response: Response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
@@ -122,4 +123,5 @@ export class ElectionService {
       throw error;
     }
   }
+
 }
