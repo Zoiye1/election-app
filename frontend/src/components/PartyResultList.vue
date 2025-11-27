@@ -30,7 +30,7 @@ async function fetchPartyResults() {
   }
 }
 
-// watches prop changes, if change is detected refetch data fro correct election.
+// watches prop changes, if change is detected refetch data for correct election.
 watch(
   () => props.electionId,
   () => {
@@ -42,49 +42,43 @@ watch(
 
 <template>
   <div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md">
-    <template>
-      <div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md">
-        <div class="flex items-center justify-between mb-6">
-          <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
-            📈 Top Partijen Nationaal
-          </h2>
-        </div>
+    <div class="flex items-center justify-between mb-6">
+      <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
+        📈 Top Partijen Nationaal
+      </h2>
+    </div>
 
+    <div v-if="error" class="bg-red-50 text-red-600 border border-red-200 rounded-lg px-4 py-3 mb-4">
+      {{ error }}
+    </div>
 
-        <div v-if="error" class="bg-red-50 text-red-600 border border-red-200 rounded-lg px-4 py-3 mb-4">
-          {{ error }}
-        </div>
+    <div v-if="loading" class="text-center text-gray-500 py-6">Laden...</div>
 
-
-        <div v-if="loading" class="text-center text-gray-500 py-6">Laden...</div>
-
-
-        <div v-else class="max-h-96 overflow-y-auto space-y-3 pr-2">
+    <div v-else class="max-h-96 overflow-y-auto space-y-3 pr-2">
+      <div
+        v-for="(result, i) in partyResults"
+        :key="i"
+        class="bg-purple-50 rounded-2xl p-4 flex items-center justify-between hover:bg-purple-100 transition-colors shadow"
+      >
+        <div class="flex items-center gap-4">
           <div
-            v-for="(result, i) in partyResults"
-            :key="i"
-            class="bg-purple-50 rounded-2xl p-4 flex items-center justify-between hover:bg-purple-100 transition-colors shadow"
+            class="w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0"
+            style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
           >
-            <div class="flex items-center gap-4">
-              <div
-                class="w-12 h-12 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0"
-                style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-              >
-                {{ i + 1 }}
-              </div>
-              <div class="text-lg font-bold text-gray-800">
-                {{ result.partyName }}
-              </div>
-            </div>
-            <div class="text-right">
-              <div class="text-2xl font-bold text-purple-600">
-                {{ result.votes.toLocaleString("nl-NL") }}
-              </div>
-              <div class="text-xs text-gray-400">stemmen</div>
-            </div>
-      </div>
-    </template>
+            {{ i + 1 }}
+          </div>
+          <div class="text-lg font-bold text-gray-800">
+            {{ result.partyName }}
+          </div>
+        </div>
 
+        <div class="text-right">
+          <div class="text-2xl font-bold text-purple-600">
+            {{ result.votes.toLocaleString("nl-NL") }}
+          </div>
+          <div class="text-xs text-gray-400">stemmen</div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-
