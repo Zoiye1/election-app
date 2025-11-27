@@ -16,19 +16,20 @@ export class NationalPartyService {
    */
   public static async getTopParties(electionId: string): Promise<TopNationalParty[]> {
     const url: string = `${API_BASE_URL}/parties/top?electionId=${electionId}`;
-
+    // Check if request was successful
     try {
       const response: Response = await fetch(url, {
         method: "GET",
         headers: { "Accept": "application/json" }
       });
-
+      // Check if request was successful
       if (!response.ok) {
         throw new Error("request failed " + response.statusText);
       }
-
+      // Return parsed JSON response
       return await response.json();
     } catch (error) {
+      // Log error and rethrow
       console.error('Fetch error:', error);
       throw error;
     }
