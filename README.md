@@ -1,92 +1,87 @@
-# Elections
+# 🗳️ StemSlim - Dutch Election Results Platform
 
-Welcome to your Elections project. You and your teammates will need to create the project structure from the ground up. The second presentation contains a widely used and proven structure. Besides the information within the [studiemanual](https://dlo.mijnhva.nl/d2l/le/lessons/609780/topics/2234932) you can also find more information on the [DLO](https://dlo.mijnhva.nl/d2l/le/lessons/609780/units/2204825).
+StemSlim is a web application for visualizing Dutch election results. The application processes official election data from EML-XML files and presents them in a clear, user-friendly interface. Users can view voting results at national, constituency, and municipality level, compare party and candidate performance, and engage in discussions about the outcomes. The platform supports multiple election years, allowing users to explore historical data and track political trends over time.
 
-**Please note that you are not allowed to add the XML-files containing the information about the elections to your git-repo. Per election the size of the dataset is about 2GB!**
+## 📑 Table of Contents
 
-## Getting started
+- [API Endpoint Overview](#api-endpoint-overview)
+    - [Candidates](#candidates)
+    - [Parties](#parties)
+    - [Elections](#elections)
+    - [Constituencies](#constituencies)
+    - [Municipalities](#municipalities)
+    - [Discussions](#discussions)
+    - [Users](#users)
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+## API Endpoint Overview
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+Full API documentation is available via Swagger UI:
 
-## Add your files
+🔗 **[Swagger UI - API Documentation](http://localhost:8080/api/swagger-ui/index.html#/)**
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### Candidates
 
-```
-cd existing_repo
-git remote add origin <the SSH URL to this repo>
-git branch -M main
-git push -uf origin main
-```
+Endpoints for retrieving candidate information and the top 20 most voted candidates per election.
 
-## Integrate with your tools
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/candidates` | Get all candidates |
+| `GET` | `/candidates/{id}` | Get candidate by ID |
+| `GET` | `/candidates/top?electionId={id}` | Get top 20 candidates per election |
 
-- [ ] [Set up project integrations](../../settings/integrations)
+### Parties
 
-## Collaborate with your team
+Endpoints for retrieving the top 20 parties based on national vote count.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/parties/top?electionId={id}` | Get top 20 parties nationally |
 
-## Test and Deploy
+### Elections
 
-Use the built-in continuous integration in GitLab.
+Endpoints for retrieving and importing election data. Data is imported from EML-XML files.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/elections/{electionId}` | Get election results |
+| `POST` | `/elections/{electionId}?folderName={folder}` | Import election data from XML |
+| `GET` | `/elections/{electionId}/total-votes` | Get total vote count |
 
-***
+### Constituencies
 
-# Editing this README
+Endpoints for retrieving election results per constituency, including vote percentages and totals.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/elections/{electionId}/{constituencyName}` | Get party votes per constituency |
+| `GET` | `/elections/{electionId}/{constituencyName}/votes-percentage` | Get vote percentage per constituency |
+| `GET` | `/elections/{electionId}/{constituencyName}/totalVotes` | Get total votes per constituency |
 
-## Suggestions for a good README
+### Municipalities
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+Endpoints for retrieving election results per municipality.
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/elections/{electionId}/municipalities/{municipalityName}` | Get party votes per municipality |
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### Discussions
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+Endpoints for the discussion platform. Users can create, view, edit, and delete discussions. A JWT token is required to create a discussion.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/discussion` | Get all discussions |
+| `POST` | `/discussion` | Create new discussion (JWT required) |
+| `PUT` | `/discussion/{discussionId}` | Update discussion |
+| `DELETE` | `/discussion/{discussionId}` | Delete discussion |
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+### Users
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+Endpoints for user management and authentication. Passwords are hashed using Argon2. A JWT token is returned upon successful login.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/user/{userId}` | Get user by ID |
+| `POST` | `/user` | Register new user |
+| `POST` | `/user/verify` | Login user (returns JWT token) |
