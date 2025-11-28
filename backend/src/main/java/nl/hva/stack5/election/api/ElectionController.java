@@ -59,6 +59,9 @@ public class ElectionController {
         return election;
     }
 
+
+
+
     @GetMapping("{electionId}/municipalities/{municipalityName}")
     public List<MunicipalityPartyVotes> getMunicipalityVotes(
             @PathVariable String electionId,
