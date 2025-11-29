@@ -55,6 +55,68 @@ public class UserController {
         return ResponseEntity.ok(user.get());
     }
 
+    /**
+     * Update username for existing user
+     * @param userId the user ID
+     * @param request request body with new username
+     * @return Updated user
+     */
+    @PutMapping("/{userId}/username")
+    public ResponseEntity<?> updateUsername(@PathVariable Integer userId, @RequestBody Map<String, String> request) {
+        logger.info("Updating username for user ID: {}", userId);
+
+        String newUsername = request.get("username");
+
+        if (newUsername == null || newUsername.trim().isEmpty()) {
+            logger.warn("Username update failed: empty username provided");
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "INVALID_INPUT");
+            errorResponse.put("message", "Username cannot be empty");
+            errorResponse.put("status", 400);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+
+        try {
+            User updated = userService.updateUsername(userId, newUsername);
+            logger.info("Username updated successfully for user ID: {}", userId);
+            return ResponseEntity.ok(updated);
+        } catch (IllegalArgumentException e) {
+            logger.warn("Username update failed: {}", e.getMessage());
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "UPDATE_FAILED");
+            errorResponse.put("message", e.getMessage());
+            errorResponse.put("status", 400);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
+    }
+
+    /**
+     * Delete user account
+     * @param userId the user ID to delete
+     * @return Success message or error
+     */
+    @DeleteMapping("/{userId}")
+    public ResponseEntity<?> deleteUser(@PathVariable Integer userId) {
+        logger.info("Deleting user with ID: {}", userId);
+
+        try {
+            userService.deleteUser(userId);
+            logger.info("User deleted successfully with ID: {}", userId);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "User deleted successfully");
+            return ResponseEntity.ok(response);
+        } catch (IllegalArgumentException e) {
+            logger.warn("User deletion failed: {}", e.getMessage());
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "USER_NOT_FOUND");
+            errorResponse.put("message", e.getMessage());
+            errorResponse.put("status", 404);
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+        }
+    }
+
 
     /**
      * Create new user account
