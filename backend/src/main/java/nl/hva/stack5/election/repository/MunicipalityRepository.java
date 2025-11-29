@@ -1,11 +1,13 @@
 package nl.hva.stack5.election.repository;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import nl.hva.stack5.election.dto.MunicipalityPartyVotesDTO;
 import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
 public class MunicipalityRepository {
+    @PersistenceContext
     private EntityManager entityManager;
 
     public List<MunicipalityPartyVotesDTO> findByMunicipalityAndElectionId(
