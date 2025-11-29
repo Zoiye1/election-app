@@ -9,4 +9,6 @@ public interface UserService {
     User createUser(User user);
     boolean verifyUsernameAndPassword(String username, String password);
     boolean verifyEmailAndPassword(String email, String password);
+    User updateUsername(Integer userId, String newUsername);
+    void deleteUser(Integer userId);
 }
