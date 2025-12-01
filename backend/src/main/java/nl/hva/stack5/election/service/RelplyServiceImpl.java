@@ -53,7 +53,7 @@ public class RelplyServiceImpl implements ReplyService {
         Discussion discussion = discussionRepository.findById(dto.getDiscussionId())
                 .orElseThrow(() -> new RuntimeException("Discussion not found with id: " + dto.getDiscussionId()));
         // get the user from database
-        User user = userRepository.findById(dto.getDiscussionId())
+        User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + dto.getDiscussionId()));
         // convert dto to entity
         Reply reply = replyMapper.toEntity(dto, discussion, user);

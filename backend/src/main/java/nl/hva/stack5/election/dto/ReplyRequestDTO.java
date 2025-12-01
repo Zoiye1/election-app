@@ -11,13 +11,13 @@ public class ReplyRequestDTO {
 
     private String content;
     private Integer discussionId;
-    private Long userId;
+    private Integer userId;
 
     //Constructors
     public ReplyRequestDTO() {
     }
 
-    public ReplyRequestDTO(String content, Integer discussionId, Long userId) {
+    public ReplyRequestDTO(String content, Integer discussionId, Integer userId) {
         this.content = content;
         this.discussionId = discussionId;
         this.userId = userId;
@@ -32,7 +32,7 @@ public class ReplyRequestDTO {
         return discussionId;
     }
 
-    public Long getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -45,7 +45,7 @@ public class ReplyRequestDTO {
         this.discussionId = discussionId;
     }
 
-    public void setUserId(Long userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 }
