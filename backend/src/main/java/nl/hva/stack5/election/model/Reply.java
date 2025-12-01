@@ -34,6 +34,10 @@ public class Reply {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
+    @ManyToOne
+    @Column(name = "parent_reply_id")
+    private Reply parentReply;
+
     //default constructor
     public Reply() {}
 
@@ -42,6 +46,7 @@ public class Reply {
         this.content = content;
         this.discussion = discussion;
         this.author = author;
+        this.parentReply = parentReply;
         this.createdAt = LocalDateTime.now();
     }
 
@@ -66,6 +71,10 @@ public class Reply {
         return createdAt;
     }
 
+    public Reply getParentReply() {
+        return parentReply;
+    }
+
     //SETTERS
     public void setId(Long id) {
         this.id = id;
@@ -81,6 +90,10 @@ public class Reply {
 
     public void setAuthor(User author) {
         this.author = author;
+    }
+
+    public void setParentReply (Reply parentReply) {
+        this.parentReply = parentReply;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
