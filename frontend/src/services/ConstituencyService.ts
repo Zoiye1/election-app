@@ -23,11 +23,12 @@ export class ConstituencyService{
         headers: {"Accept": "application/json"}
       })
       if (!response.ok) {
-        throw new Error("request failed" + " " + response.statusText);
+        throw new Error(`GET ${url} failed → ${response.status} ${response.statusText}`);
       }
+
       return await response.json();
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error(`error fetching constituencyPartyResults ${url}`,  error instanceof Error ? error.message: error);
       throw error;
     }
 
@@ -48,11 +49,12 @@ export class ConstituencyService{
         headers: {"Accept": "application/json"}
       })
       if (!response.ok) {
-        throw new Error("request failed ${response.statusText}");
+        throw new Error(`GET ${url} failed → ${response.status} ${response.statusText}`);
       }
+
       return await response.json();
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error(`error fetching constituencyVotesPercentage ${url}`,  error instanceof Error ? error.message: error);
       throw error;
     }
   }
@@ -72,11 +74,12 @@ export class ConstituencyService{
         headers: {"Accept": "application/json"}
       })
       if (!response.ok) {
-        throw new Error("request failed ${response.statusText}");
+        throw new Error(`GET ${url} failed → ${response.status} ${response.statusText}`);
       }
+
       return await response.json();
     } catch (error) {
-      console.error('Fetch error:', error);
+      console.error(`error fetching totalConstituencyVotes ${url}`, error instanceof Error ? error.message: error);
       throw error;
     }
   }
