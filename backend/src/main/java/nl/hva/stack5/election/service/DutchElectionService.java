@@ -8,7 +8,9 @@ import nl.hva.stack5.election.utils.PathUtils;
 import nl.hva.stack5.election.utils.xml.*;
 import nl.hva.stack5.election.utils.xml.transformers.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;

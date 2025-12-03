@@ -7,10 +7,8 @@ import jakarta.persistence.EntityNotFoundException;
 import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.service.DutchElectionService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import nl.hva.stack5.election.service.ConstituencyService;
 
@@ -66,28 +64,15 @@ public class ConstituencyController {
             @ApiResponse(responseCode = "404", description = "Election or constituency not found")
     })
     @GetMapping("{electionId}/{constituencyName}/votes-percentage")
-    public Double getVotesPercentage(@PathVariable String electionId, @PathVariable String constituencyName) throws EntityNotFoundException {
+    public Double getVotesPercentage(@PathVariable String electionId, @PathVariable String constituencyName) throws ResponseStatusException {
 
-        // retrieve election from database
-        Election election = electionService.readResults(electionId);
-
-        if (election == null) {
-            throw new EntityNotFoundException("Election named" + electionId + "not found");
-        }
 
         return constituencyService.CalculateVotesPercentage(electionId, constituencyName);
 
     }
 
     @GetMapping("{electionId}/{constituencyName}/totalVotes")
-    public long getTotalVotes(@PathVariable String electionId, @PathVariable String constituencyName) throws EntityNotFoundException {
-
-        // retrieve election from database
-        Election election = electionService.readResults(electionId);
-
-        if (election == null) {
-            throw new EntityNotFoundException("Election named" + electionId + "not found");
-        }
+    public long getTotalVotes(@PathVariable String electionId, @PathVariable String constituencyName) throws ResponseStatusException {
 
         return constituencyService.getTotalConstituencyVotes(electionId, constituencyName);
 

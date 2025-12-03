@@ -59,9 +59,9 @@ public class ConstituencyService {
         Election election = electionRepository.findById(electionId);
 
         if (election == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "election" + electionId + "not found");
-
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + " " + electionId + " " + "not found");
         }
+
         return constituencyRepository.findByConstituencyAndElectionId(electionId, constituencyName);
     }
 
@@ -69,7 +69,7 @@ public class ConstituencyService {
         Election election = electionRepository.findById(electionId);
 
         if (election == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + " " + electionId + " " + "not found");
         }
 
         long totalCounted = election.getTotalCounted();
