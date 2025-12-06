@@ -53,4 +53,14 @@ public class UserServiceImpl implements UserService {
     public boolean verifyEmailAndPassword(String email, String password) {
         User user = userRepository.findByEmail(email);
         return passwordEncoder.matches(password, user.getPassword());    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
+
+    @Override
+    public User findByUsername(String username) {
+        return userRepository.findByUsername(username);
+    }
 }
