@@ -69,7 +69,7 @@ public class DiscussionResponseDTO {
     }
 
     public void setAuthorId(Integer id) {
-        this.id = id;
+        this.authorId = id;
     }
 
     public void setTitle(String title) {
