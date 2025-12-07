@@ -39,6 +39,23 @@ export function useAuth() {
     return !!(token && userData)
   }
 
+    const getCurrentUserId = (): number | null => {
+      const token = sessionStorage.getItem('authToken')
+      if (!token) return null
+
+      try {
+        // Decode the payload (middle part)
+        const payloadBase64 = token.split('.')[1]
+        const decodedPayload = JSON.parse(atob(payloadBase64))
+
+        // Extract userId from the decoded payload
+        return decodedPayload.userId || null
+      } catch (error) {
+        console.error('Failed to decode JWT token:', error)
+        return null
+      }
+    }
+
   // Computed properties
   const userName = computed(() => {
     return currentUser.value?.username || currentUser.value?.email?.split('@')[0] || 'User'
@@ -48,13 +65,19 @@ export function useAuth() {
     return currentUser.value?.email || ''
   })
 
+  const userId = computed(() => {
+    return getCurrentUserId()
+  })
+
   return {
     currentUser,
     isAuthenticated,
     userName,
     userEmail,
+    userId,
     checkAuth,
     logout,
-    getAuthStatus
+    getAuthStatus,
+    getCurrentUserId
   }
 }
