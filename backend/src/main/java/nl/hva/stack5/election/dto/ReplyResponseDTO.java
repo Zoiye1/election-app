@@ -16,18 +16,20 @@ public class ReplyResponseDTO {
     private String authorName;
     private LocalDateTime createdAt;
     private Integer discussionId;
+    private Long parentReplyId;
 
 
     // Constructors
 
     public ReplyResponseDTO() {}
 
-    public ReplyResponseDTO(Long id, String content, String authorName, LocalDateTime createdAt, Integer discussionId) {
+    public ReplyResponseDTO(Long id, String content, String authorName, LocalDateTime createdAt, Integer discussionId, Long parentReplyId) {
         this.id = id;
         this.content = content;
         this.authorName = authorName;
         this.createdAt = createdAt;
         this.discussionId = discussionId;
+        this.parentReplyId = parentReplyId;
     }
 
     // GETTERS
@@ -51,6 +53,10 @@ public class ReplyResponseDTO {
         return discussionId;
     }
 
+    public Long getParentReplyId() {
+        return parentReplyId;
+    }
+
     // SETTERS
     public void setId(Long id) {
         this.id = id;
@@ -69,6 +75,10 @@ public class ReplyResponseDTO {
 
     public void setDiscussionId(Integer discussionId) {
         this.discussionId = discussionId;
+    }
+
+    public void setParentReplyId(Long parentReplyId) {
+        this.parentReplyId = parentReplyId;
     }
 
 }
