@@ -13,6 +13,8 @@ public class ReplyRequestDTO {
     private Integer discussionId;
     private Integer userId;
 
+    private Long parentReplyId;
+
     //Constructors
     public ReplyRequestDTO() {
     }
@@ -36,6 +38,10 @@ public class ReplyRequestDTO {
         return userId;
     }
 
+    public Long getParentReplyId () {
+        return parentReplyId;
+    }
+
     //SETTERS
     public void setContent(String content) {
         this.content = content;
@@ -47,5 +53,9 @@ public class ReplyRequestDTO {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public void setParentReplyId (Long parentReplyId) {
+        this.parentReplyId = parentReplyId;
     }
 }
