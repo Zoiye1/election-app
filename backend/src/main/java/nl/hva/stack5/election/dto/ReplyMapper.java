@@ -34,7 +34,8 @@ public class ReplyMapper {
                 reply.getContent(),
                 reply.getAuthor().getUsername(),  // Gets the username from user
                 reply.getCreatedAt(),
-                reply.getDiscussion().getId()     // Gets the discussion id from discussion
+                reply.getDiscussion().getId(),     // Gets the discussion id from discussion
+                reply.getParentReply() != null ? reply.getParentReply().getId() : null
         );
     }
 
@@ -46,7 +47,7 @@ public class ReplyMapper {
      * @param user the user entity
      * @return Reply entity with all relationships set
      */
-    public Reply toEntity(ReplyRequestDTO dto, Discussion discussion, User user) {
+    public Reply toEntity(ReplyRequestDTO dto, Discussion discussion, User user, Reply parentReply) {
         if (dto == null) {
             return null;
         }
@@ -54,7 +55,8 @@ public class ReplyMapper {
         return new Reply(
                 dto.getContent(),
                 discussion,
-                user
+                user,
+                parentReply
         );
     }
 

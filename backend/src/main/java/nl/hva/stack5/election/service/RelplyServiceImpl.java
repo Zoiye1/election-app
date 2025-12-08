@@ -55,8 +55,14 @@ public class RelplyServiceImpl implements ReplyService {
         // get the user from database
         User user = userRepository.findById(dto.getUserId())
                 .orElseThrow(() -> new RuntimeException("User not found with id: " + dto.getDiscussionId()));
+        // get parent reply, if reply is nested.
+        Reply parentReply = null;
+        if (dto.getParentReplyId() != null) {
+            parentReply = replyRepository.findById(dto.getParentReplyId())
+                    .orElseThrow(() -> new RuntimeException("Parent reply not found with id: " + dto.getParentReplyId()));
+        }
         // convert dto to entity
-        Reply reply = replyMapper.toEntity(dto, discussion, user);
+        Reply reply = replyMapper.toEntity(dto, discussion, user, parentReply);
         // save reply
         Reply savedReply = replyRepository.Create(reply);
         //return as DTO
