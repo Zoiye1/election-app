@@ -35,14 +35,14 @@ public class Reply {
     private LocalDateTime createdAt;
 
     @ManyToOne
-    @Column(name = "parent_reply_id")
+    @JoinColumn(name = "parent_reply_id")
     private Reply parentReply;
 
     //default constructor
     public Reply() {}
 
 
-    public Reply(String content, Discussion discussion, User author) {
+    public Reply(String content, Discussion discussion, User author, Reply parentReply) {
         this.content = content;
         this.discussion = discussion;
         this.author = author;

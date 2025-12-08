@@ -8,10 +8,7 @@ import nl.hva.stack5.election.service.ReplyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -32,5 +29,11 @@ public class ReplyController {
     public ResponseEntity<ReplyResponseDTO> createReply (@RequestBody ReplyRequestDTO dto) {
         ReplyResponseDTO createdReply = replyService.createReply(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReply);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReply(@PathVariable Long id) {
+        replyService.deleteReply(id);
+        return ResponseEntity.noContent().build();
     }
 }
