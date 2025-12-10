@@ -57,4 +57,27 @@ const isNestedReply = computed(() => {
 
 <template>
 
+  <div
+    :class="[
+      'bg-gray-50 rounded-lg p-4 shadow-sm transition-all duration-300',
+      isNestedReply ? 'ml-8 border-l-4 border-purple-300' : ''
+    ]"
+  >
+
+    <div class="flex items-center justify-between mb-2">
+      <div class="flex items-center gap-2">
+        <div :class="[
+          'w-8 h-8 rounded-full flex items-center justify-center text-white font-bold text-xs',
+          avatarClass
+        ]">
+          {{ userInitials }}
+        </div>
+        <div>
+          <span class="font-medium text-gray-800 text-sm">{{ reply.authorName }}</span>
+          <span class="text-xs text-gray-400 ml-2">{{ formatDate(reply.createdAt) }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
 </template>
