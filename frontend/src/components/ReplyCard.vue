@@ -89,5 +89,7 @@ const isNestedReply = computed(() => {
       </svg>
     </button>
 
+    <p class="text-gray-600 text-sm leading-relaxed ml-10">{{ reply.content }}</p>
+
   </div>
 </template>
