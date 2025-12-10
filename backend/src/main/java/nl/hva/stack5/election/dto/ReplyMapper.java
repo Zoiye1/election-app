@@ -32,7 +32,8 @@ public class ReplyMapper {
         return new ReplyResponseDTO(
                 reply.getId(),
                 reply.getContent(),
-                reply.getAuthor().getUsername(),  // Gets the username from user
+                reply.getAuthor().getUsername(),
+                reply.getAuthor().getId(),
                 reply.getCreatedAt(),
                 reply.getDiscussion().getId(),     // Gets the discussion id from discussion
                 reply.getParentReply() != null ? reply.getParentReply().getId() : null
