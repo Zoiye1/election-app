@@ -86,7 +86,7 @@ onMounted(() => {
           </thead>
           <tbody>
           <tr v-for="vote in municipalityData" :key="vote.id" class="border-b border-white/10">
-            <td class="text-white py-2">{{ vote.party.registeredName }}</td>
+            <td class="text-white py-2">{{ vote.partyName}}</td>
             <td class="text-white text-right py-2">{{ vote.votes.toLocaleString() }}</td>
           </tr>
           </tbody>
