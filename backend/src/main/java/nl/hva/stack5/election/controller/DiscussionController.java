@@ -44,17 +44,6 @@ public class DiscussionController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(value = "/{discussionId}")
-    public DiscussionResponseDTO getDiscussionById(@PathVariable Integer discussionId) {
-        Optional<Discussion> discussion = discussionService.findById(discussionId);
-
-        if (discussion.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Discussion not found");
-        }
-
-        return discussionMapper.toResponseDTO(discussion.get());
-    }
-
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
