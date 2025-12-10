@@ -82,4 +82,33 @@ public class ConstituencyService {
         }
         return totalConstituencyVotes;
     }
+
+    public double calculateConstituencyVotesPercentage(String electionId, String constituencyName, String registeredName) throws ResponseStatusException{
+        Election election = electionRepository.findById(electionId);
+
+        if (election == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+        }
+
+        List<ConstituencyPartyVotesDTO> results =  constituencyRepository.findByConstituencyAndElectionId(electionId, constituencyName);
+
+        double totalConstituencyVotes =  0;
+        for (ConstituencyPartyVotesDTO votes : results) {
+            totalConstituencyVotes += votes.getVotes();
+        }
+
+        ConstituencyPartyVotesDTO partyResults= constituencyRepository.findPartyVotesByConstituencyAndElection(electionId, constituencyName, registeredName);
+
+        double partVotes = partyResults.getVotes();
+
+        double constituencyVotesPercentage =
+                Math.round(((partVotes / totalConstituencyVotes) * 100) * 10) / 10.0;
+
+        return constituencyVotesPercentage;
+
+
+
+    }
+
+
 }
