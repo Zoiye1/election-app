@@ -14,7 +14,7 @@ public class ReplyResponseDTO {
     private Long id;
     private String content;
     private String authorName;
-    private Long authorId;
+    private Integer authorId;
     private LocalDateTime createdAt;
     private Integer discussionId;
     private Long parentReplyId;
@@ -24,7 +24,7 @@ public class ReplyResponseDTO {
 
     public ReplyResponseDTO() {}
 
-    public ReplyResponseDTO(Long id, String content, String authorName, Long authorId, LocalDateTime createdAt, Integer discussionId, Long parentReplyId) {
+    public ReplyResponseDTO(Long id, String content, String authorName, Integer authorId, LocalDateTime createdAt, Integer discussionId, Long parentReplyId) {
         this.id = id;
         this.content = content;
         this.authorName = authorName;
@@ -59,7 +59,7 @@ public class ReplyResponseDTO {
         return parentReplyId;
     }
 
-    public Long getAuthorId() {
+    public Integer getAuthorId() {
         return authorId;
     }
 
@@ -87,7 +87,7 @@ public class ReplyResponseDTO {
         this.parentReplyId = parentReplyId;
     }
 
-    public void setAuthorId (Long authorId) {
+    public void setAuthorId (Integer authorId) {
         this.authorId = authorId;
     }
 

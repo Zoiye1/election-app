@@ -6,7 +6,7 @@ import { DiscussionService, type DiscussionResponseDTO } from '@/services/Discus
 import { computed } from 'vue'
 import { ReplyService } from '@/services/ReplyService.ts'
 import type { ReplyResponseDTO } from '@/interfaces/Replies.ts'
-import { ReplyCard } from '@/components/ReplyCard.vue'
+import ReplyCard from '@/components/ReplyCard.vue'
 
 // Initialize router and service
 const route = useRoute()
@@ -261,8 +261,8 @@ const avatarClass = computed(() => {
             <div v-if="replies.length === 0" class="bg-white/10 rounded-xl p-6 text-center">
               <p class="text-white/70">Nog geen reacties. Wees de eerste!</p>
             </div>
-
         </div>
+      </div>
       </div>
     </main>
   </div>
