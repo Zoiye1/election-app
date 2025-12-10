@@ -6,6 +6,7 @@ import { DiscussionService, type DiscussionResponseDTO } from '@/services/Discus
 import { computed } from 'vue'
 import { ReplyService } from '@/services/ReplyService.ts'
 import type { ReplyResponseDTO } from '@/interfaces/Replies.ts'
+import { ReplyCard } from '@/components/ReplyCard.vue'
 
 // Initialize router and service
 const route = useRoute()
@@ -34,8 +35,28 @@ const fetchDiscussion = async () => {
   }
 }
 
+// Fetch replies from API
+const fetchReplies = async () => {
+  try {
+    replies.value = await replyService.getRepliesByDiscussionId(Number(discussionId))
+  } catch (err) {
+    console.error('Fetch replies error:', err)
+  }
+}
+
+// Delete reply trough API
+const handleDeleteReply = async (id: number) => {
+  try {
+    await replyService.deleteReply(id)
+    replies.value = replies.value.filter(r => r.id !== id)
+  } catch (err) {
+    console.error('Delete reply error:', err)
+  }
+}
+
 onMounted(() => {
   fetchDiscussion()
+  fetchReplies()
   const particlesContainer = document.getElementById('particles')
   if (particlesContainer) {
     for (let i = 0; i < 50; i++) {
@@ -221,6 +242,26 @@ const avatarClass = computed(() => {
               {{ discussion.replies }} reacties
             </span>
           </div>
+          <!-- Replies Section -->
+          <div class="mt-8">
+            <h2 class="text-white text-2xl font-bold mb-4">
+              Reacties ({{ replies.length }})
+            </h2>
+
+            <div class="space-y-4">
+              <ReplyCard
+                v-for="reply in replies"
+                :key="reply.id"
+                :reply="reply"
+                @delete="handleDeleteReply"
+              />
+            </div>
+
+            <!-- Empty state -->
+            <div v-if="replies.length === 0" class="bg-white/10 rounded-xl p-6 text-center">
+              <p class="text-white/70">Nog geen reacties. Wees de eerste!</p>
+            </div>
+
         </div>
       </div>
     </main>
