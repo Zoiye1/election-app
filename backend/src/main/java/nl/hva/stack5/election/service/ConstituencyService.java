@@ -99,10 +99,15 @@ public class ConstituencyService {
 
         ConstituencyPartyVotesDTO partyResults= constituencyRepository.findPartyVotesByConstituencyAndElection(electionId, constituencyName, registeredName);
 
-        double partVotes = partyResults.getVotes();
+        if (partyResults == null || partyResults.getVotes() <= 0) {
+            return 0.0;
+        }
+
+        double partyVotes = partyResults.getVotes();
+
 
         double constituencyVotesPercentage =
-                Math.round(((partVotes / totalConstituencyVotes) * 100) * 10) / 10.0;
+                Math.round(((partyVotes / totalConstituencyVotes) * 100) * 10) / 10.0;
 
         return constituencyVotesPercentage;
 
