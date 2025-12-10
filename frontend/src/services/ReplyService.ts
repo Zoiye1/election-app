@@ -17,5 +17,21 @@ export class ReplyService {
     if (!response.ok) {
       throw new Error('request failed: ' + response.statusText)
     }
+
+    return await response.json()
+  }
+
+  public async deleteReply(id: number) {
+    const response: Response = await fetch(`${this.baseUrl}/${id}`, {
+      method: 'DELETE',
+      headers: {
+        'Accept': 'application/json'
+        }
+    })
+
+    if (!response.ok) {
+      throw new Error('Request failed: ' + response.statusText)
+    }
   }
 }
+
