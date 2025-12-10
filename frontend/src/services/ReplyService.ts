@@ -21,6 +21,21 @@ export class ReplyService {
     return await response.json()
   }
 
+  public async getRepliesByDiscussionId(discussionId: number): Promise<ReplyResponseDTO[]> {
+    const response: Response = await fetch(`${this.baseUrl}/discussion/${discussionId}`, {
+      method: 'GET',
+      headers: {
+        'Accept': 'application/json'
+      }
+    })
+
+    if (!response.ok) {
+      throw new Error('Request failed: ' + response.statusText)
+    }
+
+    return await response.json()
+  }
+
   public async deleteReply(id: number) {
     const response: Response = await fetch(`${this.baseUrl}/${id}`, {
       method: 'DELETE',
