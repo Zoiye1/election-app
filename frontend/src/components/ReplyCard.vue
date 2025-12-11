@@ -12,7 +12,6 @@ const emit = defineEmits<{
   (e: 'delete', id: number): void
 }>()
 
-
 // Formats date as: 10 December 2025, 18:00
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)
@@ -54,6 +53,12 @@ const avatarClass = computed(() => {
 const isNestedReply = computed(() => {
   return props.reply.parentReplyId !== null
 })
+
+const confirmDelete = () => {
+  if (confirm('Weet je zeker dat je deze reactie wilt verwijderen?')) {
+    emit('delete', props.reply.id)
+  }
+}
 </script>
 
 <template>
@@ -82,7 +87,7 @@ const isNestedReply = computed(() => {
 
     <button
       v-if="currentUserId === reply.authorId"
-      @click="emit('delete', reply.id)"
+      @click="confirmDelete"
       class="text-gray-400 hover:text-red-500 transition-colors"
       title="Verwijder reactie"
     >
