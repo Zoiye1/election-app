@@ -14,7 +14,7 @@ const props = defineProps<{
 onMounted(async () => {
   const electionService = new ElectionService();
   try {
-    const data = await electionService.getMunicipalityData(props.election, props.name);
+    const data = await electionService.getMunicipalityData('TK2023', props.name);
     if (!data || data.length === 0) {
       error.value = "Oeps, er is iets mis gegaan. Probeer het later weer opnieuw";
     } else {
