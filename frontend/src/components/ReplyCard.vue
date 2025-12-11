@@ -1,7 +1,23 @@
 <script setup lang="ts">
 
 import type { ReplyResponseDTO } from '@/interfaces/Replies.ts'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
+
+
+
+const confirmDelete = () => {
+  showDeleteModal.value = true
+}
+
+const cancelDelete = () => {
+  showDeleteModal.value = false
+}
+
+const doDelete = () => {
+  emit('delete', props.reply.id)
+  showDeleteModal.value = false
+}
+
 
 const props = defineProps<{
   reply: ReplyResponseDTO
@@ -12,6 +28,8 @@ const emit = defineEmits<{
   (e: 'delete', id: number): void
   (e: 'reply', id: number): void
 }>()
+
+const showDeleteModal = ref(false)
 
 // Formats date as: 10 December 2025, 18:00
 const formatDate = (dateString: string) => {
@@ -55,11 +73,6 @@ const isNestedReply = computed(() => {
   return props.reply.parentReplyId !== null
 })
 
-const confirmDelete = () => {
-  if (confirm('Weet je zeker dat je deze reactie wilt verwijderen?')) {
-    emit('delete', props.reply.id)
-  }
-}
 </script>
 
 <template>
@@ -109,5 +122,27 @@ const confirmDelete = () => {
     </div>
 
     <p class="text-gray-600 text-sm leading-relaxed ml-10 whitespace-pre-wrap break-words">{{ reply.content }}</p>
+
+    <!-- Delete Modal -->
+    <div v-if="showDeleteModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div class="bg-white rounded-xl p-6 max-w-sm mx-4 shadow-2xl">
+        <h3 class="text-lg font-semibold text-gray-800 mb-2">Reactie verwijderen?</h3>
+        <p class="text-gray-600 text-sm mb-6">Weet je zeker dat je deze reactie wilt verwijderen? Dit kan niet ongedaan worden.</p>
+        <div class="flex gap-3">
+          <button
+            @click="cancelDelete"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+          >
+            Annuleren
+          </button>
+          <button
+            @click="doDelete"
+            class="flex-1 px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors"
+          >
+            Verwijderen
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
