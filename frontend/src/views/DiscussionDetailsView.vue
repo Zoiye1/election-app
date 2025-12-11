@@ -81,10 +81,13 @@ const handleCreateReply = async () => {
   try {
     const newReply = await replyService.createReply({
       content: newReplyContent.value,
-      discussionId: Number(discussionId)
+      discussionId: Number(discussionId),
+      parentReplyId: replyingTo.value
     })
     replies.value.push(newReply)
     newReplyContent.value = ''
+    replyingTo.value = null  // ← reset
+    replyingToAuthor.value = ''
   } catch (err) {
     replyError.value = 'Er ging iets mis, probeer het opnieuw.'
     console.error('create reply error: ', err)
@@ -301,6 +304,14 @@ const avatarClass = computed(() => {
           <!-- Reply Input -->
           <div class="bg-white rounded-xl p-4 shadow-md mb-4 flex gap-3 items-center">
             <!-- reply error -->
+            <!-- Replying to indicator -->
+            <div v-if="replyingTo" class="flex items-center justify-between mb-2 text-sm text-purple-600">
+              <span>Reageren op {{ replyingToAuthor }}</span>
+              <button @click="replyingTo = null; replyingToAuthor = ''" class="text-gray-400 hover:text-gray-600">
+                ✕
+              </button>
+            </div>
+
             <textarea
               v-model="newReplyContent"
               :placeholder="replyError || 'Schrijf een reactie...'"
@@ -336,6 +347,7 @@ const avatarClass = computed(() => {
               :reply="reply"
               :currentUserId="currentUser?.id"
               @delete="handleDeleteReply"
+              @reply="handleReplyTo"
             />
           </div>
 
