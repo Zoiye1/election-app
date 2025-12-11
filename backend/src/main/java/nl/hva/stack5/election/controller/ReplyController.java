@@ -94,6 +94,30 @@ public class ReplyController {
     public ResponseEntity<Void> deleteReply
     (@RequestHeader("Authorization") String authHeader ,
      @PathVariable Long id) {
+
+        // Remove "Bearer " so only the token is left
+        String token = authHeader.replace("Bearer ", "");
+
+        // get user email from token
+        String email = jwtUtil.extractUsername(token);
+
+        // search user by email in database
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found");
+        }
+
+        // retrieve the reply by id
+        Reply reply = replyRepostory.findById(id)
+                        .orElseThrow( () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Reply not found"));
+
+        // check if author is the currently logged-in user.
+        if (!reply.getAuthor().getId().equals(user.getId())) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN, "User can only delete their own replies!");
+        }
+
+        //Delete the reply.
         replyService.deleteReply(id);
         return ResponseEntity.noContent().build();
     }
