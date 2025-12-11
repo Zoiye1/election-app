@@ -4,6 +4,8 @@ package nl.hva.stack5.election.controller;
 import nl.hva.stack5.election.dto.ReplyRequestDTO;
 import nl.hva.stack5.election.dto.ReplyResponseDTO;
 import nl.hva.stack5.election.model.Reply;
+import nl.hva.stack5.election.model.User;
+import nl.hva.stack5.election.repository.ReplyRepository;
 import nl.hva.stack5.election.repository.UserRepository;
 import nl.hva.stack5.election.service.ReplyService;
 import nl.hva.stack5.election.utils.JwtUtil;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -25,6 +28,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/replies")
 public class ReplyController {
+
+    @Autowired
+    private ReplyRepository replyRepostory;
 
     @Autowired
     private ReplyService replyService;
@@ -42,7 +48,26 @@ public class ReplyController {
      * @return the created reply with HTTP 201
      */
     @PostMapping
-    public ResponseEntity<ReplyResponseDTO> createReply (@RequestBody ReplyRequestDTO dto) {
+    public ResponseEntity<ReplyResponseDTO> createReply
+    (@RequestHeader("Authorization") String authHeader ,
+     @RequestBody ReplyRequestDTO dto) {
+
+        // Remove "Bearer " so only the token is left
+        String token = authHeader.replace("Bearer ", "");
+
+        // get user email from token
+        String email = jwtUtil.extractUsername(token);
+
+        // search user by email in database
+        User user = userRepository.findByEmail(email);
+
+        if (user == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "User not found");
+        }
+
+        // sets id of logged in user
+        dto.setUserId(user.getId());
+
         ReplyResponseDTO createdReply = replyService.createReply(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReply);
     }
@@ -66,7 +91,9 @@ public class ReplyController {
      * @return HTTP 204 No Content
      */
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteReply(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteReply
+    (@RequestHeader("Authorization") String authHeader ,
+     @PathVariable Long id) {
         replyService.deleteReply(id);
         return ResponseEntity.noContent().build();
     }
