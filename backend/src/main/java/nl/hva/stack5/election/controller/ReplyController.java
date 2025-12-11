@@ -4,7 +4,9 @@ package nl.hva.stack5.election.controller;
 import nl.hva.stack5.election.dto.ReplyRequestDTO;
 import nl.hva.stack5.election.dto.ReplyResponseDTO;
 import nl.hva.stack5.election.model.Reply;
+import nl.hva.stack5.election.repository.UserRepository;
 import nl.hva.stack5.election.service.ReplyService;
+import nl.hva.stack5.election.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +28,12 @@ public class ReplyController {
 
     @Autowired
     private ReplyService replyService;
+
+    @Autowired
+    private JwtUtil jwtUtil;
+
+    @Autowired
+    private UserRepository userRepository;
 
     /**
      * Creates a new reply for a discussion.
