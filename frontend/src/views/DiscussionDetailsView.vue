@@ -157,6 +157,23 @@ const avatarClass = computed(() => {
   ]
   return colors[discussion.value.authorId % colors.length]
 })
+/**
+ * this method gets all replies without a parent id.
+ * then it gets all child items per parentReply.
+ * and then it returns a beautiful list of parent items with al child items sorted under their parent item.
+ */
+const sortedReplies = computed(() => {
+  const topLevel = replies.value.filter(r => r.parentReplyId === null)
+  const result: ReplyResponseDTO[] = []
+
+  topLevel.forEach(parent => {
+    result.push(parent)
+    const children = replies.value.filter(r => r.parentReplyId === parent.id)
+    result.push(...children)
+  })
+
+  return result
+})
 
 </script>
 
@@ -342,7 +359,7 @@ const avatarClass = computed(() => {
           <!-- Replies List -->
           <div class="space-y-4">
             <ReplyCard
-              v-for="reply in replies"
+              v-for="reply in sortedReplies"
               :key="reply.id"
               :reply="reply"
               :currentUserId="currentUser?.id"
