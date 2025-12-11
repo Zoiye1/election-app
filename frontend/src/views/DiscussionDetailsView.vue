@@ -4,6 +4,10 @@ import { useRouter, useRoute } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import { DiscussionService, type DiscussionResponseDTO } from '@/services/DiscussionService'
 import { computed } from 'vue'
+import { ReplyService } from '@/services/ReplyService.ts'
+import type { ReplyResponseDTO } from '@/interfaces/Replies.ts'
+import ReplyCard from '@/components/ReplyCard.vue'
+import { useAuth } from '@/composables/useAuth.ts'
 
 // Initialize router and service
 const route = useRoute()
@@ -14,7 +18,18 @@ const discussionService = new DiscussionService()
 const discussionId = route.params.id
 const loading = ref(true)
 const error = ref('')
+const replyError = ref('')
 const discussion = ref<DiscussionResponseDTO | null>(null)
+// State for replies
+const replyService = new ReplyService()
+const replies = ref<ReplyResponseDTO[]>([])
+const newReplyContent = ref('')
+const submitting = ref(false)
+const replyingTo = ref<number | null>(null)
+const replyingToAuthor = ref<string>('')
+
+// UserAuthentication
+const { currentUser, checkAuth } = useAuth()
 
 // Fetch discussions from API
 const fetchDiscussion = async () => {
@@ -28,8 +43,71 @@ const fetchDiscussion = async () => {
   }
 }
 
+// Fetch replies from API
+const fetchReplies = async () => {
+  try {
+    replies.value = await replyService.getRepliesByDiscussionId(Number(discussionId))
+  } catch (err) {
+    console.error('Fetch replies error:', err)
+  }
+}
+
+
+
+// Delete reply trough API
+const handleDeleteReply = async (id: number) => {
+  try {
+    await replyService.deleteReply(id)
+    replies.value = replies.value.filter(r => r.id !== id)
+  } catch (err) {
+    console.error('Delete reply error:', err)
+  }
+}
+
+// Create reply trough API
+const handleCreateReply = async () => {
+  replyError.value = ''
+
+  // check if user is logged in
+  if (!currentUser.value) {
+    replyError.value = 'Je moet ingelogd zijn om te reageren'
+    newReplyContent.value = ''
+    return
+  }
+
+  if (!newReplyContent.value.trim()) return
+
+  submitting.value = true
+  try {
+    const newReply = await replyService.createReply({
+      content: newReplyContent.value,
+      discussionId: Number(discussionId),
+      parentReplyId: replyingTo.value
+    })
+    replies.value.push(newReply)
+    newReplyContent.value = ''
+    replyingTo.value = null  // ← reset
+    replyingToAuthor.value = ''
+  } catch (err) {
+    replyError.value = 'Er ging iets mis, probeer het opnieuw.'
+    console.error('create reply error: ', err)
+  } finally {
+    submitting.value = false
+  }
+}
+
+const handleReplyTo = (replyId: number) => {
+  const reply = replies.value.find(r => r.id === replyId)
+  if (reply) {
+    replyingTo.value = replyId
+    replyingToAuthor.value = reply.authorName
+  }
+}
+
 onMounted(() => {
+  checkAuth()
   fetchDiscussion()
+  fetchReplies()
   const particlesContainer = document.getElementById('particles')
   if (particlesContainer) {
     for (let i = 0; i < 50; i++) {
@@ -78,6 +156,23 @@ const avatarClass = computed(() => {
     'bg-gradient-to-br from-purple-400 to-indigo-500'
   ]
   return colors[discussion.value.authorId % colors.length]
+})
+/**
+ * this method gets all replies without a parent id.
+ * then it gets all child items per parentReply.
+ * and then it returns a beautiful list of parent items with al child items sorted under their parent item.
+ */
+const sortedReplies = computed(() => {
+  const topLevel = replies.value.filter(r => r.parentReplyId === null)
+  const result: ReplyResponseDTO[] = []
+
+  topLevel.forEach(parent => {
+    result.push(parent)
+    const children = replies.value.filter(r => r.parentReplyId === parent.id)
+    result.push(...children)
+  })
+
+  return result
 })
 
 </script>
@@ -214,6 +309,68 @@ const avatarClass = computed(() => {
               </svg>
               {{ discussion.replies }} reacties
             </span>
+          </div>
+      </div>
+
+        <!-- Replies Section -->
+        <div class="mt-8">
+          <h2 class="text-white text-2xl font-bold mb-4">
+            Reacties ({{ replies.length }})
+          </h2>
+
+          <!-- Reply Input -->
+          <div class="bg-white rounded-xl p-4 shadow-md mb-4 flex gap-3 items-center">
+            <!-- reply error -->
+            <!-- Replying to indicator -->
+            <div v-if="replyingTo" class="flex items-center justify-between mb-2 text-sm text-purple-600">
+              <span>Reageren op {{ replyingToAuthor }}</span>
+              <button @click="replyingTo = null; replyingToAuthor = ''" class="text-gray-400 hover:text-gray-600">
+                ✕
+              </button>
+            </div>
+
+            <textarea
+              v-model="newReplyContent"
+              :placeholder="replyError || 'Schrijf een reactie...'"
+              :class="[
+    'flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none',
+    replyError ? 'border-red-500 placeholder-red-500' : 'border-gray-200'
+  ]"
+              :disabled="submitting"
+              @keyup.enter.ctrl="handleCreateReply"
+              @input="replyError = ''"
+              rows="1"
+            ></textarea>
+            <button
+              @click="handleCreateReply"
+              :disabled="submitting || !newReplyContent.trim()"
+              class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:opacity-90 disabled:opacity-50 transition-all"
+            >
+              <svg v-if="submitting" class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Replies List -->
+          <div class="space-y-4">
+            <ReplyCard
+              v-for="reply in sortedReplies"
+              :key="reply.id"
+              :reply="reply"
+              :currentUserId="currentUser?.id"
+              @delete="handleDeleteReply"
+              @reply="handleReplyTo"
+            />
+          </div>
+
+          <!-- Empty state -->
+          <div v-if="replies.length === 0" class="bg-white/10 rounded-xl p-6 text-center">
+            <p class="text-white/70">Nog geen reacties. Wees de eerste!</p>
           </div>
         </div>
       </div>

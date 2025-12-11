@@ -1,6 +1,7 @@
 package nl.hva.stack5.election.controller;
 
 import nl.hva.stack5.election.model.User;
+import nl.hva.stack5.election.repository.UserRepository;
 import nl.hva.stack5.election.service.UserService;
 import nl.hva.stack5.election.utils.JwtUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/user")
 public class UserController {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private UserService userService;
@@ -54,6 +58,9 @@ public class UserController {
 
         // If credentials are valid, generate JWT token
         if (isValid && identifier != null) {
+
+            User dbUser = userRepository.findByEmail(user.getEmail());
+
             // Generate JWT token
             String token = jwtUtil.generateToken(identifier);
 
@@ -64,6 +71,7 @@ public class UserController {
 
             // Add user data for frontend
             Map<String, Object> userData = new HashMap<>();
+            userData.put("id", dbUser.getId());
             userData.put("email", user.getEmail());
             userData.put("username", user.getUsername());
             response.put("user", userData);
