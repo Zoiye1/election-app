@@ -5,6 +5,7 @@ import { computed } from 'vue'
 
 const props = defineProps<{
   reply: ReplyResponseDTO
+  currentUserId?: number
 }>()
 
 const emit = defineEmits<{
@@ -80,6 +81,7 @@ const isNestedReply = computed(() => {
     </div>
 
     <button
+      v-if="currentUserId === reply.authorId"
       @click="emit('delete', reply.id)"
       class="text-gray-400 hover:text-red-500 transition-colors"
       title="Verwijder reactie"

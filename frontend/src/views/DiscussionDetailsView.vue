@@ -7,6 +7,7 @@ import { computed } from 'vue'
 import { ReplyService } from '@/services/ReplyService.ts'
 import type { ReplyResponseDTO } from '@/interfaces/Replies.ts'
 import ReplyCard from '@/components/ReplyCard.vue'
+import { useAuth } from '@/composables/useAuth.ts'
 
 // Initialize router and service
 const route = useRoute()
@@ -23,6 +24,9 @@ const replyService = new ReplyService()
 const replies = ref<ReplyResponseDTO[]>([])
 const newReplyContent = ref('')
 const submitting = ref(false)
+
+// UserAuthentication
+const { currentUser, checkAuth } = useAuth()
 
 // Fetch discussions from API
 const fetchDiscussion = async () => {
@@ -303,6 +307,7 @@ const avatarClass = computed(() => {
               v-for="reply in replies"
               :key="reply.id"
               :reply="reply"
+              :currentUserId="currentUser?.id"
               @delete="handleDeleteReply"
             />
           </div>
