@@ -281,6 +281,7 @@ const avatarClass = computed(() => {
             </span>
           </div>
       </div>
+
         <!-- Replies Section -->
         <div class="mt-8">
           <h2 class="text-white text-2xl font-bold mb-4">
@@ -290,7 +291,6 @@ const avatarClass = computed(() => {
           <!-- Reply Input -->
           <div class="bg-white rounded-xl p-4 shadow-md mb-4 flex gap-3 items-center">
             <!-- reply error -->
-<!--            <p v-if="replyError" class="text-red-500 text-sm mb-2">{{ replyError }}</p>-->
             <input
               v-model="newReplyContent"
               type="text"
