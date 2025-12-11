@@ -11,6 +11,5 @@ export interface ReplyResponseDTO {
 export interface CreateReplyRequest {
   content: string
   discussionId: number
-  userId: number
   parentReplyId?: number | null
 }

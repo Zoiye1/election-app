@@ -77,6 +77,7 @@ const handleCreateReply = async () => {
 }
 
 onMounted(() => {
+  checkAuth()
   fetchDiscussion()
   fetchReplies()
   const particlesContainer = document.getElementById('particles')
