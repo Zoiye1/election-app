@@ -38,20 +38,20 @@ onMounted(() => {
       <PageNavigator />
 
         <!-- FILTER -->
-      <div class="grid grid-cols-1 gap-8 my-8">
-        <div class="bg-white/20 backdrop-blur-md p-6 rounded-2xl shadow-lg">
-          <h2 class="text-white font-semibold text-lg mb-4">Selecteer een gemeente</h2>
+      <div class="my-8">
+        <div class="bg-white/20 backdrop-blur-md p-5 rounded-2xl shadow-lg max-w-md mx-auto">
+          <h2 class="text-white font-semibold text-base mb-3">Selecteer een gemeente</h2>
           <div class="relative">
             <select
               v-model="selectedMunicipality"
-              class="w-full px-4 py-3 rounded-xl bg-white/90 text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-purple-400 appearance-none cursor-pointer shadow-sm hover:bg-white transition-colors"
+              class="w-full px-4 py-2.5 rounded-lg bg-white/90 text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-purple-400 appearance-none cursor-pointer shadow-sm hover:bg-white transition-colors"
             >
               <option v-for="municipality in municipalities" :key="municipality" :value="municipality">
                 {{ municipality }}
               </option>
             </select>
-            <div class="absolute inset-y-0 right-0 flex items-center px-4 pointer-events-none">
-              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="absolute inset-y-0 right-0 flex items-center px-3 pointer-events-none">
+              <svg class="w-4 h-4 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
               </svg>
             </div>
