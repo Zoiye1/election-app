@@ -31,7 +31,7 @@ watch(props, async (newValue) => {
   loading.value = true;
   const electionService = new ElectionService();
   try {
-    const data = await electionService.getMunicipalityData(props.election, newValue.name);
+    const data = await electionService.getMunicipalityData('TK2023', newValue.name);
     electionData.value = data;
   } catch (err) {
     error.value = "Oeps, er is iets mis gegaan. Probeer het later weer opnieuw";
