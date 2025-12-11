@@ -77,6 +77,8 @@ public class ElectionController {
                         vote.getParty().getRegisteredName(),
                         vote.getVotes()
                 ))
+                .sorted((a, b) -> Integer.compare(b.getVotes(), a.getVotes()))  // sorteer DESC
+                .limit(10)  // top 10
                 .toList();
     }
     /**
