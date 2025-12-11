@@ -291,18 +291,18 @@ const avatarClass = computed(() => {
           <!-- Reply Input -->
           <div class="bg-white rounded-xl p-4 shadow-md mb-4 flex gap-3 items-center">
             <!-- reply error -->
-            <input
+            <textarea
               v-model="newReplyContent"
-              type="text"
               :placeholder="replyError || 'Schrijf een reactie...'"
               :class="[
-    'flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500',
+    'flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none',
     replyError ? 'border-red-500 placeholder-red-500' : 'border-gray-200'
   ]"
               :disabled="submitting"
-              @keyup.enter="handleCreateReply"
+              @keyup.enter.ctrl="handleCreateReply"
               @input="replyError = ''"
-            />
+              rows="1"
+            ></textarea>
             <button
               @click="handleCreateReply"
               :disabled="submitting || !newReplyContent.trim()"
