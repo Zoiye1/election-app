@@ -18,6 +18,7 @@ const discussionService = new DiscussionService()
 const discussionId = route.params.id
 const loading = ref(true)
 const error = ref('')
+const replyError = ref('')
 const discussion = ref<DiscussionResponseDTO | null>(null)
 // State for replies
 const replyService = new ReplyService()
@@ -63,7 +64,20 @@ const handleDeleteReply = async (id: number) => {
 
 // Create reply trough API
 const handleCreateReply = async () => {
-  if (!newReplyContent.value.trim()) return
+  replyError.value = ''
+
+  // check if user is logged in
+  if (!currentUser.value) {
+    replyError.value = 'Je moet ingelogd zijn om te reageren'
+    return
+  }
+
+  // check if content is empty
+  if (!newReplyContent.value.trim()) {
+    replyError.value = 'Reactie mag niet leeg zijn'
+    return
+  }
+
 
   submitting.value = true
   try {
@@ -74,7 +88,8 @@ const handleCreateReply = async () => {
     replies.value.push(newReply)
     newReplyContent.value = ''
   } catch (err) {
-    console.error('Create reply error:', err)
+    replyError.value = 'Er ging iets mis, probeer het opnieuw.'
+    console.error('create reply error: ', err)
   } finally {
     submitting.value = false
   }
@@ -278,6 +293,8 @@ const avatarClass = computed(() => {
 
           <!-- Reply Input -->
           <div class="bg-white rounded-xl p-4 shadow-md mb-4 flex gap-3 items-center">
+            <!-- reply error -->
+            <p v-if="replyError" class="text-red-500 text-sm mb-2">{{ replyError }}</p>
             <input
               v-model="newReplyContent"
               type="text"
