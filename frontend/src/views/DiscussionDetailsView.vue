@@ -25,6 +25,8 @@ const replyService = new ReplyService()
 const replies = ref<ReplyResponseDTO[]>([])
 const newReplyContent = ref('')
 const submitting = ref(false)
+const replyingTo = ref<number | null>(null)
+const replyingToAuthor = ref<string>('')
 
 // UserAuthentication
 const { currentUser, checkAuth } = useAuth()
