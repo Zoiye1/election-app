@@ -21,7 +21,8 @@ const discussion = ref<DiscussionResponseDTO | null>(null)
 // State for replies
 const replyService = new ReplyService()
 const replies = ref<ReplyResponseDTO[]>([])
-
+const newReplyContent = ref('')
+const submitting = ref(false)
 
 // Fetch discussions from API
 const fetchDiscussion = async () => {
@@ -44,6 +45,8 @@ const fetchReplies = async () => {
   }
 }
 
+
+
 // Delete reply trough API
 const handleDeleteReply = async (id: number) => {
   try {
@@ -51,6 +54,25 @@ const handleDeleteReply = async (id: number) => {
     replies.value = replies.value.filter(r => r.id !== id)
   } catch (err) {
     console.error('Delete reply error:', err)
+  }
+}
+
+// Create reply trough API
+const handleCreateReply = async () => {
+  if (!newReplyContent.value.trim()) return
+
+  submitting.value = true
+  try {
+    const newReply = await replyService.createReply({
+      content: newReplyContent.value,
+      discussionId: Number(discussionId)
+    })
+    replies.value.push(newReply)
+    newReplyContent.value = ''
+  } catch (err) {
+    console.error('Create reply error:', err)
+  } finally {
+    submitting.value = false
   }
 }
 
