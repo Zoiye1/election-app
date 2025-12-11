@@ -264,27 +264,53 @@ const avatarClass = computed(() => {
               {{ discussion.replies }} reacties
             </span>
           </div>
-          <!-- Replies Section -->
-          <div class="mt-8">
-            <h2 class="text-white text-2xl font-bold mb-4">
-              Reacties ({{ replies.length }})
-            </h2>
-
-            <div class="space-y-4">
-              <ReplyCard
-                v-for="reply in replies"
-                :key="reply.id"
-                :reply="reply"
-                @delete="handleDeleteReply"
-              />
-            </div>
-
-            <!-- Empty state -->
-            <div v-if="replies.length === 0" class="bg-white/10 rounded-xl p-6 text-center">
-              <p class="text-white/70">Nog geen reacties. Wees de eerste!</p>
-            </div>
-        </div>
       </div>
+        <!-- Replies Section -->
+        <div class="mt-8">
+          <h2 class="text-white text-2xl font-bold mb-4">
+            Reacties ({{ replies.length }})
+          </h2>
+
+          <!-- Reply Input -->
+          <div class="bg-white rounded-xl p-4 shadow-md mb-4 flex gap-3 items-center">
+            <input
+              v-model="newReplyContent"
+              type="text"
+              placeholder="Schrijf een reactie..."
+              class="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              :disabled="submitting"
+              @keyup.enter="handleCreateReply"
+            />
+            <button
+              @click="handleCreateReply"
+              :disabled="submitting || !newReplyContent.trim()"
+              class="px-4 py-2 bg-gradient-to-r from-purple-500 to-indigo-600 text-white rounded-lg hover:opacity-90 disabled:opacity-50 transition-all"
+            >
+              <svg v-if="submitting" class="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+              </svg>
+              <svg v-else xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- Replies List -->
+          <div class="space-y-4">
+            <ReplyCard
+              v-for="reply in replies"
+              :key="reply.id"
+              :reply="reply"
+              @delete="handleDeleteReply"
+            />
+          </div>
+
+          <!-- Empty state -->
+          <div v-if="replies.length === 0" class="bg-white/10 rounded-xl p-6 text-center">
+            <p class="text-white/70">Nog geen reacties. Wees de eerste!</p>
+          </div>
+        </div>
       </div>
     </main>
   </div>
