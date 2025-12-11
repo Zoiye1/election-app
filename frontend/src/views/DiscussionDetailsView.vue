@@ -69,15 +69,11 @@ const handleCreateReply = async () => {
   // check if user is logged in
   if (!currentUser.value) {
     replyError.value = 'Je moet ingelogd zijn om te reageren'
+    newReplyContent.value = ''
     return
   }
 
-  // check if content is empty
-  if (!newReplyContent.value.trim()) {
-    replyError.value = 'Reactie mag niet leeg zijn'
-    return
-  }
-
+  if (!newReplyContent.value.trim()) return
 
   submitting.value = true
   try {
@@ -294,14 +290,18 @@ const avatarClass = computed(() => {
           <!-- Reply Input -->
           <div class="bg-white rounded-xl p-4 shadow-md mb-4 flex gap-3 items-center">
             <!-- reply error -->
-            <p v-if="replyError" class="text-red-500 text-sm mb-2">{{ replyError }}</p>
+<!--            <p v-if="replyError" class="text-red-500 text-sm mb-2">{{ replyError }}</p>-->
             <input
               v-model="newReplyContent"
               type="text"
-              placeholder="Schrijf een reactie..."
-              class="flex-1 px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              :placeholder="replyError || 'Schrijf een reactie...'"
+              :class="[
+    'flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500',
+    replyError ? 'border-red-500 placeholder-red-500' : 'border-gray-200'
+  ]"
               :disabled="submitting"
               @keyup.enter="handleCreateReply"
+              @input="replyError = ''"
             />
             <button
               @click="handleCreateReply"
