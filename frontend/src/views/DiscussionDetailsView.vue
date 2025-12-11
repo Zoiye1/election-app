@@ -93,6 +93,14 @@ const handleCreateReply = async () => {
   }
 }
 
+const handleReplyTo = (replyId: number) => {
+  const reply = replies.value.find(r => r.id === replyId)
+  if (reply) {
+    replyingTo.value = replyId
+    replyingToAuthor.value = reply.authorName
+  }
+}
+
 onMounted(() => {
   checkAuth()
   fetchDiscussion()
