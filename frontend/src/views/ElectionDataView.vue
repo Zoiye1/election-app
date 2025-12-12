@@ -70,7 +70,7 @@ onMounted(() => {
           <ConstituencyVotesPercentage :name="selectedConstituency" :election="selectedElection" />
         </div>
       </div>
-      
+
       <!-- RESULTS -->
       <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
