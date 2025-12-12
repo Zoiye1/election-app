@@ -82,6 +82,26 @@ const handleEditReply = (replyId: number) => {
   }
 }
 
+const cancelEdit = () => {
+  editingReplyId.value = null
+  editingContent.value = ''
+}
+
+const saveEdit => () {
+  if (!editingReplyId.value || !editingContent.value.trim()) return
+
+  try {
+    const updated = await replyService.updateReply(editingReplyId.value, editingContent.value)
+    const index = replies.value.findIndex(r => r.id === editingReplyId.value)
+    if (index !== -1) {
+      replies.value[index] = updated
+    }
+    cancelEdit()
+  } catch (err) {
+    console.error('Update reply error:', err)
+  }
+}
+
 // Delete reply through API
 const handleDeleteReply = async (id: number) => {
   try {
@@ -406,6 +426,7 @@ const sortedReplies = computed(() => {
               :currentUserId="currentUser?.id"
               @delete="handleDeleteReply"
               @reply="handleReplyTo"
+              @edit="handleEditReply"
             />
           </div>
 
