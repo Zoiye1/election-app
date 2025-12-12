@@ -78,10 +78,10 @@ public class ConstituencyController {
 
     }
 
-    @GetMapping("{electionId}/{constituencyName}/{registeredName}/votes-percentage")
-    public Double getConstituencyVotesPercentage(@PathVariable String electionId, @PathVariable String constituencyName, @PathVariable String registeredName) throws ResponseStatusException {
+    @GetMapping("{electionId}/{constituencyName}/constituency-votes-percentage")
+    public Double getConstituencyVotesPercentage(@PathVariable String electionId, @PathVariable String constituencyName, @RequestParam String partyName) throws ResponseStatusException {
 
-        return constituencyService.calculateConstituencyVotesPercentage(electionId, constituencyName, registeredName );
+        return constituencyService.calculateConstituencyVotesPercentage(electionId, constituencyName, partyName );
 
     }
 }
