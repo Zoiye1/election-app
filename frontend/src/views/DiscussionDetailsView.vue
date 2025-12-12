@@ -1,5 +1,5 @@
-<script setup lang="ts">
-import { ref, onMounted } from 'vue'
+<script setup lang="ts" xmlns="http://www.w3.org/1999/html">
+import { ref, onMounted, computed } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import Navbar from '../components/Navbar.vue'
 import { DiscussionService, type DiscussionResponseDTO } from '@/services/DiscussionService'
@@ -8,11 +8,13 @@ import { ReplyService } from '@/services/ReplyService.ts'
 import type { ReplyResponseDTO } from '@/interfaces/Replies.ts'
 import ReplyCard from '@/components/ReplyCard.vue'
 import { useAuth } from '@/composables/useAuth.ts'
+import { useAuth } from '@/composables/useAuth'
 
 // Initialize router and service
 const route = useRoute()
 const router = useRouter()
 const discussionService = new DiscussionService()
+const { userId } = useAuth()
 
 // State
 const discussionId = route.params.id
@@ -40,6 +42,26 @@ const fetchDiscussion = async () => {
     console.error('Fetch discussions error:', err)
   } finally {
     loading.value = false
+  }
+}
+
+// Check if current user can delete
+const canDelete = computed(() => {
+  return discussion.value && userId.value === discussion.value.authorId
+})
+
+// Handle delete
+const handleDelete = async () => {
+  if (!discussion.value) return
+
+  if (confirm('Weet je zeker dat je dit bericht wilt verwijderen?')) {
+    try {
+      await discussionService.deleteDiscussion(discussion.value.id)
+      router.push('/discussion')
+    } catch (err) {
+      console.error('Delete error:', err)
+      error.value = 'Kon bericht niet verwijderen'
+    }
   }
 }
 
@@ -249,10 +271,22 @@ const sortedReplies = computed(() => {
             >
               {{ userInitials }}
             </div>
-            <div>
+            <div class="flex-1">
               <h3 class="text-xl font-semibold text-gray-800">{{ discussion.authorName }}</h3>
               <p class="text-sm text-gray-500">Gestart op {{ formatDate(discussion.createdAt) }}</p>
             </div>
+
+            <button
+              v-if="canDelete"
+              @click="handleDelete"
+              class="px-4 py-2 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clip-rule="evenodd" />
+              </svg>
+              Verwijderen
+            </button>
+
           </div>
 
           <!-- Discussion Title -->
