@@ -87,7 +87,7 @@ const cancelEdit = () => {
   editingContent.value = ''
 }
 
-const saveEdit => () {
+const saveEdit = async () => {
   if (!editingReplyId.value || !editingContent.value.trim()) return
 
   try {
@@ -435,6 +435,34 @@ const sortedReplies = computed(() => {
             <p class="text-white/70">Nog geen reacties. Wees de eerste!</p>
           </div>
         </div>
+
+        <!-- Edit Modal -->
+        <div v-if="editingReplyId" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+          <div class="bg-white rounded-xl p-6 max-w-md w-full mx-4 shadow-2xl">
+            <h3 class="text-lg font-semibold text-gray-800 mb-4">Reactie bewerken</h3>
+            <textarea
+              v-model="editingContent"
+              rows="4"
+              class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
+            ></textarea>
+            <div class="flex gap-3 mt-4">
+              <button
+                @click="cancelEdit"
+                class="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                Annuleren
+              </button>
+              <button
+                @click="saveEdit"
+                :disabled="!editingContent.trim()"
+                class="flex-1 px-4 py-2 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 transition-colors"
+              >
+                Opslaan
+              </button>
+            </div>
+          </div>
+        </div>
+
       </div>
     </main>
   </div>
