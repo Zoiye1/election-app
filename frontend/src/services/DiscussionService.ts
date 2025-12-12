@@ -109,17 +109,20 @@ export class DiscussionService {
     }
   }
 
-  /**
-   * Delete a discussion by ID
-   */
   public async deleteDiscussion(id: number): Promise<void> {
     const url: string = `${this.baseUrl}/${id}`
+    const token = sessionStorage.getItem('authToken');
+
+    if (!token) {
+      throw new Error('Not authenticated - please login');
+    }
 
     try {
       const response: Response = await fetch(url, {
         method: 'DELETE',
         headers: {
-          'Accept': 'application/json'
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`
         }
       })
 

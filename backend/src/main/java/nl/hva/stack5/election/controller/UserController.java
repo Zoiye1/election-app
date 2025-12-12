@@ -41,21 +41,29 @@ public class UserController {
     @PostMapping(value = "/verify")
     public ResponseEntity<Map<String, Object>> verifyUser(@RequestBody User user) {
         boolean isValid = false;
-        String identifier = null;
+        User authenticatedUser = null;
 
         // Check credentials via email or username
         if (user.getEmail() != null) {
             isValid = userService.verifyEmailAndPassword(user.getEmail(), user.getPassword());
-            identifier = user.getEmail();
+            if (isValid) {
+                authenticatedUser = userService.findByEmail(user.getEmail());
+            }
         } else if (user.getUsername() != null) {
             isValid = userService.verifyUsernameAndPassword(user.getUsername(), user.getPassword());
-            identifier = user.getUsername();
+            if (isValid) {
+                authenticatedUser = userService.findByUsername(user.getUsername());
+            }
         }
 
-        // If credentials are valid, generate JWT token
-        if (isValid && identifier != null) {
-            // Generate JWT token
-            String token = jwtUtil.generateToken(identifier);
+        // If credentials are valid, generate JWT token with userId
+        if (isValid && authenticatedUser != null) {
+            // Create claims map with userId
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("userId", authenticatedUser.getId());
+
+            // Generate JWT token with userId in claims
+            String token = jwtUtil.generateToken(authenticatedUser.getEmail(), claims);
 
             // Build success response
             Map<String, Object> response = new HashMap<>();
@@ -64,8 +72,9 @@ public class UserController {
 
             // Add user data for frontend
             Map<String, Object> userData = new HashMap<>();
-            userData.put("email", user.getEmail());
-            userData.put("username", user.getUsername());
+            userData.put("email", authenticatedUser.getEmail());
+            userData.put("username", authenticatedUser.getUsername());
+            userData.put("id", authenticatedUser.getId()); // Also include ID in response
             response.put("user", userData);
 
             return ResponseEntity.ok(response);
@@ -75,9 +84,6 @@ public class UserController {
         Map<String, Object> errorResponse = new HashMap<>();
         errorResponse.put("success", false);
         errorResponse.put("message", "Invalid credentials");
-
-        // Return error if login failed
-
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }

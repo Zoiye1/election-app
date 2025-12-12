@@ -10,8 +10,6 @@ import nl.hva.stack5.election.dto.DiscussionMapper;
 import nl.hva.stack5.election.dto.DiscussionRequestDTO;
 import nl.hva.stack5.election.dto.DiscussionResponseDTO;
 import java.util.stream.Collectors;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.server.ResponseStatusException;
 import nl.hva.stack5.election.utils.JwtUtil;
 import nl.hva.stack5.election.repository.UserRepository;
 import nl.hva.stack5.election.model.User;
@@ -35,7 +33,7 @@ public class DiscussionController {
     @Autowired
     private UserRepository userRepository;
 
-    
+
     @GetMapping
     public List<DiscussionResponseDTO> getAllDiscussions() {
         List<Discussion> discussions = discussionService.getAllDiscussions(null);
@@ -44,11 +42,20 @@ public class DiscussionController {
                 .collect(Collectors.toList());
     }
 
+    // Get discussion by ID endpoint
+    @GetMapping("/{discussionId}")
+    public DiscussionResponseDTO getDiscussionById(@PathVariable Integer discussionId) {
+        Optional<Discussion> discussion = discussionService.findById(discussionId);
+        if (discussion.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Discussion not found");
+        }
+        return discussionMapper.toResponseDTO(discussion.get());
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public DiscussionResponseDTO createDiscussion(
-            @RequestHeader("Authorization") String authHeader,  // ← ADD THIS
+            @RequestHeader("Authorization") String authHeader,
             @RequestBody DiscussionRequestDTO requestDTO) {
 
         // Extract token
@@ -66,20 +73,8 @@ public class DiscussionController {
         requestDTO.setAuthorId(user.getId());
 
         // Create discussion with user
-
         Discussion created = discussionService.createDiscussion(requestDTO);
         return discussionMapper.toResponseDTO(created);
-    }
-
-    @GetMapping(value = "/{discussionId}")
-    public DiscussionResponseDTO getDiscussionById(@PathVariable Integer discussionId) {
-        Optional<Discussion> discussion = discussionService.findById(discussionId);
-
-        if (discussion.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Discussion not found");
-        }
-
-        return discussionMapper.toResponseDTO(discussion.get());
     }
 
     @PutMapping(value = "/{discussionId}")
@@ -104,10 +99,37 @@ public class DiscussionController {
         return discussionMapper.toResponseDTO(updated);
     }
 
+    // Add authorization check to delete method
     @DeleteMapping(value = "/{discussionId}")
-    public void deleteDiscussion(@PathVariable Integer discussionId) {
-        Optional<Discussion> discussion = discussionService.findById(discussionId);
-        if (discussion.isEmpty()) throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Discussion not found");
+    public void deleteDiscussion(
+            @PathVariable Integer discussionId,
+            @RequestHeader("Authorization") String authHeader) {
+
+        // Extract token
+        String token = authHeader.replace("Bearer ", "");
+
+        // Get userId directly from token
+        Integer currentUserId = jwtUtil.extractUserId(token);
+
+        if (currentUserId == null) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Invalid token");
+        }
+
+        // Get discussion and check if it exists
+        Optional<Discussion> discussionOpt = discussionService.findById(discussionId);
+        if (discussionOpt.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Discussion not found");
+        }
+
+        Discussion discussion = discussionOpt.get();
+
+        // Check if current user is the author
+        if (!discussion.getAuthor().getId().equals(currentUserId)) {
+            throw new ResponseStatusException(HttpStatus.FORBIDDEN,
+                    "You can only delete your own discussions");
+        }
+
+        // Delete the discussion
         discussionService.deleteDiscussion(discussionId);
     }
 }
