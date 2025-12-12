@@ -8,7 +8,9 @@ import ElectionSelector from '@/components/ElectionSelector.vue';
 import { useElection } from '@/composables/useElection';
 import PageNavigator from '@/components/PageNavigator.vue';
 import TotalConstituencyVotes from '@/components/ConstituencyComponents/TotalConstituencyVotes.vue';
+import PartyInformationComponent from '@/components/ConstituencyComponents/PartyInformationComponent.vue';
 
+const selectedParty = ref<string | null>(null)
 const selectedConstituency = ref<string>("Amsterdam");
 const { selectedElection } = useElection();
 
@@ -27,6 +29,7 @@ onMounted(() => {
     }
   }
 })
+
 </script>
 
 <template>
@@ -67,12 +70,18 @@ onMounted(() => {
           <ConstituencyVotesPercentage :name="selectedConstituency" :election="selectedElection" />
         </div>
       </div>
+      
+      <!-- RESULTS -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
 
-      <!-- PARTIJEN ONDERAAN VOLLEDIGE BREEDTE -->
-      <div>
-        <Parties_ConstituencyComponent :name="selectedConstituency" :election="selectedElection"/>
+        <div>
+          <Parties_ConstituencyComponent :name="selectedConstituency" :election="selectedElection"  @partySelected="selectedParty = $event"/>
+        </div>
+
+        <div>
+          <PartyInformationComponent :name ="selectedConstituency" :election="selectedElection" :party = "selectedParty"/>
+        </div>
       </div>
-
     </div>
 
     <div class="fixed inset-0 pointer-events-none" id="particles"></div>
