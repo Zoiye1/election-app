@@ -73,6 +73,15 @@ const handleDelete = async () => {
   }
 }
 
+const handleEditReply = (replyId: number) => {
+  //Find reply in list
+  const reply = replies.value.find(r => r.id === replyId)
+  if (reply) {
+    editingReplyId.value = replyId
+    editingContent.value = reply.content
+  }
+}
+
 // Delete reply through API
 const handleDeleteReply = async (id: number) => {
   try {
