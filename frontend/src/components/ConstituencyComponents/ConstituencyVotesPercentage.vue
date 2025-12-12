@@ -11,7 +11,7 @@ const props = defineProps<{
 
 const percentage = ref<number>(0);
 onMounted(async () => {
-  const constituencyVotesPercentage = await ConstituencyService.getConstituencyVotesPercentage(props.election, props.name);
+  const constituencyVotesPercentage = await ConstituencyService.getVotesPercentage(props.election, props.name);
   percentage.value = constituencyVotesPercentage;
 });
 
@@ -22,7 +22,7 @@ const formattedVotes = computed(() => {
 
 watch(props, async (newValue) => {
 
-    const election = await ConstituencyService.getConstituencyVotesPercentage(newValue.election, newValue.name);
+    const election = await ConstituencyService.getVotesPercentage(newValue.election, newValue.name);
     percentage.value = election;
 
 
