@@ -30,7 +30,8 @@ const newReplyContent = ref('')
 const submitting = ref(false)
 const replyingTo = ref<number | null>(null)
 const replyingToAuthor = ref<string>('')
-
+const editingReplyId = ref<number | null>(null)
+const editingContent = ref('')
 // Fetch discussion from API
 const fetchDiscussion = async () => {
   try {
