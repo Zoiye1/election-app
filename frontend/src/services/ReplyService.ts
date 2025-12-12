@@ -92,5 +92,46 @@ export class ReplyService {
       throw error
     }
   }
+
+  public async updateReply(id: number, content: string): Promise<ReplyResponseDTO>  {
+    try {
+
+      // get token from storage
+      const token = sessionStorage.getItem('authToken');
+
+      // if not logged in give error
+      if (!token) {
+        throw new Error('Not authenticated - please login');
+      }
+
+      const response: Response = await fetch(`${this.baseUrl}/${id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ content })
+        })
+
+      if (response.status === 401) {
+        window.location.href = '/login'
+        throw new Error('Unauthorized - please login again')
+      }
+
+      if (response.status === 403) {
+        throw new Error('Je kan alleen je eigen replies bewerken')
+      }
+
+      if (!response.ok) {
+        throw new Error('Request failed: ' + response.statusText)
+      }
+
+      return await response.json()
+    } catch (error) {
+      console.error('Update error:', error)
+      throw error
+    }
+  }
 }
 
