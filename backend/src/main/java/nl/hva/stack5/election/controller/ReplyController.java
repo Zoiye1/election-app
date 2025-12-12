@@ -85,7 +85,12 @@ public class ReplyController {
     }
 
     /**
-     * Updates a reply
+     * Updates an existing reply.
+     *
+     * @param authHeader the JWT token
+     * @param id the reply ID
+     * @param dto the updated reply data
+     * @return the updated reply with HTTP 200
      */
     @PutMapping("/{id}")
     public ResponseEntity<ReplyResponseDTO> updateReply(@RequestHeader("Authorization") String authHeader ,
