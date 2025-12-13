@@ -35,13 +35,9 @@ const { selectedElection } = useElection();
         <TotalNationalVotesComponent :electionId="selectedElection" />
       </div>
 
-      <!-- Candidate List -->
-      <div class="mt-10">
+      <!-- Candidate List & Top Parties side by side -->
+      <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <CandidateResultList :electionId="selectedElection" />
-      </div>
-
-      <!-- Top Parties List -->
-      <div class="mt-10">
         <PartyResultList :electionId="selectedElection" />
       </div>
 
