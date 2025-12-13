@@ -12,6 +12,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +41,7 @@ class ConstituencyServiceTest {
 
 //  TESTS FOR THE METHOD getResultsByConstituency
     @Test
-    void getResultsByConstituency_existingElection_returnsResults() throws Exception {
+    void getResultsByConstituency_existingElection_returnsResults() throws ResponseStatusException {
         // ARRANGE
         Election election = new Election("TK2023");
         List<ConstituencyPartyVotesDTO> dummyResults = List.of(
@@ -82,7 +83,7 @@ class ConstituencyServiceTest {
     }
 
     @Test
-    void getResultsByConstituency_ConstituencyDoesntExist_ReturnEmptyArray() throws IllegalAccessException {
+    void getResultsByConstituency_ConstituencyDoesntExist_ReturnEmptyArray() throws ResponseStatusException {
         // ARRANGE
         Election election = new Election();
         when(electionRepository.findById("TK2023")).thenReturn(election);
@@ -125,7 +126,7 @@ class ConstituencyServiceTest {
     // TESTS FOR THE METHOD CalculateVotesPercentage
 
     @Test
-    void CalculateVotesPercentage_Expect_Results_toBe_0() throws IllegalAccessException {
+        void CalculateVotesPercentage_Expect_Results_toBe_0() throws ResponseStatusException {
         // ARRANGE
         Election election = new Election();
         election.setTotalCounted(1000);
@@ -145,7 +146,7 @@ class ConstituencyServiceTest {
     }
 
     @Test
-    void CalculateVotesPercentage_Returns_RightResults() throws IllegalAccessException {
+    void CalculateVotesPercentage_Returns_RightResults() throws ResponseStatusException {
         // ARRANGE
         Election election = new Election();
         when(electionRepository.findById("TK2023")).thenReturn(election);
@@ -169,7 +170,7 @@ class ConstituencyServiceTest {
     }
 
     @Test
-    void CaluclateVotesPercentage_RightRounding() throws IllegalAccessException {
+    void CaluclateVotesPercentage_RightRounding() throws ResponseStatusException {
 
         // ARRANGE
         Election election = new Election();
@@ -192,6 +193,56 @@ class ConstituencyServiceTest {
        assertEquals(69.7, results);
         verify(constituencyRepository).findByConstituencyAndElectionId("TK2023", "Amsterdam");
     }
+
+    // TESTS FOR calculateConstituencyVotesPercentage()
+@Test
+    void CalculateConstituencyVotesPercentage_Expect_Results_toBe_0() throws ResponseStatusException {
+        // ARRANGE
+        Election election = new Election();
+
+        when(electionRepository.findById("TK2023")).thenReturn(election);
+
+        when(constituencyRepository.findPartyVotesByConstituencyAndElection("TK2023", "Rotterdam", "VVD"))
+                .thenReturn(null);
+
+
+        // ACT
+        double result = constituencyService.calculateConstituencyVotesPercentage("TK2023", "Rotterdam", "VVD");
+
+        // ASSERT
+        assertEquals(0.0, result); //
+        verify(constituencyRepository).findPartyVotesByConstituencyAndElection("TK2023", "Rotterdam", "VVD");
+    }
+
+    @Test
+    void calculateConstituencyVotesPercentage_HappyFlow_ConstituencyOnly() throws ResponseStatusException {
+        // ARRANGE
+
+        Election election = new Election();
+        when(electionRepository.findById("TK2023")).thenReturn(election);
+
+        List<ConstituencyPartyVotesDTO> constituencyResults = List.of(
+                new ConstituencyPartyVotesDTO("VVD", "Rotterdam", 250L),
+                new ConstituencyPartyVotesDTO("CDA", "Rotterdam", 150L),
+                new ConstituencyPartyVotesDTO("PvdA", "Rotterdam", 100L)
+        );
+        when(constituencyRepository.findByConstituencyAndElectionId("TK2023", "Rotterdam"))
+                .thenReturn(constituencyResults);
+
+        ConstituencyPartyVotesDTO partyResults = new ConstituencyPartyVotesDTO("VVD", "Rotterdam", 250L);
+        when(constituencyRepository.findPartyVotesByConstituencyAndElection("TK2023", "Rotterdam", "VVD"))
+                .thenReturn(partyResults);
+
+        // ACT
+        double result = constituencyService.calculateConstituencyVotesPercentage("TK2023", "Rotterdam", "VVD");
+
+        // ASSERT
+        assertEquals(50.0, result);
+
+        verify(constituencyRepository).findByConstituencyAndElectionId("TK2023", "Rotterdam");
+        verify(constituencyRepository).findPartyVotesByConstituencyAndElection("TK2023", "Rotterdam", "VVD");
+    }
+
 
 
 

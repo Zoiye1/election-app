@@ -51,6 +51,12 @@ watch(props, async (newValue) => {
   }
   loading.value = false;
 });
+
+// event for giving the name of a party when a div is clicked
+const emit = defineEmits<{
+  (e: 'partySelected', partyName: string): void;
+}>();
+
 </script>
 
 <template>
@@ -72,6 +78,7 @@ watch(props, async (newValue) => {
         v-for="(result, i) in electionData"
         :key="result.id"
         class="bg-purple-50 rounded-2xl p-4 flex items-center justify-between hover:bg-purple-100 transition-colors shadow"
+        @click = "emit(`partySelected`, result.partyName)"
       >
         <div class="flex items-center gap-4">
           <div
