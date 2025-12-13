@@ -52,7 +52,7 @@ export class ElectionService {
   }
 
   public static async getTotalVotes(electionId: string): Promise<number> {
-    const url: string = `http://localhost:8080/api/elections/total-votes/${electionId}`;
+    const url: string = `http://localhost:8080/api/elections/${electionId}/total-votes`;
 
     try {
       const response: Response = await fetch(url, {

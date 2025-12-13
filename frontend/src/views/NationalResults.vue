@@ -11,12 +11,6 @@ import PartyResultList from '@/components/PartyResultList.vue'
 
 // Gebruik de shared state uit de composable
 const { selectedElection } = useElection();
-
-const totalCounted = ref<number>(0);
-
-watch(selectedElection, async (newYear) => {
-  totalCounted.value = await ElectionService.getTotalVotes(selectedElection.value);
-});
 </script>
 
 <template>
@@ -38,7 +32,7 @@ watch(selectedElection, async (newYear) => {
 
       <!-- Total Votes Card -->
       <div class="max-w-md mx-auto mb-8">
-        <TotalNationalVotesComponent :totalCounted="totalCounted" />
+        <TotalNationalVotesComponent :electionId="selectedElection" />
       </div>
 
       <!-- Candidate List -->
