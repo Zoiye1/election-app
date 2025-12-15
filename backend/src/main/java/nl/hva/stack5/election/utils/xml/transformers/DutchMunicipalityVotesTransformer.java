@@ -21,6 +21,12 @@ public class DutchMunicipalityVotesTransformer implements VotesTransformer {
     @Override
     public void registerPartyVotes(boolean aggregated, Map<String, String> electionData) {
 
+//        This code skips polling station level data and only processes aggregated municipality level data
+        if (!aggregated) {
+            return;
+        }
+
+
         String partyName = electionData.get("RegisteredName");
 
         Party party = election.getParties().get(partyName);

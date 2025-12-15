@@ -12,6 +12,7 @@ import nl.hva.stack5.election.service.DutchElectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import nl.hva.stack5.election.dto.MunicipalityPartyVotesDTO;
 
 import java.util.List;
 
@@ -63,7 +64,7 @@ public class ElectionController {
 
 
     @GetMapping("{electionId}/municipalities/{municipalityName}")
-    public List<MunicipalityPartyVotes> getMunicipalityVotes(
+    public List<MunicipalityPartyVotesDTO> getMunicipalityVotes(
             @PathVariable String electionId,
             @PathVariable String municipalityName) {
 
@@ -74,6 +75,13 @@ public class ElectionController {
 
         return election.getMunicipalityPartyVotes().stream()
                 .filter(vote -> vote.getMunicipality().getName().equalsIgnoreCase(municipalityName))
+                .map(vote -> new MunicipalityPartyVotesDTO(
+                        vote.getMunicipality().getName(),
+                        vote.getParty().getRegisteredName(),
+                        vote.getVotes()
+                ))
+                .sorted((a, b) -> Integer.compare(b.getVotes(), a.getVotes()))  // sorteer DESC
+                .limit(10)  // top 10
                 .toList();
     }
     /**
