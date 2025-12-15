@@ -1,25 +1,15 @@
 import type { ConstituencyPartyVotes } from "@/interfaces/IElectionData";
 import type { Election } from "@/interfaces/IElectionData";
 
-/**
- *
- * This service does a fetch to the endpoint /{electionId} to get
- * the constituency data results
- */
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export class ElectionService {
-  /**
-   * @param electionId hold the id of the elections, the value of the Id attribute from the ElectionIdentifier tag.
-   * @param constituencyName holds the name of the selected constituency
-   * @param folder holds the folder name of where the xml file is located
-   */
 
   public async getAllMunicipalityData(electionId: string): Promise<any[]> {
-    const url: string = `http://localhost:8080/api/elections/${electionId}/municipalities`;
+    const url = `${API_BASE_URL}/elections/${electionId}/municipalities`;
 
     try {
-      const response: Response = await fetch(url, {
+      const response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
       });
@@ -34,15 +24,15 @@ export class ElectionService {
   }
 
   public async getMunicipalityData(electionId: string, municipalityName: string): Promise<ConstituencyPartyVotes[]> {
-    const url: string = `http://localhost:8080/api/elections/${electionId}/municipalities/${municipalityName}`;
+    const url = `${API_BASE_URL}/elections/${electionId}/municipalities/${municipalityName}`;
 
     try {
-      const response: Response = await fetch(url, {
+      const response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
       });
       if (!response.ok) {
-        throw new Error("request failed" + " " + response.statusText);
+        throw new Error("request failed " + response.statusText);
       }
       return await response.json();
     } catch (error) {
@@ -52,15 +42,15 @@ export class ElectionService {
   }
 
   public static async getTotalVotes(): Promise<number> {
-    const url: string = `http://localhost:8080/api/elections/TK2023/total-votes`;
+    const url = `${API_BASE_URL}/elections/TK2023/total-votes`;
 
     try {
-      const response: Response = await fetch(url, {
+      const response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
       });
       if (!response.ok) {
-        throw new Error("request failed" + " " + response.statusText);
+        throw new Error("request failed " + response.statusText);
       }
       return await response.json();
     } catch (error) {
@@ -70,10 +60,10 @@ export class ElectionService {
   }
 
   public async getElection(electionId: string): Promise<Election> {
-    const url: string = `http://localhost:8080/api/elections/${electionId}`;
+    const url = `${API_BASE_URL}/elections/${electionId}`;
 
     try {
-      const response: Response = await fetch(url, {
+      const response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
       });
@@ -88,16 +78,15 @@ export class ElectionService {
   }
 
   public async getConstituencyData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes[]> {
-    const url: string = `http://localhost:8080/api/elections/${electionId}/${constituencyName}`;
+    const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}`;
 
     try {
-      // Response holds the fetch to the endpoint
-      const response: Response = await fetch(url, {
+      const response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
       });
       if (!response.ok) {
-        throw new Error("request failed" + " " + response.statusText);
+        throw new Error("request failed " + response.statusText);
       }
       return await response.json();
     } catch (error) {
@@ -107,10 +96,10 @@ export class ElectionService {
   }
 
   public static async getConstituencyVotesPercentage(electionId: string, constituencyName: string): Promise<number> {
-    const url: string = `http://localhost:8080/api/elections/${electionId}/${constituencyName}/votes-percentage`;
+    const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}/votes-percentage`;
 
     try {
-      const response: Response = await fetch(url, {
+      const response = await fetch(url, {
         method: "GET",
         headers: {"Accept": "application/json"}
       });
@@ -123,5 +112,4 @@ export class ElectionService {
       throw error;
     }
   }
-
 }
