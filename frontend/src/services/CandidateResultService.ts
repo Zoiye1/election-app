@@ -1,6 +1,6 @@
 import type { CandidateResult } from '@/interfaces/CandidateResult';
 
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 /**
  * Fetches the top candidates by votes for a specific election
