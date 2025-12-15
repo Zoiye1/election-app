@@ -43,7 +43,7 @@ public class DiscussionController {
     }
 
     // Get discussion by ID endpoint
-    @GetMapping("v1/{discussionId}")
+    @GetMapping("{discussionId}")
     public DiscussionResponseDTO getDiscussionById(@PathVariable Integer discussionId) {
         Optional<Discussion> discussion = discussionService.findById(discussionId);
         if (discussion.isEmpty()) {
@@ -77,7 +77,7 @@ public class DiscussionController {
         return discussionMapper.toResponseDTO(created);
     }
 
-    @PutMapping(value = "v1/{discussionId}")
+    @PutMapping(value = "{discussionId}")
     public DiscussionResponseDTO updateDiscussion(
             @PathVariable Integer discussionId,
             @RequestBody DiscussionRequestDTO requestDTO) {
@@ -100,7 +100,7 @@ public class DiscussionController {
     }
 
     // Add authorization check to delete method
-    @DeleteMapping(value = "v1/{discussionId}")
+    @DeleteMapping(value = "{discussionId}")
     public void deleteDiscussion(
             @PathVariable Integer discussionId,
             @RequestHeader("Authorization") String authHeader) {

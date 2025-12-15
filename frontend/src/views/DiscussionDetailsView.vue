@@ -452,6 +452,7 @@ const sortedReplies = computed(() => {
               :currentUserId="currentUser?.id"
               @delete="handleDeleteReply"
               @reply="handleReplyTo"
+              @edit="handleEditReply"
             />
           </div>
 
