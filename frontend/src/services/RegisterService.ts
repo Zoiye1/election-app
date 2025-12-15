@@ -11,9 +11,12 @@ export interface RegisterResponse {
   email: string;
 }
 
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+
 export class RegisterService {
   public async registerUser(username: string, email: string, password: string): Promise<RegisterResponse> {
-    const url: string = `http://localhost:8080/api/user`
+    const url = `${API_BASE_URL}/user`;
     const requestBody: RegisterRequest = {
       username: username,
       email: email,
