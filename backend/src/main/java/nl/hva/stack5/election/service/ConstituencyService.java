@@ -59,9 +59,9 @@ public class ConstituencyService {
         Election election = electionRepository.findById(electionId);
 
         if (election == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "election" + electionId + "not found");
-
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + " " + electionId + " " + "not found");
         }
+
         return constituencyRepository.findByConstituencyAndElectionId(electionId, constituencyName);
     }
 
@@ -69,7 +69,7 @@ public class ConstituencyService {
         Election election = electionRepository.findById(electionId);
 
         if (election == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + " " + electionId + " " + "not found");
         }
 
         long totalCounted = election.getTotalCounted();
@@ -82,4 +82,38 @@ public class ConstituencyService {
         }
         return totalConstituencyVotes;
     }
+
+    public double calculateConstituencyVotesPercentage(String electionId, String constituencyName, String registeredName) throws ResponseStatusException{
+        Election election = electionRepository.findById(electionId);
+
+        if (election == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+        }
+
+        List<ConstituencyPartyVotesDTO> results =  constituencyRepository.findByConstituencyAndElectionId(electionId, constituencyName);
+
+        double totalConstituencyVotes =  0;
+        for (ConstituencyPartyVotesDTO votes : results) {
+            totalConstituencyVotes += votes.getVotes();
+        }
+
+        ConstituencyPartyVotesDTO partyResults= constituencyRepository.findPartyVotesByConstituencyAndElection(electionId, constituencyName, registeredName);
+
+        if (partyResults == null || partyResults.getVotes() <= 0) {
+            return 0.0;
+        }
+
+        double partyVotes = partyResults.getVotes();
+
+
+        double constituencyVotesPercentage =
+                Math.round(((partyVotes / totalConstituencyVotes) * 100) * 10) / 10.0;
+
+        return constituencyVotesPercentage;
+
+
+
+    }
+
+
 }
