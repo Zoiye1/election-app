@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ElectionService } from '@/services/ElectionService';
-import { ref, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import Navbar from '@/components/Navbar.vue';
 import TotalNationalVotesComponent from '@/components/TotalNationalVotesComponent.vue';
 import CandidateResultList from '@/components/CandidateResultList.vue';
@@ -11,12 +11,6 @@ import PartyResultList from '@/components/PartyResultList.vue'
 
 // Gebruik de shared state uit de composable
 const { selectedElection } = useElection();
-
-const totalCounted = ref<number>(0);
-
-onMounted(async () => {
-  totalCounted.value = await ElectionService.getTotalVotes();
-});
 </script>
 
 <template>
@@ -38,16 +32,12 @@ onMounted(async () => {
 
       <!-- Total Votes Card -->
       <div class="max-w-md mx-auto mb-8">
-        <TotalNationalVotesComponent :totalCounted="totalCounted" />
+        <TotalNationalVotesComponent :electionId="selectedElection" />
       </div>
 
-      <!-- Candidate List -->
-      <div class="mt-10">
+      <!-- Candidate List & Top Parties side by side -->
+      <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <CandidateResultList :electionId="selectedElection" />
-      </div>
-
-      <!-- Top Parties List -->
-      <div class="mt-10">
         <PartyResultList :electionId="selectedElection" />
       </div>
 
