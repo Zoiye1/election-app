@@ -6,7 +6,8 @@ public class LoginResponseDTO {
     private String token;
     private UserResponseDTO user;
 
-    public LoginResponseDTO() {}
+    public LoginResponseDTO() {
+    }
 
     public LoginResponseDTO(boolean success, String token, UserResponseDTO user) {
         this.success = success;

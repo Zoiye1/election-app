@@ -6,7 +6,8 @@ public class UserResponseDTO {
     private String username;
     private String email;
 
-    public UserResponseDTO() {}
+    public UserResponseDTO() {
+    }
 
     public UserResponseDTO(Integer id, String username, String email) {
         this.id = id;

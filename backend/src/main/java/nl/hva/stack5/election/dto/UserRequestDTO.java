@@ -18,7 +18,8 @@ public class UserRequestDTO {
             message = "Password must contain at least one digit, one lowercase, one uppercase, and one special character")
     private String password;
 
-    public UserRequestDTO() {}
+    public UserRequestDTO() {
+    }
 
     public String getUsername() {
         return username;
