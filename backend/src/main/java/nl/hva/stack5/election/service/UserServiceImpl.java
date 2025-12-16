@@ -15,52 +15,62 @@ public class UserServiceImpl implements UserService {
 
     private final Argon2PasswordEncoder passwordEncoder = Argon2PasswordEncoder.defaultsForSpringSecurity_v5_8();
 
-    /**
-     * @param id
-     * @return User if exists
-     */
     @Override
     public Optional<User> findById(int id) {
         return userRepository.findById(id);
     }
 
-    /**
-     * @param user
-     * @return User if successfully created
-     */
     @Override
     public User createUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
-    /**
-     * @param username
-     * @param password
-     * @return true if combination matches a user in the database
-     */
     @Override
     public boolean verifyUsernameAndPassword(String username, String password) {
         User user = userRepository.findByUsername(username);
-        return passwordEncoder.matches(password, user.getPassword());    }
-
-    /**
-     * @param email
-     * @param password
-     * @return true if combination matches a user in the database
-     */
-    @Override
-    public boolean verifyEmailAndPassword(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        return passwordEncoder.matches(password, user.getPassword());    }
-
-    @Override
-    public User findByEmail(String email) {
-        return userRepository.findByEmail(email);
+        if (user == null) return false;
+        return passwordEncoder.matches(password, user.getPassword());
     }
 
     @Override
-    public User findByUsername(String username) {
-        return userRepository.findByUsername(username);
+    public boolean verifyEmailAndPassword(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user == null) return false;
+        return passwordEncoder.matches(password, user.getPassword());
+    }
+
+    /**
+     * Update username for a user
+     * @param userId the user ID
+     * @param newUsername the new username
+     * @return updated User
+     */
+    @Override
+    public User updateUsername(Integer userId, String newUsername) {
+        Optional<User> userOpt = userRepository.findById(userId);
+        if (userOpt.isEmpty()) {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
+
+        if (userRepository.existsByUsername(newUsername)) {
+            throw new IllegalArgumentException("Username already exists: " + newUsername);
+        }
+
+        User user = userOpt.get();
+        user.setUsername(newUsername);
+        return userRepository.save(user);
+    }
+
+    /**
+     * Delete user by ID
+     * @param userId the user ID to delete
+     */
+    @Override
+    public void deleteUser(Integer userId) {
+        if (!userRepository.findById(userId).isPresent()) {
+            throw new IllegalArgumentException("User not found with ID: " + userId);
+        }
+        userRepository.deleteById(userId);
     }
 }
