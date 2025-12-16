@@ -34,14 +34,6 @@ public class ConstituencyController {
      * @return a list of the parties with their name and total votes in that constituency
      * @throws ResponseStatusException when the election does not exist
      */
-    @Operation(
-            summary = "Retrieve constituency results",
-            description = "Returns all parties and their votes for a given constituency."
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "404", description = "Election not found")
-    })
     @GetMapping("{electionId}/{constituencyName}")
     public List<ConstituencyPartyVotesDTO> getConstituencyPartyVotes(@PathVariable String electionId, @PathVariable String constituencyName) throws ResponseStatusException {
 
