@@ -20,7 +20,7 @@ export interface UpdateDiscussionRequest {
 }
 
 export class DiscussionService {
-  private baseUrl: string = 'http://localhost:8080/api/discussion'
+  private baseUrl: string = 'http://localhost:8080/api/v1/discussion'
 
   /**
    * Get all discussions from the API

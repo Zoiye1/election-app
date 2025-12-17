@@ -7,6 +7,7 @@ import { ReplyService } from '@/services/ReplyService.ts'
 import type { ReplyResponseDTO } from '@/interfaces/Replies.ts'
 import ReplyCard from '@/components/ReplyCard.vue'
 import { useAuth } from '@/composables/useAuth'
+import ConfirmModal from '@/components/ConfirmModal.vue'
 
 // Initialize router and service
 const route = useRoute()
@@ -30,6 +31,10 @@ const newReplyContent = ref('')
 const submitting = ref(false)
 const replyingTo = ref<number | null>(null)
 const replyingToAuthor = ref<string>('')
+
+// State for delete confirmation modal
+const showDeleteModal = ref(false)
+
 const editingReplyId = ref<number | null>(null)
 const editingContent = ref('')
 // Fetch discussion from API
@@ -58,18 +63,27 @@ const canDelete = computed(() => {
   return discussion.value && userId.value === discussion.value.authorId
 })
 
-// Handle delete discussion
-const handleDelete = async () => {
+// Show delete confirmation modal
+const showDeleteConfirmation = () => {
+  showDeleteModal.value = true
+}
+
+// Cancel delete
+const cancelDelete = () => {
+  showDeleteModal.value = false
+}
+
+// Confirm delete
+const confirmDelete = async () => {
   if (!discussion.value) return
 
-  if (confirm('Weet je zeker dat je dit bericht wilt verwijderen?')) {
-    try {
-      await discussionService.deleteDiscussion(discussion.value.id)
-      router.push('/discussion')
-    } catch (err) {
-      console.error('Delete error:', err)
-      error.value = 'Kon bericht niet verwijderen'
-    }
+  try {
+    await discussionService.deleteDiscussion(discussion.value.id)
+    router.push('/discussion')
+  } catch (err) {
+    console.error('Delete error:', err)
+    error.value = 'Kon bericht niet verwijderen'
+    showDeleteModal.value = false
   }
 }
 
@@ -229,6 +243,18 @@ const sortedReplies = computed(() => {
   <div class="min-h-screen bg-gradient-to-br from-[#667eea] to-[#764ba2] relative overflow-hidden">
     <div class="fixed inset-0 pointer-events-none" id="particles"></div>
     <Navbar />
+
+    <!-- Delete Confirmation Modal -->
+    <ConfirmModal
+      v-if="showDeleteModal"
+      title="Bericht verwijderen?"
+      message="Weet je zeker dat je dit bericht wilt verwijderen? Deze actie kan niet ongedaan worden gemaakt."
+      confirm-text="Verwijderen"
+      cancel-text="Annuleren"
+      @confirm="confirmDelete"
+      @cancel="cancelDelete"
+    />
+
     <main class="max-w-6xl mx-auto px-4 py-10 md:py-24">
       <!-- Loading State -->
       <div v-if="loading" class="text-center py-16">
@@ -305,7 +331,7 @@ const sortedReplies = computed(() => {
             <!-- Delete Discussion Button -->
             <button
               v-if="canDelete"
-              @click="handleDelete"
+              @click="showDeleteConfirmation"
               class="px-4 py-2 bg-red-600 text-white font-semibold rounded-full hover:bg-red-700 hover:-translate-y-0.5 transition-all duration-300 flex items-center gap-2"
             >
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
