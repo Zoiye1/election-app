@@ -1,4 +1,4 @@
-import type { ConstituencyPartyVotes } from "@/interfaces/IElectionData";
+import type { ConstituencyPartyVotes, TopConstituencies } from "@/interfaces/IElectionData";
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
@@ -84,6 +84,31 @@ export class ConstituencyService{
     }
   }
 
+  public static async getTopPerformingConstituencyByParty(electionId: string, partyName : string | null): Promise<TopConstituencies[]> {
+
+    if (!partyName) {
+      throw new Error("partyName is null and/or doesn't exist");
+    }
+    const encodedParty: string  = encodeURIComponent(partyName);
+    const url: string = `${API_BASE_URL}/elections/${electionId}/top-constituencies?partyName=${encodedParty}`
+    // Response holds the fetch to the endpoint
+    try {
+      // Response holds the fetch to the endpoint
+      const response: Response = await fetch(url, {
+        method: "GET",
+        headers: {"Accept": "application/json"}
+      })
+      if (!response.ok) {
+        throw new Error(`GET ${url} failed → ${response.status} ${response.statusText}`);
+      }
+
+      return await response.json();
+    } catch (error) {
+      console.error(`error fetching ConstituencyVotesPercentage ${url}`, error instanceof Error ? error.message: error);
+      throw error;
+    }
+  }
+
   /**
    *
    * @param electionId hold the id of the elections, the value of the Id attribute from the ElectionIdentifier tag.
@@ -108,5 +133,7 @@ export class ConstituencyService{
       throw error;
     }
   }
+
+
 
 }
