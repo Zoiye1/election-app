@@ -14,9 +14,10 @@ export class ConstituencyService{
 * @param constituencyName holds the name of the selected constituency
 */
   public static async getConstituencyData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes[]> {
-    const url: string = `${API_BASE_URL}/elections/${electionId}/${constituencyName}`
+    const url: string = `${API_BASE_URL}elections/${electionId}/${constituencyName}`
     // Response holds the fetch to the endpoint
     try {
+
       // Response holds the fetch to the endpoint
       const response: Response = await fetch(url, {
         method: "GET",
@@ -40,7 +41,7 @@ export class ConstituencyService{
    * @param constituencyName holds the name of the selected constituency
    */
   public static async getVotesPercentage(electionId: string, constituencyName: string): Promise<number> {
-    const url: string = `${API_BASE_URL}/elections/${electionId}/${constituencyName}/votes-percentage`
+    const url: string = `${API_BASE_URL}elections/${electionId}/${constituencyName}/votes-percentage`
     // Response holds the fetch to the endpoint
     try {
       // Response holds the fetch to the endpoint
@@ -65,7 +66,7 @@ export class ConstituencyService{
       throw new Error("partyName is null and/or doesn't exist");
     }
     const encodedParty: string  = encodeURIComponent(partyName);
-    const url: string = `${API_BASE_URL}/elections/${electionId}/${constituencyName}/constituency-votes-percentage?partyName=${encodedParty}`
+    const url: string = `${API_BASE_URL}elections/${electionId}/${constituencyName}/constituency-votes-percentage?partyName=${encodedParty}`
     // Response holds the fetch to the endpoint
     try {
       // Response holds the fetch to the endpoint
@@ -90,7 +91,7 @@ export class ConstituencyService{
       throw new Error("partyName is null and/or doesn't exist");
     }
     const encodedParty: string  = encodeURIComponent(partyName);
-    const url: string = `${API_BASE_URL}/elections/${electionId}/top-constituencies?partyName=${encodedParty}`
+    const url: string = `${API_BASE_URL}elections/${electionId}/top-constituencies?partyName=${encodedParty}`
     // Response holds the fetch to the endpoint
     try {
       // Response holds the fetch to the endpoint
@@ -115,7 +116,7 @@ export class ConstituencyService{
    * @param constituencyName holds the name of the selected constituency
    */
   public static async getTotalConstituencyVote(electionId: string, constituencyName: string): Promise<number> {
-    const url: string = `${API_BASE_URL}/elections/${electionId}/${constituencyName}/totalVotes`
+    const url: string = `${API_BASE_URL}elections/${electionId}/${constituencyName}/totalVotes`
     // Response holds the fetch to the endpoint
     try {
       // Response holds the fetch to the endpoint
