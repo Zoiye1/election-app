@@ -1,6 +1,7 @@
 package nl.hva.stack5.election.service;
 import jakarta.persistence.EntityNotFoundException;
 import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
+import nl.hva.stack5.election.dto.ConstituencyVotesDTO;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.repository.ConstituencyRepository;
 import nl.hva.stack5.election.repository.ElectionRepository;
@@ -113,6 +114,17 @@ public class ConstituencyService {
 
 
 
+    }
+
+    public List<ConstituencyVotesDTO> getTop5BestPerformingConstituencyByPartyName(String electionId, String partyName) throws ResponseStatusException {
+        Election election = electionRepository.findById(electionId);
+        if (election == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+        }
+
+        List<ConstituencyVotesDTO> results = constituencyRepository.findTop5PerformingConstituencyByPartyName(electionId, partyName);
+
+        return results;
     }
 
 

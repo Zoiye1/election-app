@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityNotFoundException;
 import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
+import nl.hva.stack5.election.dto.ConstituencyVotesDTO;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.service.DutchElectionService;
 import org.springframework.http.HttpStatus;
@@ -76,4 +77,13 @@ public class ConstituencyController {
         return constituencyService.calculateConstituencyVotesPercentage(electionId, constituencyName, partyName );
 
     }
+
+    @GetMapping("{electionId}/top-constituencies")
+    public List<ConstituencyVotesDTO> getTop5BestPerformingConstituencies(@PathVariable String electionId, @RequestParam String partyName) throws ResponseStatusException {
+
+        return constituencyService.getTop5BestPerformingConstituencyByPartyName(electionId, partyName);
+
+    }
+
+
 }

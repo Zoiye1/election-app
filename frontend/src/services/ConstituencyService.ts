@@ -1,4 +1,5 @@
 import type { ConstituencyPartyVotes } from "@/interfaces/IElectionData";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 
 /**
@@ -6,7 +7,6 @@ import type { ConstituencyPartyVotes } from "@/interfaces/IElectionData";
  * This service does a fetches
  * the constituency data results
  */
-const API_BASE_URL = 'http://localhost:8080/api';
 export class ConstituencyService{
 
 /**
