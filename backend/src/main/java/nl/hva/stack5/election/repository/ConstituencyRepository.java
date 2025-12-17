@@ -34,24 +34,31 @@ public class ConstituencyRepository {
     }
 
     public ConstituencyPartyVotesDTO findPartyVotesByConstituencyAndElection(
-            String electionId, String constituencyName, String partyName) {
+            String electionId,
+            String constituencyName,
+            String partyName
+    ) {
 
-        return entityManager.createQuery(
-                        "SELECT new nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO(" +
-                                "p.registeredName, c.name, SUM(v.votes)) " +
-                                "FROM ConstituencyPartyVotes v " +
-                                "JOIN v.party p " +
-                                "JOIN v.constituency c " +
-                                "WHERE v.election.id = :electionId " +
-                                "AND c.name = :constituencyName " +
-                                "AND p.registeredName = :partyName " +
-                                "GROUP BY p.registeredName, c.name",
-                        ConstituencyPartyVotesDTO.class)
-                .setParameter("electionId", electionId)
-                .setParameter("constituencyName", constituencyName)
-                .setParameter("partyName", partyName)
-                .getSingleResult();
+        List<ConstituencyPartyVotesDTO> results =
+                entityManager.createQuery(
+                                "SELECT new nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO(" +
+                                        "p.registeredName, c.name, SUM(v.votes)) " +
+                                        "FROM ConstituencyPartyVotes v " +
+                                        "JOIN v.party p " +
+                                        "JOIN v.constituency c " +
+                                        "WHERE v.election.id = :electionId " +
+                                        "AND c.name = :constituencyName " +
+                                        "AND p.registeredName = :partyName " +
+                                        "GROUP BY p.registeredName, c.name",
+                                ConstituencyPartyVotesDTO.class)
+                        .setParameter("electionId", electionId)
+                        .setParameter("constituencyName", constituencyName)
+                        .setParameter("partyName", partyName)
+                        .getResultList();
+
+        return results.isEmpty() ? null : results.get(0);
     }
+
 
     public List<ConstituencyVotesDTO> findTop5PerformingConstituencyByPartyName(String electionId, String partyName) {
         return entityManager.createQuery(

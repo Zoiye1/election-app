@@ -100,8 +100,12 @@ public class ConstituencyService {
 
         ConstituencyPartyVotesDTO partyResults= constituencyRepository.findPartyVotesByConstituencyAndElection(electionId, constituencyName, registeredName);
 
+
+
         if (partyResults == null || partyResults.getVotes() <= 0) {
-            return 0.0;
+            throw new ResponseStatusException(
+                    HttpStatus.NOT_FOUND,
+                    "Party " + registeredName + " not found for election " + electionId);
         }
 
         double partyVotes = partyResults.getVotes();
