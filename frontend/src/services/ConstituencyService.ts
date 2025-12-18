@@ -53,10 +53,21 @@ export class ConstituencyService {
     constituencyName: string,
     partyName: string | null
   ): Promise<number | null> {
-    if (!partyName) return null;
-
+    if (!partyName) {
+      return null;
+    }
     const encodedParty = encodeURIComponent(partyName);
     const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}/constituency-votes-percentage?partyName=${encodedParty}`;
+    return this.fetchJson<number>(url);
+  }
+
+  public static async getPartyGrowth(previousElectionId: string, currentElectionId: string, constituencyName: string, partyName: string | null): Promise<number | null> {
+    if (!partyName) {
+      return null;
+    }
+
+    const encodedParty = encodeURIComponent(partyName);
+    const url = `${API_BASE_URL}/elections/${previousElectionId}/${currentElectionId}/${constituencyName}/party-growth?partyName=${encodedParty}`;
     return this.fetchJson<number>(url);
   }
 
@@ -64,7 +75,9 @@ export class ConstituencyService {
     electionId: string,
     partyName: string | null
   ): Promise<TopConstituencies[] | null> {
-    if (!partyName) return null;
+    if (!partyName) {
+      return null;
+    }
 
     const encodedParty = encodeURIComponent(partyName);
     const url = `${API_BASE_URL}/elections/${electionId}/top-constituencies?partyName=${encodedParty}`;
