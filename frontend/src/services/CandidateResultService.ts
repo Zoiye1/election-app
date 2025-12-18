@@ -9,7 +9,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
  */
 export async function getTopCandidatesByElection(electionId: string): Promise<CandidateResult[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/candidates/top?electionId=${electionId}`);
+    const response = await fetch(`${API_BASE_URL}/v1/candidates/top?electionId=${electionId}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);

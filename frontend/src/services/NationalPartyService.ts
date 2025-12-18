@@ -15,7 +15,7 @@ export class NationalPartyService {
    * @returns Promise with array of top national parties
    */
   public static async getTopParties(electionId: string): Promise<TopNationalParty[]> {
-    const url: string = `${API_BASE_URL}/parties/top?electionId=${electionId}`;
+    const url: string = `${API_BASE_URL}/v1/parties/top?electionId=${electionId}`;
     // Check if request was successful
     try {
       const response: Response = await fetch(url, {
