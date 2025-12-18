@@ -160,36 +160,36 @@ public class UserController {
         String identifier = user.getEmail() != null ? user.getEmail() : user.getUsername();
         logger.info("Login attempt for: {}", identifier);
 
-        boolean isValid = false;
+        User authenticatedUser = null;
 
-        // Check credentials via email or username
+        // Verify and retrieve full user object
         if (user.getEmail() != null) {
-            isValid = userService.verifyEmailAndPassword(user.getEmail(), user.getPassword());
-            identifier = user.getEmail();
+            authenticatedUser = userService.findByEmailAndVerifyPassword(user.getEmail(), user.getPassword());
         } else if (user.getUsername() != null) {
-            isValid = userService.verifyUsernameAndPassword(user.getUsername(), user.getPassword());
-            identifier = user.getUsername();
+            authenticatedUser = userService.findByUsernameAndVerifyPassword(user.getUsername(), user.getPassword());
         }
 
-        // Generate token and return success response if credentials are valid
-        if (isValid && identifier != null) {
-            String token = jwtUtil.generateToken(identifier);
-            logger.info("Successful login for: {}", identifier);
+        if (authenticatedUser != null) {
+            // Generate token with userId
+            Map<String, Object> claims = new HashMap<>();
+            claims.put("userId", authenticatedUser.getId());
+            String token = jwtUtil.generateToken(authenticatedUser.getEmail(), claims);
+            logger.info("Successful login for user ID: {}", authenticatedUser.getId());
 
             Map<String, Object> response = new HashMap<>();
             response.put("success", true);
             response.put("token", token);
 
-            // Add user data to response
+            // Add user data WITH userId to response
             Map<String, Object> userData = new HashMap<>();
-            userData.put("email", user.getEmail());
-            userData.put("username", user.getUsername());
+            userData.put("userId", authenticatedUser.getId());
+            userData.put("email", authenticatedUser.getEmail());
+            userData.put("username", authenticatedUser.getUsername());
             response.put("user", userData);
 
             return ResponseEntity.ok(response);
         }
 
-        // Log failed attempt and return 401 unauthorized
         logger.warn("Failed login attempt for: {}", identifier);
 
         Map<String, Object> errorResponse = new HashMap<>();
