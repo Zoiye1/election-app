@@ -6,7 +6,7 @@ import type { Election } from "@/interfaces/IElectionData";
  * This service does a fetch to the endpoint /{electionId} to get
  * the constituency data results
  */
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export class ElectionService {
 
@@ -47,11 +47,11 @@ export class ElectionService {
   }
 
   public static async getTotalVotes(): Promise<number> {
-    const url = `${API_BASE_URL}/elections/TK2023/total-votes`;
+    const url = `${API_BASE_URL}elections/TK2023/total-votes`;
 
     try {
       const response = await fetch(url, {
-        method: "GET",
+        // method: "GET",
         headers: {"Accept": "application/json"}
       });
       if (!response.ok) {
