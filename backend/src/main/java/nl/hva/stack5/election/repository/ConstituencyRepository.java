@@ -3,6 +3,7 @@ package nl.hva.stack5.election.repository;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
+import nl.hva.stack5.election.dto.ConstituencyVotesDTO;
 import nl.hva.stack5.election.model.ConstituencyPartyVotes;
 import org.springframework.stereotype.Repository;
 
@@ -51,6 +52,27 @@ public class ConstituencyRepository {
                 .setParameter("partyName", partyName)
                 .getSingleResult();
     }
+
+    public List<ConstituencyVotesDTO> findTop5PerformingConstituencyByPartyName(String electionId, String partyName) {
+        return entityManager.createQuery(
+                        "SELECT new nl.hva.stack5.election.dto.ConstituencyVotesDTO(" +
+                                "c.name, SUM(v.votes)) " +
+                                "FROM ConstituencyPartyVotes v " +
+                                "JOIN v.party p " +
+                                "JOIN v.constituency c " +
+                                "WHERE v.election.id = :electionId " +
+                                "AND p.registeredName = :partyName " +
+                                "GROUP BY c.name " +
+                                "ORDER BY SUM(v.votes) DESC",
+                        ConstituencyVotesDTO.class
+                )
+                .setParameter("electionId", electionId)
+                .setParameter("partyName", partyName)
+                .setMaxResults(5)
+                .getResultList();
+    }
+
+
 
 
 }

@@ -15,6 +15,13 @@ export interface ConstituencyPartyVotes {
   votes: number
 }
 
+export interface TopConstituencies {
+  constituencyName: string;
+  votes: string
+}
+
+
+
 export interface Election {
   id: string;
   totalCounted?: number;
@@ -48,3 +55,5 @@ export interface TopNationalParty {
   partyName: string;
   votes: number;
 }
+
+

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityNotFoundException;
 import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
+import nl.hva.stack5.election.dto.ConstituencyVotesDTO;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.service.DutchElectionService;
 import org.springframework.http.HttpStatus;
@@ -34,14 +35,6 @@ public class ConstituencyController {
      * @return a list of the parties with their name and total votes in that constituency
      * @throws ResponseStatusException when the election does not exist
      */
-    @Operation(
-            summary = "Retrieve constituency results",
-            description = "Returns all parties and their votes for a given constituency."
-    )
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "Successfully retrieved"),
-            @ApiResponse(responseCode = "404", description = "Election not found")
-    })
     @GetMapping("{electionId}/{constituencyName}")
     public List<ConstituencyPartyVotesDTO> getConstituencyPartyVotes(@PathVariable String electionId, @PathVariable String constituencyName) throws ResponseStatusException {
 
@@ -84,4 +77,13 @@ public class ConstituencyController {
         return constituencyService.calculateConstituencyVotesPercentage(electionId, constituencyName, partyName );
 
     }
+
+    @GetMapping("{electionId}/top-constituencies")
+    public List<ConstituencyVotesDTO> getTop5BestPerformingConstituencies(@PathVariable String electionId, @RequestParam String partyName) throws ResponseStatusException {
+
+        return constituencyService.getTop5BestPerformingConstituencyByPartyName(electionId, partyName);
+
+    }
+
+
 }
