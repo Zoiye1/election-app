@@ -85,5 +85,14 @@ public class ConstituencyController {
 
     }
 
+    @GetMapping("{previousElection}/{currentElection}/{constituencyName}/party-growth")
+    public long getPartyGrowth(@PathVariable String previousElection, @PathVariable String currentElection, @PathVariable String constituencyName, @RequestParam String partyName) throws ResponseStatusException {
+
+        return constituencyService.calculatePartyGrowth(previousElection, currentElection, constituencyName, partyName);
+
+    }
+
+
+
 
 }
