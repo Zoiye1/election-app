@@ -11,7 +11,7 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 export class ElectionService {
 
   public async getAllMunicipalityData(electionId: string): Promise<any[]> {
-    const url = `${API_BASE_URL}/elections/${electionId}/municipalities`;
+    const url = `${API_BASE_URL}elections/${electionId}/municipalities`;
 
     try {
       const response = await fetch(url, {
@@ -29,7 +29,7 @@ export class ElectionService {
   }
 
   public async getMunicipalityData(electionId: string, municipalityName: string): Promise<ConstituencyPartyVotes[]> {
-    const url = `${API_BASE_URL}/elections/${electionId}/municipalities/${municipalityName}`;
+    const url = `${API_BASE_URL}elections/${electionId}/municipalities/${municipalityName}`;
 
     try {
       const response = await fetch(url, {
