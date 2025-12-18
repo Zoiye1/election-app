@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { ElectionService } from '@/services/ElectionService';
+import ElectionSelector from "@/components/ElectionSelector.vue";
+
 
 const electionData = ref<any[]>([]);
 const loading = ref(true);
@@ -42,6 +44,12 @@ watch(props, async (newValue) => {
 </script>
 
 <template>
+
+  <div class="mb-1">
+    <ElectionSelector />
+  </div>
+
+
   <div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md">
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
