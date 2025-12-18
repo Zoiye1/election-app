@@ -2,6 +2,7 @@ package nl.hva.stack5.election.service;
 import jakarta.persistence.EntityNotFoundException;
 import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.dto.ConstituencyVotesDTO;
+import nl.hva.stack5.election.dto.PartyVotesPerYearDTO;
 import nl.hva.stack5.election.model.Election;
 import nl.hva.stack5.election.repository.ConstituencyRepository;
 import nl.hva.stack5.election.repository.ElectionRepository;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -129,6 +131,48 @@ public class ConstituencyService {
         List<ConstituencyVotesDTO> results = constituencyRepository.findTop5PerformingConstituencyByPartyName(electionId, partyName);
 
         return results;
+    }
+
+    public long calculatePartyGrowth(String previousElectionId , String currentElectionId, String constituencyName, String partyName) throws ResponseStatusException {
+        Election previousElection = electionRepository.findById(previousElectionId);
+        if (previousElection== null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, " previous Election named" + previousElectionId + "not found");
+        }
+
+        Election currentElection = electionRepository.findById(currentElectionId);
+
+        if (currentElection== null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, " current Election named" + currentElectionId + "not found");
+        }
+
+        List<String> elections = new ArrayList<>();
+        elections.add(previousElectionId);
+        elections.add(currentElectionId);
+
+        List<PartyVotesPerYearDTO> results = constituencyRepository.findPartyVotesForConstituencyForYears(constituencyName, partyName, elections);
+
+         long currentVotes = 0;
+         long previousVotes = 0;
+
+
+        for (PartyVotesPerYearDTO dto : results) {
+            if (dto.getElectionId().equals(currentElectionId)) {
+                currentVotes = dto.getVotes();
+            }
+            if (dto.getElectionId().equals(previousElectionId)) {
+                previousVotes = dto.getVotes();
+            }
+        }
+
+        if (previousVotes == 0) {
+            return 0; //
+        }
+
+        long growth = currentVotes - previousVotes;
+
+
+        return growth;
+
     }
 
 
