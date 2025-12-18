@@ -39,12 +39,12 @@ export class ConstituencyService {
 
 
   public static async getConstituencyData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes[] | null> {
-    const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}`;
+    const url = `${API_BASE_URL}elections/${electionId}/${constituencyName}`;
     return this.fetchJson<ConstituencyPartyVotes[]>(url);
   }
 
   public static async getVotesPercentage(electionId: string, constituencyName: string): Promise<number | null> {
-    const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}/votes-percentage`;
+    const url = `${API_BASE_URL}elections/${electionId}/${constituencyName}/votes-percentage`;
     return this.fetchJson<number>(url);
   }
 
@@ -56,7 +56,7 @@ export class ConstituencyService {
     if (!partyName) return null;
 
     const encodedParty = encodeURIComponent(partyName);
-    const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}/constituency-votes-percentage?partyName=${encodedParty}`;
+    const url = `${API_BASE_URL}elections/${electionId}/${constituencyName}/constituency-votes-percentage?partyName=${encodedParty}`;
     return this.fetchJson<number>(url);
   }
 
@@ -67,12 +67,12 @@ export class ConstituencyService {
     if (!partyName) return null;
 
     const encodedParty = encodeURIComponent(partyName);
-    const url = `${API_BASE_URL}/elections/${electionId}/top-constituencies?partyName=${encodedParty}`;
+    const url = `${API_BASE_URL}elections/${electionId}/top-constituencies?partyName=${encodedParty}`;
     return this.fetchJson<TopConstituencies[]>(url);
   }
 
   public static async getTotalConstituencyVote(electionId: string, constituencyName: string): Promise<number | null> {
-    const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}/totalVotes`;
+    const url = `${API_BASE_URL}elections/${electionId}/${constituencyName}/totalVotes`;
     return this.fetchJson<number>(url);
   }
 }
