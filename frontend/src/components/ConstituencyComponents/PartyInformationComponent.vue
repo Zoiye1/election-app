@@ -15,8 +15,9 @@ const errorMessage = `Er is geen data beschikbaar voor deze partij in dit jaar ð
 const emptyMessage = "Selecteer een partij";
 
 
-const percentage = ref<number>(0);
-const topConstituencies = ref<TopConstituencies[]>([])
+const percentage = ref<number | null>(0);
+const topConstituencies = ref<TopConstituencies[] | null>([])
+const partyGrowth = ref<number | null>(0)
 
 onMounted(async ()=>{
 
@@ -33,6 +34,28 @@ onMounted(async ()=>{
   catch (e){
     topConstituencies.value = []
 
+  }
+
+  try {
+
+    const electionOrder = ["TK2021", "TK2023", "TK2025"]
+    let currentIndex = electionOrder.indexOf(props.election)
+
+
+    if (currentIndex <= 0 ) {
+      return
+    }
+
+    const previousElection = electionOrder[currentIndex - 1];
+
+
+
+    partyGrowth.value = await ConstituencyService.getPartyGrowth(previousElection, props.election, props.name, props.party)
+
+  }
+  catch (e){
+    partyGrowth.value = 0
+    error.value = true;
   }
 })
 
@@ -53,13 +76,57 @@ watch(props, async (newValue) =>{
     topConstituencies.value = []
 
   }
+
+  try {
+
+    const electionOrder = ["TK2021", "TK2023", "TK2025"]
+    let currentIndex = electionOrder.indexOf(newValue.election)
+
+
+    if (currentIndex <= 0 ) {
+      return
+    }
+
+    const previousElection = electionOrder[currentIndex - 1];
+
+
+
+    partyGrowth.value = await ConstituencyService.getPartyGrowth(previousElection, newValue.election, newValue.name, newValue.party)
+
+  }
+  catch (e){
+    partyGrowth.value = 0
+    error.value = true;
+  }
 })
 const formattedPercentage = computed(() => {
+  if (percentage.value == null ) {
+    return  -9
+  }
   if (percentage.value < 0.1) {
     return "minder dan 0,1%";
   }
   return `${percentage.value}%`;
 })
+
+const formattedGrowth = computed(() => {
+
+  if(!partyGrowth.value){
+    return
+  }
+  if (partyGrowth.value === 0) {
+    return "geen verschil ten opzichte van de vorige verkiezing";
+  }
+
+  const absValue = Math.abs(partyGrowth.value).toLocaleString("nl-NL");
+
+  if (partyGrowth.value > 0) {
+    return `${absValue} meer stemmen dan de vorige verkiezing`;
+  }
+
+  return `${absValue} minder stemmen dan de vorige verkiezing`;
+});
+
 </script>
 
 <template>
@@ -96,7 +163,7 @@ const formattedPercentage = computed(() => {
       </div>
 
 
-      <div class="bg-white shadow-md p-6 rounded-xl border border-purple-100">
+      <div class="bg-white shadow-md p-6 rounded-xl border border-purple-100 mb-5">
         <p class="text-gray-800 text-sm mb-2">Top 5 populairste kieskringen</p>
         <ul>
           <li v-for="(c, i) in topConstituencies" :key="c.constituencyName">
@@ -104,7 +171,24 @@ const formattedPercentage = computed(() => {
           </li>
         </ul>
       </div>
-    </div>
 
+      <div class="bg-white shadow-md p-6 rounded-xl border border-purple-100 mb-5">
+        <p class="text-gray-800 text-sm mb-2">Verschil ten opzichte van vorig jaar</p>
+
+        <p class="text-gray-700 text-lg font-bold">
+          Deze partij heeft
+          <span v-if="partyGrowth"
+
+                :class="partyGrowth > 0 ? 'text-green-600' : partyGrowth < 0 ? 'text-red-600' : 'text-gray-600'"
+                class="font-bold"
+          >
+          {{ formattedGrowth }}
+        </span>
+          <span v-if="!partyGrowth" class="font-bold text-orange-300">
+         geen data in de vorige verkiezing
+        </span>
+        </p>
+      </div>
+    </div>
   </div>
 </template>
