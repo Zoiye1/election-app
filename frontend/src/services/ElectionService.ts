@@ -46,12 +46,12 @@ export class ElectionService {
     }
   }
 
-  public static async getTotalVotes(): Promise<number> {
-    const url = `${API_BASE_URL}elections/TK2023/total-votes`;
+  public static async getTotalVotes(electionId: string): Promise<number> {
+    const url: string = `${API_BASE_URL}/elections/${electionId}/total-votes`;
 
     try {
       const response = await fetch(url, {
-        // method: "GET",
+        method: "GET",
         headers: {"Accept": "application/json"}
       });
       if (!response.ok) {
