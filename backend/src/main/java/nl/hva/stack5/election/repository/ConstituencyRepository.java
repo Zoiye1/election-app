@@ -4,9 +4,8 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.dto.ConstituencyVotesDTO;
-import nl.hva.stack5.election.model.ConstituencyPartyVotes;
 import org.springframework.stereotype.Repository;
-
+import nl.hva.stack5.election.dto.PartyVotesPerYearDTO;
 import java.util.List;
 
 @Repository
@@ -76,6 +75,29 @@ public class ConstituencyRepository {
                 .setParameter("electionId", electionId)
                 .setParameter("partyName", partyName)
                 .setMaxResults(5)
+                .getResultList();
+    }
+    public List<PartyVotesPerYearDTO> findPartyVotesForConstituencyForYears(
+            String constituencyName,
+            String partyName,
+            List<String> electionIds
+    ) {
+        return entityManager.createQuery(
+                        "SELECT new nl.hva.stack5.election.dto.PartyVotesPerYearDTO(" +
+                                "e.id, SUM(v.votes)) " +
+                                "FROM ConstituencyPartyVotes v " +
+                                "JOIN v.election e " +
+                                "JOIN v.party p " +
+                                "JOIN v.constituency c " +
+                                "WHERE c.name = :constituencyName " +
+                                "AND p.registeredName = :partyName " +
+                                "AND e.id IN :electionIds " +
+                                "GROUP BY e.id",
+                        PartyVotesPerYearDTO.class
+                )
+                .setParameter("constituencyName", constituencyName)
+                .setParameter("partyName", partyName)
+                .setParameter("electionIds", electionIds)
                 .getResultList();
     }
 
