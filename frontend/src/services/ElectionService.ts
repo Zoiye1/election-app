@@ -16,7 +16,7 @@ export class ElectionService {
     try {
       const response = await fetch(url, {
         method: "GET",
-        headers: {"Accept": "application/json"}
+        headers: {"Accept": "application/json"  }
       });
       if (!response.ok) {
         throw new Error("request failed " + response.statusText);
