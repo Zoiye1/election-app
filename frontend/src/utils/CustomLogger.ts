@@ -1,28 +1,34 @@
-
 export class CustomLogger {
 
-  public date: string = new Date().toLocaleDateString()
-
-  public error(message: string, error: unknown) {
-
-    console.error("ERROR:" + message, error, this.date )
-
+  private getTimestamp(): string {
+    return new Date().toISOString(); // "2024-12-18T14:30:45.123Z"
   }
 
-  public warn(message: string) {
-
-    console.warn("WARNING:" + message, this.date )
-
+  private formatMessage(level: string, message: string): string {
+    return `[${this.getTimestamp()}] [${level}] ${message}`;
   }
 
-  public info(message: string) {
+  public error(message: string, error: unknown): void {
+    const formatted = this.formatMessage('ERROR', message);
 
-    console.info("INFORMATION:" + message, this.date )
-
+    if (error instanceof Error) {
+      console.error(formatted);
+      console.error('Error message:', error.message);
+      console.error('Stack trace:', error.stack);
+    } else {
+      console.error(formatted, error);
+    }
   }
 
-  public debug(message: string){
-    console.debug("INFORMATION:" + message, this.date )
+  public warn(message: string): void {
+    console.warn(this.formatMessage('WARNING', message));
   }
 
+  public info(message: string): void {
+    console.info(this.formatMessage('INFO', message));
+  }
+
+  public debug(message: string): void {
+    console.debug(this.formatMessage('DEBUG', message));
+  }
 }

@@ -4,7 +4,7 @@ import type { ConstituencyPartyVotes } from '@/interfaces/IElectionData';
 import { ConstituencyService } from '@/services/ConstituencyService';
 
 // electionData holds the array of constituency party votes
-const electionData = ref<ConstituencyPartyVotes[]>([]);
+const electionData = ref<ConstituencyPartyVotes[] | null>([]);
 const loading = ref(true);
 const props = defineProps<{
   name: string
