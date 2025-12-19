@@ -107,7 +107,7 @@ public class ConstituencyService {
         Party party = partyRepository.findByRegisteredName(registeredName);
 
         if (party == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, " current party named" + " " + partyName + " " + "not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, " current party named" + " " + registeredName + " " + "not found");
         }
 
         ConstituencyPartyVotesDTO partyResults= constituencyRepository.findPartyVotesByConstituencyAndElection(electionId, constituencyName, registeredName);
