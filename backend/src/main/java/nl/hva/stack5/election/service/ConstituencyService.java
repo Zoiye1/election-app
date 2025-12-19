@@ -4,8 +4,10 @@ import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.dto.ConstituencyVotesDTO;
 import nl.hva.stack5.election.dto.PartyVotesPerYearDTO;
 import nl.hva.stack5.election.model.Election;
+import nl.hva.stack5.election.model.Party;
 import nl.hva.stack5.election.repository.ConstituencyRepository;
 import nl.hva.stack5.election.repository.ElectionRepository;
+import nl.hva.stack5.election.repository.PartyRepository;
 import org.hibernate.annotations.NotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,8 @@ public class ConstituencyService {
     private ElectionRepository electionRepository;
     @Autowired
     private ConstituencyRepository constituencyRepository;
+    @Autowired
+    private PartyRepository partyRepository;
 
     /**
      *
@@ -100,6 +104,12 @@ public class ConstituencyService {
             totalConstituencyVotes += votes.getVotes();
         }
 
+        Party party = partyRepository.findByRegisteredName(registeredName);
+
+        if (party == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, " current party named" + " " + partyName + " " + "not found");
+        }
+
         ConstituencyPartyVotesDTO partyResults= constituencyRepository.findPartyVotesByConstituencyAndElection(electionId, constituencyName, registeredName);
 
 
@@ -141,7 +151,7 @@ public class ConstituencyService {
 
         Election currentElection = electionRepository.findById(currentElectionId);
 
-        if (currentElection== null) {
+        if (currentElection == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, " current Election named" + currentElectionId + "not found");
         }
 
@@ -149,7 +159,15 @@ public class ConstituencyService {
         elections.add(previousElectionId);
         elections.add(currentElectionId);
 
+        Party party = partyRepository.findByRegisteredName(partyName);
+
+        if (party == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, " current party named" + " " + partyName + " " + "not found");
+        }
+
+
         List<PartyVotesPerYearDTO> results = constituencyRepository.findPartyVotesForConstituencyForYears(constituencyName, partyName, elections);
+
 
          long currentVotes = 0;
          long previousVotes = 0;
