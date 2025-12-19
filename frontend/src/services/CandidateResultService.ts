@@ -1,6 +1,6 @@
 import type { CandidateResult } from '@/interfaces/CandidateResult';
 
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 /**
  * Fetches the top candidates by votes for a specific election
@@ -9,7 +9,7 @@ const API_BASE_URL = 'http://localhost:8080/api';
  */
 export async function getTopCandidatesByElection(electionId: string): Promise<CandidateResult[]> {
   try {
-    const response = await fetch(`${API_BASE_URL}/candidates/top?electionId=${electionId}`);
+    const response = await fetch(`${API_BASE_URL}/v1/candidates/top?electionId=${electionId}`);
 
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
