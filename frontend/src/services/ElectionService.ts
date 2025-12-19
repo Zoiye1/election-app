@@ -10,26 +10,8 @@ const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export class ElectionService {
 
-  public async getAllMunicipalityData(electionId: string): Promise<any[]> {
-    const url = `${API_BASE_URL}elections/${electionId}/municipalities`;
-
-    try {
-      const response = await fetch(url, {
-        method: "GET",
-        headers: {"Accept": "application/json"  }
-      });
-      if (!response.ok) {
-        throw new Error("request failed " + response.statusText);
-      }
-      return await response.json();
-    } catch (error) {
-      console.error('Fetch error:', error);
-      throw error;
-    }
-  }
-
   public async getMunicipalityData(electionId: string, municipalityName: string): Promise<ConstituencyPartyVotes[]> {
-    const url = `${API_BASE_URL}elections/${electionId}/municipalities/${municipalityName}`;
+    const url = `${API_BASE_URL}/elections/${electionId}/municipalities/${municipalityName}`;
 
     try {
       const response = await fetch(url, {
@@ -46,12 +28,12 @@ export class ElectionService {
     }
   }
 
-  public static async getTotalVotes(): Promise<number> {
-    const url = `${API_BASE_URL}elections/TK2023/total-votes`;
+  public static async getTotalVotes(electionId: string): Promise<number> {
+    const url: string = `${API_BASE_URL}/elections/${electionId}/total-votes`;
 
     try {
       const response = await fetch(url, {
-        // method: "GET",
+        method: "GET",
         headers: {"Accept": "application/json"}
       });
       if (!response.ok) {

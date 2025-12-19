@@ -449,7 +449,7 @@ const sortedReplies = computed(() => {
               v-for="reply in sortedReplies"
               :key="reply.id"
               :reply="reply"
-              :currentUserId="currentUser?.id"
+              :currentUserId="userId"
               @delete="handleDeleteReply"
               @reply="handleReplyTo"
               @edit="handleEditReply"
