@@ -27,17 +27,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean verifyUsernameAndPassword(String username, String password) {
-        User user = userRepository.findByUsername(username);
-        if (user == null) return false;
-        return passwordEncoder.matches(password, user.getPassword());
+    public User findByEmailAndVerifyPassword(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        }
+        return null;
     }
 
     @Override
-    public boolean verifyEmailAndPassword(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        if (user == null) return false;
-        return passwordEncoder.matches(password, user.getPassword());
+    public User findByUsernameAndVerifyPassword(String username, String password) {
+        User user = userRepository.findByUsername(username);
+        if (user != null && passwordEncoder.matches(password, user.getPassword())) {
+            return user;
+        }
+        return null;
     }
 
     /**
@@ -61,6 +65,7 @@ public class UserServiceImpl implements UserService {
         user.setUsername(newUsername);
         return userRepository.save(user);
     }
+
 
     /**
      * Delete user by ID

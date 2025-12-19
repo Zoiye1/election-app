@@ -9,6 +9,8 @@ import nl.hva.stack5.election.repository.ReplyRepository;
 import nl.hva.stack5.election.repository.UserRepository;
 import nl.hva.stack5.election.service.ReplyService;
 import nl.hva.stack5.election.utils.JwtUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +43,9 @@ public class ReplyController {
     @Autowired
     private UserRepository userRepository;
 
+    private static final Logger logger = LoggerFactory.getLogger(ReplyController.class);
+
+
     /**
      * Creates a new reply for a discussion.
      *
@@ -69,6 +74,7 @@ public class ReplyController {
         dto.setUserId(user.getId());
 
         ReplyResponseDTO createdReply = replyService.createReply(dto);
+        logger.info("Reply created by user {} on discussion {}", user.getEmail(), dto.getDiscussionId());
         return ResponseEntity.status(HttpStatus.CREATED).body(createdReply);
     }
 
@@ -120,6 +126,7 @@ public class ReplyController {
         }
 
         ReplyResponseDTO updatedReply = replyService.updateReply(id, dto);
+        logger.info("Reply {} updated by user {}", id, user.getEmail());
         return ResponseEntity.ok(updatedReply);
 
     }
@@ -159,6 +166,7 @@ public class ReplyController {
 
         //Delete the reply.
         replyService.deleteReply(id);
+        logger.info("Reply {} deleted by user {}", id, user.getEmail());
         return ResponseEntity.noContent().build();
     }
 

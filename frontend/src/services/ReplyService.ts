@@ -1,7 +1,9 @@
 import type { CreateReplyRequest, ReplyResponseDTO } from "@/interfaces/Replies";
 
+
+
 export class ReplyService {
-  private baseUrl: string = 'http://localhost:8080/api/v1/replies'
+  private baseUrl: string = `${import.meta.env.VITE_API_BASE_URL}/v1/replies`
 
   public async createReply(data: CreateReplyRequest): Promise <ReplyResponseDTO>{
     try {

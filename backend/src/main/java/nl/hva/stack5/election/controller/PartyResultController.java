@@ -22,7 +22,7 @@ import java.util.List;
  * @version 1.0
  */
 @RestController
-@RequestMapping(value = "/parties")
+@RequestMapping(value = "/v1/parties")
 @CrossOrigin(origins = "http://localhost:5173")
 public class PartyResultController {
 
