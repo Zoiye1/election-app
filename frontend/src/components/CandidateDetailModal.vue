@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { CandidateResult } from '@/interfaces/CandidateResult'
+import { getPartyLogo} from '@/utils/partyLogos.ts'
 
 const props = defineProps<{
   candidate: CandidateResult
