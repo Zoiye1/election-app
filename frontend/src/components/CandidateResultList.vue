@@ -23,23 +23,6 @@ async function fetchCandidateResults() {
   loading.value = true
   error.value = null
 
-  /**
-   * Opens details for a selected candidate.
-   *
-   * @param candidate - candidatedata to display
-   * @param ranking - the candidates position in the list
-   */
-  function openCandidateDetail (candidate: CandidateResult, ranking: number) {
-    selectedCandidate.value = { candidate, ranking }
-  }
-
-  /**
-   * Closes the candidate detail modal
-   */
-  function closeCandidateDetail() {
-    selectedCandidate.value = null
-  }
-
   try {
     candidateResults.value = await getTopCandidatesByElection(props.electionId)
   } catch (err) {
@@ -50,6 +33,22 @@ async function fetchCandidateResults() {
   }
 }
 
+/**
+ * Opens details for a selected candidate.
+ *
+ * @param candidate - candidatedata to display
+ * @param ranking - the candidates position in the list
+ */
+function openCandidateDetail (candidate: CandidateResult, ranking: number) {
+  selectedCandidate.value = { candidate, ranking }
+}
+
+/**
+ * Closes the candidate detail modal
+ */
+function closeCandidateDetail() {
+  selectedCandidate.value = null
+}
 // this method watches prop changes and refetches data
 watch(
   () => props.electionId,
@@ -78,7 +77,8 @@ watch(
       <div
         v-for="(candidate, index) in candidateResults"
         :key="candidate.id"
-        class="bg-purple-50 rounded-2xl p-4 flex items-center justify-between hover:bg-purple-100 transition-colors shadow"
+        class="bg-purple-50 rounded-2xl p-4 flex items-center justify-between hover:bg-purple-100 transition-colors shadow cursor-pointer"
+        @click="openCandidateDetail(candidate, index + 1)"
       >
         <div class="flex items-center gap-4">
           <div
@@ -105,5 +105,15 @@ watch(
         </div>
       </div>
     </div>
+
+    <CandidateDetailModal
+      v-if="selectedCandidate"
+      :candidate="selectedCandidate.candidate"
+      :ranking="selectedCandidate.ranking"
+      @close="closeCandidateDetail"
+    />
+
+
+
   </div>
 </template>
