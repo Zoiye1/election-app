@@ -38,12 +38,28 @@ async function fetchCandidateResults() {
 }
 
 /**
+ * Fetches totalNationalVotes for percentage calculation
+ */
+async function fetchTotalNationalVotes() {
+  try {
+    totalNationalVotes.value = await ElectionService.getTotalVotes(props.electionId)
+  } catch (err) {
+    console.error('Failed to fetch total votes:', err)
+  }
+}
+
+async function fetchPartyVotes () {
+  const parties =  await NationalPartyService.getTopParties(props.electionId)
+  partyVotes.value = new Map(parties.map(p=> [p.partyName, p.votes]))
+}
+
+/**
  * Opens details for a selected candidate.
  *
  * @param candidate - candidatedata to display
  * @param ranking - the candidates position in the list
  */
-function openCandidateDetail (candidate: CandidateResult, ranking: number) {
+function openCandidateDetail(candidate: CandidateResult, ranking: number) {
   selectedCandidate.value = { candidate, ranking }
 }
 
@@ -73,7 +89,10 @@ watch(
 
     <div v-if="loading" class="text-center text-gray-500 py-6">Laden...</div>
 
-    <div v-else-if="error" class="bg-red-50 text-red-600 border border-red-200 rounded-lg px-4 py-3 mb-4">
+    <div
+      v-else-if="error"
+      class="bg-red-50 text-red-600 border border-red-200 rounded-lg px-4 py-3 mb-4"
+    >
       {{ error }}
     </div>
 
@@ -116,8 +135,5 @@ watch(
       :ranking="selectedCandidate.ranking"
       @close="closeCandidateDetail"
     />
-
-
-
   </div>
 </template>
