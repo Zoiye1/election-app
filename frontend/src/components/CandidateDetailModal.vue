@@ -81,19 +81,19 @@ const partyPercentage = computed(() => {
         <!-- Nationaal Percentage -->
         <div class="bg-gray-50 rounded-2xl p-4">
           <p class="text-sm text-gray-500 font-medium mb-1">Nationaal Percentage</p>
-          <p class="text-2xl font-bold text-purple-500">0%</p>
+          <p class="text-2xl font-bold text-purple-500">{{nationalPercentage}}%</p>
           <p class="text-xs text-gray-400 mb-3">van alle stemmen</p>
           <div class="w-full bg-gray-200 rounded-full h-2">
-            <div class="bg-purple-500 h-full rounded-full" style="width: 0%"></div>
+            <div class="bg-purple-500 h-full rounded-full" :style="{ width: nationalPercentage + '%' }"></div>
           </div>
         </div>
 
         <div class="bg-gray-50 rounded-2xl p-4">
           <p class="text-sm text-gray-500 font-medium mb-1">Partij Percentage</p>
-          <p class="text-2xl font-bold text-purple-500">0%</p>
+          <p class="text-2xl font-bold text-purple-500">{{partyPercentage}}%</p>
           <p class="text-xs text-gray-400 mb-3">van alle {{ props.candidate.party }} stemmen</p>
           <div class="w-full bg-gray-200 rounded-full h-2">
-            <div class="bg-purple-500 h-full rounded-full" style="width: 0%"></div>
+            <div class="bg-purple-500 h-full rounded-full" :style="{ width: partyPercentage + '%' }"></div>
           </div>
         </div>
       </div>
