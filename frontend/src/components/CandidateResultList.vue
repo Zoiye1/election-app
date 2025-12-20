@@ -135,6 +135,8 @@ watch(
       v-if="selectedCandidate"
       :candidate="selectedCandidate.candidate"
       :ranking="selectedCandidate.ranking"
+      :totalNationalVotes="totalNationalVotes"
+      :totalPartyVotes="partyVotes.get(selectedCandidate.candidate.party) ?? 0"
       @close="closeCandidateDetail"
     />
   </div>
