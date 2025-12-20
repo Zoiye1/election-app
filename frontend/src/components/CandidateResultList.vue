@@ -72,8 +72,10 @@ function closeCandidateDetail() {
 // this method watches prop changes and refetches data
 watch(
   () => props.electionId,
-  () => {
-    fetchCandidateResults()
+  async () => {
+    await fetchCandidateResults()
+    await fetchPartyVotes()
+    await fetchTotalNationalVotes()
   },
   { immediate: true },
 )
