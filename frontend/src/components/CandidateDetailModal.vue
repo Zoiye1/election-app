@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import type { CandidateResult } from '@/interfaces/CandidateResult'
-import { getPartyLogo} from '@/utils/partyLogos.ts'
+import { getPartyLogoUrl } from '@/utils/partyLogos.ts'
 
 const props = defineProps<{
   candidate: CandidateResult
@@ -9,6 +9,10 @@ const props = defineProps<{
   totalNationalVotes: number
   totalPartyVotes: number
 }>()
+
+const partyLogoUrl = computed(() => {
+  return getPartyLogoUrl(props.candidate.party)
+})
 
 const emit = defineEmits<{
   close: []
@@ -32,7 +36,6 @@ const partyPercentage = computed(() => {
   if (props.totalPartyVotes === 0) return 0
   return ((props.candidate.votes / props.totalPartyVotes) * 100).toFixed(1)
 })
-
 </script>
 
 <template>
@@ -63,10 +66,25 @@ const partyPercentage = computed(() => {
 
       <div class="mb-6">
         <p class="text-sm text-gray-500 mb-2">Partij</p>
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-gray-200">
-          <span class="w-4 h-4 rounded bg-orange-500"></span>
-          <span class="font-semibold text-gray-700">{{ props.candidate.party }}</span>
+        <div
+          class="inline-flex items-center gap-3 px-4 py-2 rounded-xl border-2 border-gray-200 bg-white"
+        >
+          <div
+            class="w-14 h-14 flex items-center justify-center overflow-hidden"
+          >
+            <img
+              v-if="partyLogoUrl"
+              :src="partyLogoUrl"
+              :alt="`${props.candidate.party} logo`"
+              class="w-full h-full object-contain object-center scale-125"
+            />
+          </div>
+
+          <span class="font-semibold text-gray-700">
+    {{ props.candidate.party }}
+  </span>
         </div>
+
       </div>
 
       <div class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-6 mb-6 text-white">
@@ -82,19 +100,25 @@ const partyPercentage = computed(() => {
         <!-- Nationaal Percentage -->
         <div class="bg-gray-50 rounded-2xl p-4">
           <p class="text-sm text-gray-500 font-medium mb-1">Nationaal Percentage</p>
-          <p class="text-2xl font-bold text-purple-500">{{nationalPercentage}}%</p>
+          <p class="text-2xl font-bold text-purple-500">{{ nationalPercentage }}%</p>
           <p class="text-xs text-gray-400 mb-3">van alle stemmen</p>
           <div class="w-full bg-gray-200 rounded-full h-2">
-            <div class="bg-purple-500 h-full rounded-full" :style="{ width: nationalPercentage + '%' }"></div>
+            <div
+              class="bg-purple-500 h-full rounded-full"
+              :style="{ width: nationalPercentage + '%' }"
+            ></div>
           </div>
         </div>
 
         <div class="bg-gray-50 rounded-2xl p-4">
           <p class="text-sm text-gray-500 font-medium mb-1">Partij Percentage</p>
-          <p class="text-2xl font-bold text-purple-500">{{partyPercentage}}%</p>
+          <p class="text-2xl font-bold text-purple-500">{{ partyPercentage }}%</p>
           <p class="text-xs text-gray-400 mb-3">van alle {{ props.candidate.party }} stemmen</p>
           <div class="w-full bg-gray-200 rounded-full h-2">
-            <div class="bg-purple-500 h-full rounded-full" :style="{ width: partyPercentage + '%' }"></div>
+            <div
+              class="bg-purple-500 h-full rounded-full"
+              :style="{ width: partyPercentage + '%' }"
+            ></div>
           </div>
         </div>
       </div>
