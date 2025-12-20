@@ -2,6 +2,7 @@
 import { ref, watch } from 'vue'
 import { getTopCandidatesByElection } from '@/services/CandidateResultService'
 import type { CandidateResult } from '@/interfaces/CandidateResult'
+import CandidateDetailModal from '@/components/CandidateDetailModal.vue'
 
 //props
 const props = defineProps<{
@@ -12,7 +13,7 @@ const props = defineProps<{
 const candidateResults = ref<CandidateResult[]>([])
 const loading = ref<boolean>(true)
 const error = ref<string | null>(null)
-
+const selectedCandidate = ref<{ candidate: CandidateResult; ranking: number } | null>(null)
 /**
  * Fetches the top candidates for the selected election from the backend.
  * Updates candidateResults state with the response data.
