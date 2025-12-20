@@ -23,6 +23,23 @@ async function fetchCandidateResults() {
   loading.value = true
   error.value = null
 
+  /**
+   * Opens details for a selected candidate.
+   *
+   * @param candidate - candidatedata to display
+   * @param ranking - the candidates position in the list
+   */
+  function openCandidateDetail (candidate: CandidateResult, ranking: number) {
+    selectedCandidate.value = { candidate, ranking }
+  }
+
+  /**
+   * Closes the candidate detail modal
+   */
+  function closeCandidateDetail() {
+    selectedCandidate.value = null
+  }
+
   try {
     candidateResults.value = await getTopCandidatesByElection(props.electionId)
   } catch (err) {
