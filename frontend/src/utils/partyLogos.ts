@@ -41,11 +41,14 @@
 
 
   /**
-   * Gets the logo filename for a party
+   * Gets the logo file url for a party
    * @param partyName - Party name from database
-   * @returns Logo filename or null if not found
+   * @returns Full logo URL or null if not found
    */
-  export function getPartyLogo(partyName: string): string | null {
-    return partyLogoMap[partyName] ?? null
+  export function getPartyLogoUrl(partyName: string): string | null {
+    const file = partyLogoMap[partyName]
+    if (!file) return null
+
+    return new URL(`../assets/party-logos/${file}`, import.meta.url).href
   }
 
