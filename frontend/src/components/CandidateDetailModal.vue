@@ -13,21 +13,37 @@ const emit = defineEmits<{
   close: []
 }>()
 
-const nationalPercentage = computed (() =>{
-  if(props.totalNationalVotes === 0) return 0
+/**
+ * calculates candidates part of all national votes that year in percentage
+ */
+const nationalPercentage = computed(() => {
+  //prevents dividing by 0
+  if (props.totalNationalVotes === 0) return 0
   return ((props.candidate.votes / props.totalNationalVotes) * 100).toFixed(1)
 })
+
+/**
+ * calculates candidates part of all national votes that year in percentage
+ */
+
+const partyPercentage = computed(() => {
+  //prevents dividing by 0
+  if (props.totalPartyVotes === 0) return 0
+  return ((props.candidate.votes / props.totalPartyVotes) * 100).toFixed(1)
+})
+
 </script>
 
 <template>
-<!--  dimmed background-->
+  <!--  dimmed background-->
   <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-<!--    white card-->
+    <!--    white card-->
     <div class="bg-white rounded-3xl p-6 w-full max-w-md mx-4 shadow-2xl">
-
       <div class="flex items-center justify-between mb-6">
         <!-- Ranking badge -->
-        <div class="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2">
+        <div
+          class="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2"
+        >
           ⚡ #{{ props.ranking }} Nationale Ranking
         </div>
 
@@ -81,7 +97,6 @@ const nationalPercentage = computed (() =>{
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
