@@ -1,14 +1,22 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { CandidateResult } from '@/interfaces/CandidateResult'
 
 const props = defineProps<{
   candidate: CandidateResult
   ranking: number
+  totalNationalVotes: number
+  totalPartyVotes: number
 }>()
 
 const emit = defineEmits<{
   close: []
 }>()
+
+const nationalPercentage = computed (() =>{
+  if(props.totalNationalVotes === 0) return 0
+  return ((props.candidate.votes / props.totalNationalVotes) * 100).toFixed(1)
+})
 </script>
 
 <template>
