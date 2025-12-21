@@ -66,25 +66,19 @@ const partyPercentage = computed(() => {
 
       <div class="mb-6">
         <p class="text-sm text-gray-500 mb-2">Partij</p>
-        <div
-          class="inline-flex items-center gap-3 px-4 py-2 rounded-xl border-2 border-gray-200 bg-white"
-        >
-          <div
-            class="w-14 h-14 flex items-center justify-center overflow-hidden"
-          >
+        <div class="inline-flex items-center gap-3 px-4 py-2 rounded-xl border-2 border-gray-200 bg-white">
+          <div class="w-16 h-16 flex items-center justify-center bg-white rounded-lg p-2 shrink-0">
             <img
               v-if="partyLogoUrl"
               :src="partyLogoUrl"
               :alt="`${props.candidate.party} logo`"
-              class="w-full h-full object-contain object-center scale-125"
+              class="max-w-full max-h-full object-contain"
             />
           </div>
-
           <span class="font-semibold text-gray-700">
-    {{ props.candidate.party }}
-  </span>
+      {{ props.candidate.party }}
+    </span>
         </div>
-
       </div>
 
       <div class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-6 mb-6 text-white">

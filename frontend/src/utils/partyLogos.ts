@@ -5,7 +5,7 @@
   const partyLogoMap: Record<string, string> = {
     "VVD": "vvd.svg",
     "D66": "d66.svg",
-    "CDA": "cda.svg",
+    "CDA": "cda.svg.png",
     "PVV (Partij voor de Vrijheid)": "partijVoorDeVrijheid.svg",
     "SP (Socialistische Partij)": "socialistischePartij.svg",
     "Partij van de Arbeid (P.v.d.A.)": "partijVanDeArbeid.svg",
