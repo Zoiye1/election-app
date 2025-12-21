@@ -30,12 +30,12 @@
     "De Groenen": "deGroenen.svg",
     "Vrij en Sociaal Nederland": "vsn.svg",
 
-
+    //Parties that combined with new logos in 2025
     "Nieuw Sociaal Contract": "nsc.svg",
     "Nieuw Sociaal Contract (NSC)": "nsc.svg",
     "BVNL / Groep Van Haga": "bnvl.svg",
     "Belang Van Nederland (BVNL)": "bnvl.svg",
-    "GROENLINKS / Partij van de Arbeid (PvdA)": "groenLinks.svg",
+    "GROENLINKS / Partij van de Arbeid (PvdA)": "groenLinksPvda.svg",
     "Piratenpartij - De Groenen": "piratenPartij.svg",
   }
 
