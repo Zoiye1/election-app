@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted, watch } from 'vue';
 import { ElectionService } from '@/services/ElectionService';
+import ElectionSelector from "@/components/ElectionSelector.vue";
+import { useElection } from '@/composables/useElection'
 
+const { selectedElection } = useElection()
 const electionData = ref<any[]>([]);
 const loading = ref(true);
 const error = ref<string>("");
@@ -14,7 +17,7 @@ const props = defineProps<{
 onMounted(async () => {
   const electionService = new ElectionService();
   try {
-    const data = await electionService.getMunicipalityData('TK2023', props.name);
+    const data = await electionService.getMunicipalityData(props.election, props.name);
     if (!data || data.length === 0) {
       error.value = "Oeps, er is iets mis gegaan. Probeer het later weer opnieuw";
     } else {
@@ -31,7 +34,7 @@ watch(props, async (newValue) => {
   loading.value = true;
   const electionService = new ElectionService();
   try {
-    const data = await electionService.getMunicipalityData('TK2023', newValue.name);
+    const data = await electionService.getMunicipalityData(props.election, newValue.name);
     electionData.value = data;
   } catch (err) {
     error.value = "Oeps, er is iets mis gegaan. Probeer het later weer opnieuw";
@@ -42,6 +45,11 @@ watch(props, async (newValue) => {
 </script>
 
 <template>
+
+  <div class="mb-1">
+    <ElectionSelector />
+  </div>
+
   <div class="max-w-4xl mx-auto p-6 bg-white rounded-xl shadow-md">
     <div class="flex items-center justify-between mb-6">
       <h2 class="text-2xl font-bold text-gray-800 flex items-center gap-2">
