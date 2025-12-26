@@ -32,4 +32,12 @@ public class PartyDetailResponseDTO {
         this.candidates = candidates;
     }
 
+    // Getters
+    public String getPartyName() { return partyName; }
+    public long getTotalVotes() { return totalVotes; }
+    public double getNationalPercentage() { return nationalPercentage; }
+    public int getSeats() { return seats; }
+    public Double getPreviousElectionDifference() { return previousElectionDifference; }
+    public List<TopCandidateResponseDTO> getCandidates() { return candidates; }
+
 }
