@@ -1,5 +1,7 @@
 package nl.hva.stack5.election.dto;
 
+import java.util.List;
+
 /**
  * DTO for detailed party information including elected candidates
  *
@@ -14,5 +16,20 @@ public class PartyDetailResponseDTO {
     private int seats;
     private Double previousElectionDifference;
     private List<TopCandidateResponseDTO> candidates;
+
+    //Default constructor
+    public PartyDetailResponseDTO () {}
+
+    // Constructor with all fields
+    public PartyDetailResponseDTO(String partyName, long totalVotes, double nationalPercentage,
+                                  int seats, Double previousElectionDifference,
+                                  List<TopCandidateResponseDTO> candidates) {
+        this.partyName = partyName;
+        this.totalVotes = totalVotes;
+        this.nationalPercentage = nationalPercentage;
+        this.seats = seats;
+        this.previousElectionDifference = previousElectionDifference;
+        this.candidates = candidates;
+    }
 
 }
