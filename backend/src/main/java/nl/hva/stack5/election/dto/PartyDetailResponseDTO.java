@@ -40,4 +40,11 @@ public class PartyDetailResponseDTO {
     public Double getPreviousElectionDifference() { return previousElectionDifference; }
     public List<TopCandidateResponseDTO> getCandidates() { return candidates; }
 
+    // Setters
+    public void setPartyName(String partyName) { this.partyName = partyName; }
+    public void setTotalVotes(long totalVotes) { this.totalVotes = totalVotes; }
+    public void setNationalPercentage(double nationalPercentage) { this.nationalPercentage = nationalPercentage; }
+    public void setSeats(int seats) { this.seats = seats; }
+    public void setPreviousElectionDifference(Double previousElectionDifference) { this.previousElectionDifference = previousElectionDifference; }
+    public void setCandidates(List<TopCandidateResponseDTO> candidates) { this.candidates = candidates; }
 }
