@@ -1,6 +1,7 @@
 package nl.hva.stack5.election.service;
 
 
+import nl.hva.stack5.election.dto.PartyDetailResponseDTO;
 import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
 
 import java.util.List;
@@ -21,4 +22,13 @@ public interface NationalPartyResultService {
      * @return List of top party results as DTOs
      */
     List<TopNationalPartiesResponseDTO> getTopPartiesByYear(String electionId, int limit);
+
+    /**
+     * Retrieves detailed party information including all candidates.
+     *
+     * @param electionId the election identifier (e.g., "TK2023")
+     * @param partyId the party identifier
+     * @return PartyDetailResponseDTO with party stats and candidates
+     */
+    PartyDetailResponseDTO getPartyDetails(String electionId, long partyId);
 }
