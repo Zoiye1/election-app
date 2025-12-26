@@ -27,4 +27,14 @@ public interface CandidateResultRepository {
      * @return List of top candidate results ordered by votes descending
      */
     List<CandidateResult> findTopByElectionYear(String electionId, int limit);
+
+
+    /**
+     * Finds all candidates for a specific party in a specific election.
+     *
+     * @param electionId the election identifier (e.g., "TK2023")
+     * @param partyId the party identifier
+     * @return List of top candidate results ordered by votes descending
+     */
+    List<CandidateResult> findByPartyAndElection(String electionId, long partyId);
 }
