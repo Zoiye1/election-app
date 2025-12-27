@@ -27,4 +27,11 @@ public class PartyCandidateResponseDTO {
     public String getFullName() { return fullName; }
     public long getVotes() { return votes; }
     public double getPartyPercentage() { return partyPercentage; }
+
+    // Setters
+    public void setId(long id) { this.id = id; }
+    public void setFullName(String fullName) { this.fullName = fullName; }
+    public void setVotes(long votes) { this.votes = votes; }
+    public void setPartyPercentage(double partyPercentage) { this.partyPercentage = partyPercentage; }
+}
 }
