@@ -1,5 +1,6 @@
 package nl.hva.stack5.election.service;
 
+import jakarta.persistence.TypedQuery;
 import nl.hva.stack5.election.dto.NationalPartyResultsMapper;
 import nl.hva.stack5.election.dto.PartyDetailResponseDTO;
 import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
