@@ -30,10 +30,13 @@ public class DutchDefinitionTransformer implements DefinitionTransformer {
     public void registerParty(Map<String, String> electionData) {
         String partyName = electionData.get(REGISTERED_APPELLATION);
 
+        // Only add if not already loaded from database
+        if (!election.getParties().containsKey(partyName)) {
             Party party = new Party(partyName);
             election.getParties().put(partyName, party);
-            System.out.printf("Added party: %s\n", partyName);
-
-        System.out.println("Party: " + electionData);
+            System.out.printf("Added new party: %s\n", partyName);
+        } else {
+            System.out.printf("Using existing party: %s\n", partyName);
+        }
     }
 }

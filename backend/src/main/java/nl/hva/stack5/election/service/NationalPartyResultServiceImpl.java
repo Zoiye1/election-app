@@ -107,7 +107,7 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
         // only calculate if previous election exists
         if (previousElectionId != null) {
             // get party result from prev election
-            PartyResult previousResult = nationalPartyResultRepository.findByElectionAndParty(previousElectionId, partyId);
+            PartyResult previousResult = nationalPartyResultRepository.findByElectionAndPartyName(previousElectionId, partyName);
 
             // only calculate if previous result exists
             if (previousResult != null) {
