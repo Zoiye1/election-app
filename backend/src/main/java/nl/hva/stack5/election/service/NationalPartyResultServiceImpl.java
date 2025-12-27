@@ -7,7 +7,9 @@ import nl.hva.stack5.election.repository.CandidateResultRepository;
 import nl.hva.stack5.election.repository.NationalPartyResultRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -67,14 +69,14 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
         List<CandidateResult> candidateResults = candidateResultRepository.findByPartyAndElection(electionId, partyId);
 
         if (candidateResults.isEmpty()) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No candidates found for party " + partyId + " in election " + electionId);
         }
 
         // get PartyResult for total party votes and party name
         PartyResult partyResult = nationalPartyResultRepository.findByElectionAndParty(electionId, partyId);
 
         if (partyResult == null) {
-            return null;
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party " + partyId + " not found in election " + electionId);
         }
 
         // get total national votes for percentage and seat calculations

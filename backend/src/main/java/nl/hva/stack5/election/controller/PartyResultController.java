@@ -55,6 +55,11 @@ public class PartyResultController {
         //retrieve partyDetails
         PartyDetailResponseDTO partyDetails = nationalPartyResultService.getPartyDetails(electionId, partyId);
 
+        // give 404 if not found
+        if (partyDetails == null) {
+            return ResponseEntity.notFound().build();
+        }
+
         // return result with ok status
         return ResponseEntity.ok(partyDetails);
     }
