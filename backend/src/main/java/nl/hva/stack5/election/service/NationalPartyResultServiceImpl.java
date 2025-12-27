@@ -1,8 +1,11 @@
 package nl.hva.stack5.election.service;
 
 import nl.hva.stack5.election.dto.NationalPartyResultsMapper;
+import nl.hva.stack5.election.dto.PartyDetailResponseDTO;
 import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
+import nl.hva.stack5.election.model.CandidateResult;
 import nl.hva.stack5.election.model.PartyResult;
+import nl.hva.stack5.election.repository.CandidateResultRepository;
 import nl.hva.stack5.election.repository.NationalPartyResultRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +25,12 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
 
     @Autowired
     private NationalPartyResultRepository nationalPartyResultRepository;
+
+    @Autowired
+    private CandidateResultRepository candidateResultRepository;
+
+    @Autowired
+    private DutchElectionService electionService;
 
     // Constructor
     public NationalPartyResultServiceImpl(NationalPartyResultRepository nationalPartyResultRepository) {
@@ -46,4 +55,24 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
                 .map(NationalPartyResultsMapper::toDTO)
                 .toList();
     }
+
+    /**
+     * Retrieves detailed party information including all candidates.
+     *
+     * @param electionId the election identifier (e.g., "TK2023")
+     * @param partyId the party identifier
+     * @return PartyDetailResponseDTO with party stats and candidates
+     */
+    @Override
+    public PartyDetailResponseDTO getPartyDetails(String electionId, long partyId) {
+        // Get all candidates for this party
+        List<CandidateResult> candidateResults = candidateResultRepository.findByPartyAndElection(electionId, partyId);
+
+        if (candidateResults.isEmpty()) {
+            return null;
+        }
+    }
+
+
+
 }
