@@ -3,6 +3,7 @@ package nl.hva.stack5.election.controller;
 //TODO: create better api handling with logging etc.
 
 import jakarta.validation.constraints.NotBlank;
+import nl.hva.stack5.election.dto.PartyDetailResponseDTO;
 import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
 
 import nl.hva.stack5.election.service.NationalPartyResultService;
@@ -38,5 +39,25 @@ public class PartyResultController {
         // Return results with OK status
         return ResponseEntity.ok(parties);
     }
+
+    /**
+     * Retrieves detailed information for a specific party including all candidates.
+     *
+     * @param partyId the unique identifier of the party
+     * @param electionId the election identifier (e.g., "TK2023")
+     * @return ResponseEntity containing party details with candidates, votes, and statistics
+     */
+    @GetMapping("/{partyId}/details")
+    public ResponseEntity<PartyDetailResponseDTO> getPartyDetails(
+            @PathVariable long partyId,
+            @RequestParam @NotBlank(message = "ElectionId cannot be empty") String electionId )
+    {
+        //retrieve partyDetails
+        PartyDetailResponseDTO partyDetails = nationalPartyResultService.getPartyDetails(electionId, partyId);
+
+        // return result with ok status
+        return ResponseEntity.ok(partyDetails);
+    }
+
 
 }
