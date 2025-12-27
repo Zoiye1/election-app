@@ -33,12 +33,4 @@ public interface NationalPartyResultService {
      */
     PartyDetailResponseDTO getPartyDetails(String electionId, long partyId);
 
-    /**
-     * Finds a specific party result for an election.
-     *
-     * @param electionId the election identifier (e.g., "TK2023")
-     * @param partyId the party identifier
-     * @return PartyResult for the specific party, or null if not found
-     */
-    PartyResult findByElectionAndParty(String electionId, long partyId);
 }
