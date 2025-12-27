@@ -25,7 +25,7 @@ public class Election {
     private List<PartyResult> partyResults = new ArrayList<>();
 
     //list of parties with Identifier and names of the parties.
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @MapKey(name = "registeredName")
     private Map<String, Party> parties = new HashMap<>();
 
