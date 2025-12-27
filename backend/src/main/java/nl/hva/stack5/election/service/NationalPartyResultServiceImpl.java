@@ -125,6 +125,17 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
 
     }
 
-
+    /**
+     * gets the previous election ID
+     * @param currentElectionId current election
+     * @return previous election ID or null if none exists
+     */
+    private String getPreviousElectionId(String currentElectionId) {
+        return switch (currentElectionId) {
+            case "TK2025" -> "TK2023";
+            case "TK2023" -> "TK2021";
+            default -> null;
+        };
+    }
 
 }
