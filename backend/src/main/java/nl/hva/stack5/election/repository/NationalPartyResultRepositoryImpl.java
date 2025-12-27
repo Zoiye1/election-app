@@ -74,4 +74,27 @@ public class NationalPartyResultRepositoryImpl implements NationalPartyResultRep
         return results.isEmpty() ? null : results.get(0);
     }
 
+    /**
+     * Finds a party result by election and party name.
+     *
+     * @param electionId the election identifier
+     * @param partyName the registered party name
+     * @return PartyResult or null if not found
+     */
+    @Override
+    public PartyResult findByElectionAndPartyName(String electionId, String partyName) {
+        TypedQuery<PartyResult> query = entityManager.createQuery(
+                "SELECT pr FROM PartyResult pr " +
+                        "WHERE pr.election.id = :electionId " +
+                        "AND pr.party.registeredName = :partyName",
+                PartyResult.class
+        );
+
+        query.setParameter("electionId", electionId);
+        query.setParameter("partyName", partyName);
+
+        List<PartyResult> results = query.getResultList();
+        return results.isEmpty() ? null : results.get(0);
+    }
+
 }
