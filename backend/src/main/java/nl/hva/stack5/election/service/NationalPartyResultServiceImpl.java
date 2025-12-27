@@ -71,9 +71,7 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
     public PartyDetailResponseDTO getPartyDetails(String electionId, long partyId) {
 
         // Check if party exists at all
-        if (partyRepository.findById(partyId) == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party " + partyId + " does not exist");
-        }
+        partyRepository.findById(partyId);
 
 
         // get PartyResult for total party votes and party name
