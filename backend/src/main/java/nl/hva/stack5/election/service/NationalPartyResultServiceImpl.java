@@ -6,6 +6,7 @@ import nl.hva.stack5.election.model.PartyResult;
 import nl.hva.stack5.election.repository.CandidateResultRepository;
 import nl.hva.stack5.election.repository.NationalPartyResultRepository;
 
+import nl.hva.stack5.election.repository.PartyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,9 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
 
     @Autowired
     private DutchElectionService electionService;
+
+    @Autowired
+    private PartyRepository partyRepository;
 
     // Constructor
     public NationalPartyResultServiceImpl(NationalPartyResultRepository nationalPartyResultRepository) {
@@ -65,18 +69,25 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
      */
     @Override
     public PartyDetailResponseDTO getPartyDetails(String electionId, long partyId) {
-        // Get all candidates for this party
-        List<CandidateResult> candidateResults = candidateResultRepository.findByPartyAndElection(electionId, partyId);
 
-        if (candidateResults.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No candidates found for party " + partyId + " in election " + electionId);
+        // Check if party exists at all
+        if (partyRepository.findById(partyId) == null) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party " + partyId + " does not exist");
         }
+
 
         // get PartyResult for total party votes and party name
         PartyResult partyResult = nationalPartyResultRepository.findByElectionAndParty(electionId, partyId);
 
         if (partyResult == null) {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Party " + partyId + " not found in election " + electionId);
+        }
+
+        // Get all candidates for this party
+        List<CandidateResult> candidateResults = candidateResultRepository.findByPartyAndElection(electionId, partyId);
+
+        if (candidateResults.isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No candidates found for party " + partyId + " in election " + electionId);
         }
 
         // get total national votes for percentage and seat calculations

@@ -1,5 +1,6 @@
 package nl.hva.stack5.election.exception;
 
+import jakarta.persistence.EntityNotFoundException;
 import nl.hva.stack5.election.dto.ErrorResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,5 +39,18 @@ public class GlobalExceptionHandler {
         logger.warn("ResponseStatusException: {}", ex.getReason());
         ErrorResponse error = new ErrorResponse(ex.getStatusCode().value(), ex.getReason());
         return ResponseEntity.status(ex.getStatusCode()).body(error);
+    }
+
+    /**
+     * Handles EntityNotFoundException
+     *
+     * @param ex The EntityNotFoundException that was thrown
+     * @return ResponseEntity with 404 status and error message
+     */
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
+        logger.warn("EntityNotFoundException: {}", ex.getMessage());
+        ErrorResponse error = new ErrorResponse(404, ex.getMessage());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(error);
     }
 }
