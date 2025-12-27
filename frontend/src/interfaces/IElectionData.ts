@@ -52,6 +52,7 @@ export interface MunicipalityElection {
  * Interface for top national party results
  */
 export interface TopNationalParty {
+  partyId: number;
   partyName: string;
   votes: number;
 }

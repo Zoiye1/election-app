@@ -41,5 +41,24 @@ export class NationalPartyService {
    * @param partyId the party identifier
    * @returns Promise with party details
    */
-  public static async getPartyDetails(electionId: string, partyId: number): Promise<PartyDetail> {}
+  public static async getPartyDetails(electionId: string, partyId: number): Promise<PartyDetail> {
+    const url: string = `${API_BASE_URL}/v1/parties/${partyId}/details?electionId=${electionId}`;
+
+    try {
+      const response: Response = await fetch(url, {
+        method: "GET",
+        headers: { "Accept": "application/json" }
+      });
+      // Check if request was successful
+      if (!response.ok) {
+        throw new Error("request failed " + response.statusText);
+      }
+      // Return parsed JSON response
+      return await response.json();
+    } catch (error) {
+      // Log error and rethrow
+      console.error('Fetch error:', error);
+      throw error;
+    }
+  }
 }
