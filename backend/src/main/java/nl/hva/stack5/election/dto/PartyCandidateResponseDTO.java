@@ -21,4 +21,10 @@ public class PartyCandidateResponseDTO {
         this.votes = votes;
         this.partyPercentage = partyPercentage;
     }
+
+    // Getters
+    public long getId() { return id; }
+    public String getFullName() { return fullName; }
+    public long getVotes() { return votes; }
+    public double getPartyPercentage() { return partyPercentage; }
 }
