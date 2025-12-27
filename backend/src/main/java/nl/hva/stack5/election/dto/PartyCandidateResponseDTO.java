@@ -34,4 +34,4 @@ public class PartyCandidateResponseDTO {
     public void setVotes(long votes) { this.votes = votes; }
     public void setPartyPercentage(double partyPercentage) { this.partyPercentage = partyPercentage; }
 }
-}
+

@@ -15,15 +15,14 @@ public class PartyDetailResponseDTO {
     private double nationalPercentage;
     private int seats;
     private Double previousElectionDifference;
-    private List<TopCandidateResponseDTO> candidates;
+    private List<PartyCandidateResponseDTO> candidates;
 
     //Default constructor
     public PartyDetailResponseDTO () {}
 
     // Constructor with all fields
-    public PartyDetailResponseDTO(String partyName, long totalVotes, double nationalPercentage,
-                                  int seats, Double previousElectionDifference,
-                                  List<TopCandidateResponseDTO> candidates) {
+    public PartyDetailResponseDTO(String partyName, long totalVotes, double nationalPercentage, int seats, Double previousElectionDifference,
+                                  List<PartyCandidateResponseDTO> candidates) {
         this.partyName = partyName;
         this.totalVotes = totalVotes;
         this.nationalPercentage = nationalPercentage;
@@ -38,7 +37,7 @@ public class PartyDetailResponseDTO {
     public double getNationalPercentage() { return nationalPercentage; }
     public int getSeats() { return seats; }
     public Double getPreviousElectionDifference() { return previousElectionDifference; }
-    public List<TopCandidateResponseDTO> getCandidates() { return candidates; }
+    public List<PartyCandidateResponseDTO> getCandidates() { return candidates; }
 
     // Setters
     public void setPartyName(String partyName) { this.partyName = partyName; }
@@ -46,5 +45,5 @@ public class PartyDetailResponseDTO {
     public void setNationalPercentage(double nationalPercentage) { this.nationalPercentage = nationalPercentage; }
     public void setSeats(int seats) { this.seats = seats; }
     public void setPreviousElectionDifference(Double previousElectionDifference) { this.previousElectionDifference = previousElectionDifference; }
-    public void setCandidates(List<TopCandidateResponseDTO> candidates) { this.candidates = candidates; }
+    public void setCandidates(List<PartyCandidateResponseDTO> candidates) { this.candidates = candidates; }
 }
