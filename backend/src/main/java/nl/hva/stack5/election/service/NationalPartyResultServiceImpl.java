@@ -1,8 +1,8 @@
 package nl.hva.stack5.election.service;
 
-import jakarta.persistence.TypedQuery;
 import nl.hva.stack5.election.dto.NationalPartyResultsMapper;
 import nl.hva.stack5.election.dto.PartyDetailResponseDTO;
+import nl.hva.stack5.election.dto.TopCandidateResponseDTO;
 import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
 import nl.hva.stack5.election.model.CandidateResult;
 import nl.hva.stack5.election.model.PartyResult;
@@ -72,6 +72,50 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
         if (candidateResults.isEmpty()) {
             return null;
         }
+
+        // get PartyResult for total party votes and party name
+        PartyResult partyResult = nationalPartyResultRepository.findByElectionAndParty(electionId, partyId);
+
+        if (partyResult == null) {
+            return null;
+        }
+
+        // get total national votes for percentage and seat calculations
+        long totalNationalVotes = electionService.readResults(electionId).getTotalCounted();
+
+        // Get party info
+        String partyName = partyResult.getParty().getRegisteredName();
+        long totalPartyVotes = partyResult.getVotes();
+
+        // Calculate national percentage
+        double nationalPercentage = (totalPartyVotes / (double) totalNationalVotes) * 100;
+
+        // Calculate seats using electoral quota(look up online!)
+        int seats = (int) (totalPartyVotes / (totalNationalVotes / 150));
+
+        List<TopCandidateResponseDTO> candidates = candidateResults.stream()
+                .map(cr -> {
+                    long votes = Long.parseLong(cr.getNationalCandidateVotes());
+                    double partyPercentage = (votes / (double) totalPartyVotes) * 100;
+                    return new TopCandidateResponseDTO (
+                    cr.getCandidate().getId(),
+                            cr.getCandidate().getFirstName() + " " + cr.getCandidate().getSurname(),
+                            partyName,
+                            votes,
+                            partyPercentage
+                    );
+                })
+                .toList();
+
+        return new PartyDetailResponseDTO (
+                partyName,
+                totalPartyVotes,
+                nationalPercentage,
+                seats,
+                null,
+                candidates
+        );
+
     }
 
 
