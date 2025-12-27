@@ -37,4 +37,13 @@ public interface NationalPartyResultRepository {
      */
     PartyResult findByElectionAndParty(String electionId, long partyId);
 
+    /**
+     * Finds a party result by election and party name.
+     *
+     * @param electionId the election identifier
+     * @param partyName the registered party name
+     * @return PartyResult or null if not found
+     */
+    PartyResult findByElectionAndPartyName(String electionId, String partyName);
+
 }
