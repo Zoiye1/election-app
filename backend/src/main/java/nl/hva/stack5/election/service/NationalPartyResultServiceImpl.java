@@ -1,9 +1,6 @@
 package nl.hva.stack5.election.service;
 
-import nl.hva.stack5.election.dto.NationalPartyResultsMapper;
-import nl.hva.stack5.election.dto.PartyDetailResponseDTO;
-import nl.hva.stack5.election.dto.TopCandidateResponseDTO;
-import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
+import nl.hva.stack5.election.dto.*;
 import nl.hva.stack5.election.model.CandidateResult;
 import nl.hva.stack5.election.model.PartyResult;
 import nl.hva.stack5.election.repository.CandidateResultRepository;
@@ -93,14 +90,13 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
         // Calculate seats using electoral quota(look up online!)
         int seats = (int) (totalPartyVotes / (totalNationalVotes / 150));
 
-        List<TopCandidateResponseDTO> candidates = candidateResults.stream()
+        List<PartyCandidateResponseDTO> candidates = candidateResults.stream()
                 .map(cr -> {
                     long votes = Long.parseLong(cr.getNationalCandidateVotes());
                     double partyPercentage = (votes / (double) totalPartyVotes) * 100;
-                    return new TopCandidateResponseDTO (
+                    return new PartyCandidateResponseDTO (
                     cr.getCandidate().getId(),
                             cr.getCandidate().getFirstName() + " " + cr.getCandidate().getSurname(),
-                            partyName,
                             votes,
                             partyPercentage
                     );
