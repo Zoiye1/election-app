@@ -14,19 +14,18 @@ public class TopCandidateResponseDTO {
     private String fullName;
     private String party;
     private long votes;
-    private double partyPercentage;
 
     //Default constructor
     public TopCandidateResponseDTO() {}
 
     // Constructor with all fields
-    public TopCandidateResponseDTO(long id, String fullName, String party, long votes, double partyPercentage) {
+    public TopCandidateResponseDTO(long id, String fullName, String party, long votes) {
         this.id = id;
         this.fullName = fullName;
         this.party = party;
         this.votes = votes;
-        this.partyPercentage = partyPercentage;
     }
+
 
     //GETTERS
     public long getId() {
@@ -45,10 +44,6 @@ public class TopCandidateResponseDTO {
         return votes;
     }
 
-    public double getPartyPercentage() {
-        return partyPercentage;
-    }
-
     //SETTERS
     public void setId(long id) {
         this.id = id;
@@ -64,9 +59,5 @@ public class TopCandidateResponseDTO {
 
     public void setVotes(long votes) {
         this.votes = votes;
-    }
-
-    public void setPartyPercentage(double partyPercentage) {
-        this.partyPercentage = partyPercentage;
     }
 }
