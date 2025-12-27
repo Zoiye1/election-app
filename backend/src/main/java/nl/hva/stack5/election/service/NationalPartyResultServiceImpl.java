@@ -101,6 +101,25 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
         // Calculate seats using electoral quota(look up online!)
         int seats = (int) (totalPartyVotes / (totalNationalVotes / 150));
 
+        Double previousElectionDifference = null;
+        String previousElectionId = getPreviousElectionId(electionId);
+
+        // only calculate if previous election exists
+        if (previousElectionId != null) {
+            // get party result from prev election
+            PartyResult previousResult = nationalPartyResultRepository.findByElectionAndParty(previousElectionId, partyId);
+
+            // only calculate if previous result exists
+            if (previousResult != null) {
+                // get total votes from prev election
+                long previousTotalNationalVotes = electionService.readResults(previousElectionId).getTotalCounted();
+                //calculate percentage in prev election
+                double previousPercentage = (previousResult.getVotes() / (double) previousTotalNationalVotes) * 100;
+                // calculate difference
+                previousElectionDifference = nationalPercentage - previousPercentage;
+            }
+        }
+
         List<PartyCandidateResponseDTO> candidates = candidateResults.stream()
                 .map(cr -> {
                     long votes = Long.parseLong(cr.getNationalCandidateVotes());
@@ -119,7 +138,7 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
                 totalPartyVotes,
                 nationalPercentage,
                 seats,
-                null,
+                previousElectionDifference,
                 candidates
         );
 
