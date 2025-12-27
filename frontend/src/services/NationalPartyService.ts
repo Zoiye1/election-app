@@ -1,4 +1,4 @@
-import type { TopNationalParty } from "@/interfaces/IElectionData.ts";
+import type { PartyDetail, TopNationalParty } from '@/interfaces/IElectionData.ts'
 
 /**
  *
@@ -34,4 +34,12 @@ export class NationalPartyService {
       throw error;
     }
   }
+
+  /**
+   * Fetches detailed party information including candidates
+   * @param electionId the election identifier (e.g., "TK2023")
+   * @param partyId the party identifier
+   * @returns Promise with party details
+   */
+  public static async getPartyDetails(electionId: string, partyId: number): Promise<PartyDetail> {}
 }
