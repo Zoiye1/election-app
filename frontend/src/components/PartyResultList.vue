@@ -1,9 +1,12 @@
 <script setup lang="ts">
-// Props
+
+import PartyDetailModal from '@/components/PartyDetailModal.vue'
+import type { PartyDetail } from '@/interfaces/IElectionData.ts'
 import type { TopNationalParty } from '@/interfaces/IElectionData.ts'
 import { ref, watch } from 'vue'
 import { NationalPartyService } from '@/services/NationalPartyService.ts'
 
+// Props
 const props = defineProps<{
   electionId: string
 }>()
@@ -13,6 +16,10 @@ const props = defineProps<{
 const partyResults = ref<TopNationalParty[]>([])
 const loading = ref<boolean>(true)
 const error = ref<string | null>(null)
+
+const selectedParty = ref<PartyDetail | null>(null)
+const selectedRanking = ref<number>(0)
+const showModal = ref<boolean>(false)
 
 async function fetchPartyResults() {
   loading.value = true
@@ -27,6 +34,16 @@ async function fetchPartyResults() {
     console.error(err)
   } finally {
     loading.value = false
+  }
+}
+
+async function openPartyDetail(partyId: number, ranking: number) {
+  try {
+    selectedParty.value = await NationalPartyService.getPartyDetails(props.electionId, partyId)
+    selectedRanking.value = ranking
+    showModal.value = true
+  } catch (err) {
+    console.error('Failed to fetch party details:', err)
   }
 }
 
@@ -58,7 +75,8 @@ watch(
       <div
         v-for="(result, i) in partyResults"
         :key="i"
-        class="bg-purple-50 rounded-2xl p-4 flex items-center justify-between hover:bg-purple-100 transition-colors shadow"
+        @click="openPartyDetail(result.partyId, i + 1)"
+        class="bg-purple-50 rounded-2xl p-4 flex items-center justify-between hover:bg-purple-100 transition-colors shadow cursor-pointer"
       >
         <div class="flex items-center gap-4">
           <div
@@ -80,5 +98,13 @@ watch(
         </div>
       </div>
     </div>
+
+    <PartyDetailModal
+      v-if="showModal && selectedParty"
+      :party="selectedParty"
+      :ranking="selectedRanking"
+      @close="showModal = false"
+    />
+
   </div>
 </template>

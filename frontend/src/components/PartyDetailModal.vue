@@ -1,5 +1,4 @@
 <script setup lang="ts">
-
 import type { PartyDetail } from '@/interfaces/IElectionData.ts'
 import { computed } from 'vue'
 import { getPartyLogoUrl } from '@/utils/partyLogos.ts'
@@ -52,7 +51,6 @@ const differenceColorClass = computed(() => {
   // Default(if diff === null text will be gray)
   return 'text-gray-500'
 })
-
 </script>
 
 <template>
@@ -60,17 +58,20 @@ const differenceColorClass = computed(() => {
   <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
     <!-- white card -->
     <div class="bg-white rounded-3xl p-6 w-full max-w-md mx-4 shadow-2xl">
-
       <div class="flex items-center justify-between mb-6">
-        <div class="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2">
+        <div
+          class="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2"
+        >
           ⚡ #{{ props.ranking }} Partij Ranking
         </div>
 
         <!-- return button -->
-        <button @click="emit('close')" class="text-gray-500 hover:text-gray-700 flex items-center gap-1">
+        <button
+          @click="emit('close')"
+          class="text-gray-500 hover:text-gray-700 flex items-center gap-1"
+        >
           ← Terug
         </button>
-
       </div>
       <!-- party logo-->
       <div class="flex justify-center mb-6">
@@ -78,7 +79,7 @@ const differenceColorClass = computed(() => {
           v-if="partyLogoUrl"
           :src="partyLogoUrl"
           :alt="`${props.party.partyName} logo`"
-          style="height: 60px; width: auto;"
+          style="height: 60px; width: auto"
         />
         <h1 v-else class="text-3xl font-bold text-gray-800">
           {{ props.party.partyName }}
@@ -98,19 +99,26 @@ const differenceColorClass = computed(() => {
         <!-- National % -->
         <div class="bg-gray-50 rounded-2xl p-3 text-center">
           <p class="text-xs text-gray-500 font-medium mb-1">Nationaal</p>
-          <p class="text-xl font-bold text-purple-500">{{ props.party.nationalPercentage.toFixed(1) }}%</p>
+          <p class="text-xl font-bold text-purple-500">
+            {{ props.party.nationalPercentage.toFixed(1) }}%
+          </p>
         </div>
         <!-- Seats -->
         <div class="bg-gray-50 rounded-2xl p-3 text-center">
           <p class="text-xs text-gray-500 font-medium mb-1">Zetels</p>
-          <p class="text-xl font-bold text-purple-500">{{props.party.seats}}</p>
+          <p class="text-xl font-bold text-purple-500">{{ props.party.seats }}</p>
         </div>
         <!-- difference -->
         <div class="bg-gray-50 rounded-2xl p-3 text-center">
           <p class="text-xs text-gray-500 font-medium mb-1">Verschil</p>
 
-          <p v-if="formattedDifference != null" class="text-xl font-bold" :class="differenceColorClass">
-            {{ formattedDifference }}</p>
+          <p
+            v-if="formattedDifference != null"
+            class="text-xl font-bold"
+            :class="differenceColorClass"
+          >
+            {{ formattedDifference }}
+          </p>
 
           <p v-else class="text-xl font-bold text-gray-400">-</p>
         </div>
@@ -133,13 +141,14 @@ const differenceColorClass = computed(() => {
             </div>
 
             <div class="text-right">
-              <p class="text-sm font-semibold text-gray-700">{{ candidate.votes.toLocaleString('nl-NL') }}</p>
+              <p class="text-sm font-semibold text-gray-700">
+                {{ candidate.votes.toLocaleString('nl-NL') }}
+              </p>
               <p class="text-xs text-gray-500">{{ candidate.partyPercentage.toFixed(1) }}%</p>
             </div>
-
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
