@@ -85,6 +85,15 @@ const differenceColorClass = computed(() => {
         </h1>
       </div>
 
+      <div class="bg-gradient-to-br from-purple-500 to-indigo-600 rounded-2xl p-6 mb-6 text-white">
+        <div class="flex items-center justify-center gap-2 mb-2">
+          <span class="text-white/80 font-medium">👥 Totaal Stemmen</span>
+        </div>
+        <p class="text-4xl font-bold text-center">
+          {{ props.party.totalVotes.toLocaleString('nl-NL') }}
+        </p>
+      </div>
+
     </div>
   </div>
 </template>
