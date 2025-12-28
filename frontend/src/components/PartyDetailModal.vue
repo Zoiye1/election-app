@@ -54,3 +54,37 @@ const differenceColorClass = computed(() => {
 })
 
 </script>
+
+<template>
+  <!-- dimmed background -->
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+    <!-- white card -->
+    <div class="bg-white rounded-3xl p-6 w-full max-w-md mx-4 shadow-2xl">
+
+      <div class="flex items-center justify-between mb-6">
+        <div class="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2">
+          ⚡ #{{ props.ranking }} Partij Ranking
+        </div>
+
+        <!-- return button -->
+        <button @click="emit('close')" class="text-gray-500 hover:text-gray-700 flex items-center gap-1">
+          ← Terug
+        </button>
+
+      </div>
+      <!-- party logo-->
+      <div class="flex justify-center mb-6">
+        <img
+          v-if="partyLogoUrl"
+          :src="partyLogoUrl"
+          :alt="`${props.party.partyName} logo`"
+          style="height: 60px; width: auto;"
+        />
+        <h1 v-else class="text-3xl font-bold text-gray-800">
+          {{ props.party.partyName }}
+        </h1>
+      </div>
+
+    </div>
+  </div>
+</template>
