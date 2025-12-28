@@ -16,10 +16,11 @@ public class TopNationalPartiesResponseDTO {
     public TopNationalPartiesResponseDTO() {}
 
     // Constructor with all fields
-    public TopNationalPartiesResponseDTO(String partyName, long votes, long partyId) {
+    public TopNationalPartiesResponseDTO(long partyId, String partyName, long votes) {
+        this.partyId = partyId;
         this.partyName = partyName;
         this.votes = votes;
-        this.partyId = partyId;
+
     }
 
     // GETTERS
