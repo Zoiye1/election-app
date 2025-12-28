@@ -84,9 +84,6 @@ public class NationalPartyResultServiceImpl implements NationalPartyResultServic
         // Get all candidates for this party
         List<CandidateResult> candidateResults = candidateResultRepository.findByPartyAndElection(electionId, partyId);
 
-        if (candidateResults.isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No candidates found for party " + partyId + " in election " + electionId);
-        }
 
         // get total national votes for percentage and seat calculations
         long totalNationalVotes = electionService.readResults(electionId).getTotalCounted();

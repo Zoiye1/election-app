@@ -127,8 +127,15 @@ const differenceColorClass = computed(() => {
       <!-- Candidate list -->
       <div>
         <p class="text-sm text-gray-500 font-medium mb-3">Kandidaten</p>
+
         <div class="overflow-y-auto max-h-[200px] space-y-2">
+          <p v-if="props.party.candidates.length === 0" class="text-sm text-gray-400 italic text-center py-4">
+            Geen verkozen kandidaten voor deze partij
+          </p>
+
+          <!-- Anders toon de lijst -->
           <div
+            v-else
             v-for="(candidate, index) in props.party.candidates"
             :key="candidate.id"
             class="flex items-center justify-between bg-gray-50 rounded-xl p-3"
