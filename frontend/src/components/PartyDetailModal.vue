@@ -116,6 +116,30 @@ const differenceColorClass = computed(() => {
         </div>
       </div>
 
+      <!-- Candidate list -->
+      <div>
+        <p class="text-sm text-gray-500 font-medium mb-3">Kandidaten</p>
+        <div class="overflow-y-auto max-h-[200px] space-y-2">
+          <div
+            v-for="(candidate, index) in props.party.candidates"
+            :key="candidate.id"
+            class="flex items-center justify-between bg-gray-50 rounded-xl p-3"
+          >
+            <div class="flex items-center gap-3">
+              <!-- ranking inside of party -->
+              <span class="text-sm font-bold text-purple-500 w-6">#{{ index + 1 }}</span>
+
+              <span class="font-medium text-gray-800">{{ candidate.fullName }}</span>
+            </div>
+
+            <div class="text-right">
+              <p class="text-sm font-semibold text-gray-700">{{ candidate.votes.toLocaleString('nl-NL') }}</p>
+              <p class="text-xs text-gray-500">{{ candidate.partyPercentage.toFixed(1) }}%</p>
+            </div>
+
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
