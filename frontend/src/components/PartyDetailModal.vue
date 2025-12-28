@@ -94,6 +94,28 @@ const differenceColorClass = computed(() => {
         </p>
       </div>
 
+      <div class="grid grid-cols-3 gap-3 mb-6">
+        <!-- National % -->
+        <div class="bg-gray-50 rounded-2xl p-3 text-center">
+          <p class="text-xs text-gray-500 font-medium mb-1">Nationaal</p>
+          <p class="text-xl font-bold text-purple-500">{{ props.party.nationalPercentage.toFixed(1) }}%</p>
+        </div>
+        <!-- Seats -->
+        <div class="bg-gray-50 rounded-2xl p-3 text-center">
+          <p class="text-xs text-gray-500 font-medium mb-1">Zetels</p>
+          <p class="text-xl font-bold text-purple-500">{{props.party.seats}}</p>
+        </div>
+        <!-- difference -->
+        <div class="bg-gray-50 rounded-2xl p-3 text-center">
+          <p class="text-xs text-gray-500 font-medium mb-1">Verschil</p>
+
+          <p v-if="formattedDifference != null" class="text-xl font-bold" :class="differenceColorClass">
+            {{ formattedDifference }}</p>
+
+          <p v-else class="text-xl font-bold text-gray-400">-</p>
+        </div>
+      </div>
+
     </div>
   </div>
 </template>
