@@ -94,6 +94,37 @@ public class PartyResultControllerTest {
     }
 
     /**
+     * HAPPY PATH
+     * Tests getPartyDetails with existing data.
+     * Verifies correct service call and response.
+     */
+    @Test
+    void getPartyDetails_ShouldReturnDetails_WhenDataExists() {
+        //Arrange
+        String electionId = "TK2023";
+        long partyId = 4L;
+        PartyDetailResponseDTO mockDetail = createMockPartyDetail();
+
+        when(nationalPartyResultService.getPartyDetails(electionId, partyId))
+                .thenReturn(mockDetail);
+
+        //Act
+        ResponseEntity <PartyDetailResponseDTO> response =
+                partyResultController.getPartyDetails(partyId, electionId);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCode().value());
+        assertNotNull(response.getBody());
+        assertEquals( "VVD", response.getBody().getPartyName());
+        assertEquals(2, response.getBody().getCandidates().size());
+
+        // Verify
+        verify(nationalPartyResultService, times(1))
+                .getPartyDetails(electionId, partyId);
+    }
+
+    /**
      * Helper method to set private fields using reflection.
      * Used to inject mock services into controllers during testing.
      *
