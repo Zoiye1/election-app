@@ -1,8 +1,6 @@
 package Service;
 
-import nl.hva.stack5.election.model.Election;
-import nl.hva.stack5.election.model.Party;
-import nl.hva.stack5.election.model.PartyResult;
+import nl.hva.stack5.election.model.*;
 import nl.hva.stack5.election.repository.CandidateResultRepository;
 import nl.hva.stack5.election.repository.NationalPartyResultRepository;
 import nl.hva.stack5.election.repository.PartyRepository;
@@ -80,6 +78,22 @@ public class NationalPartyResultServiceTest {
         Party party = new Party("VVD");
 
         return new PartyResult(election, party, 2000000L);
+    }
+
+    /**
+     * Creates mock CandidateResult entities for testing.
+     */
+    private List<CandidateResult> createMockCandidateResults() {
+        Election election = new Election("TK2023");
+        Party party = new Party("VVD");
+
+        Candidate candidate1 = new Candidate("Mark", "Rutte", "RutteM");
+        Candidate candidate2 = new Candidate("Dilan", "Yeşilgöz", "YesD");
+
+        CandidateResult result1 = new CandidateResult(election, party, candidate1, "500000");
+        CandidateResult result2 = new CandidateResult(election, party, candidate2, "300000");
+
+        return Arrays.asList(result1, result2);
     }
 
     /**
