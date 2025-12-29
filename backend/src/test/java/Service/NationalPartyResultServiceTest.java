@@ -1,5 +1,6 @@
 package Service;
 
+import jakarta.persistence.EntityNotFoundException;
 import nl.hva.stack5.election.dto.PartyDetailResponseDTO;
 import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
 import nl.hva.stack5.election.model.*;
@@ -149,6 +150,29 @@ public class NationalPartyResultServiceTest {
         verify(candidateResultRepository, times(1)).findByPartyAndElection(electionId, partyId);
         verify(dutchElectionService, times(1)).readResults(electionId);
     }
+
+    /**
+     * UNHAPPY PATH
+     * Tests getPartyDetails when party does not exist.
+     */
+    @Test
+    void getPartyDetails_ShouldThrowException_WhenPartyNotFound() {
+        //Arrange
+        String electionId = "TK2023";
+        long partyId = 999L;
+
+        when(partyRepository.findById(partyId))
+                .thenThrow(new EntityNotFoundException("Party not found"));
+
+        // Act & Assert
+        assertThrows(EntityNotFoundException.class, () -> {
+            nationalPartyResultService.getPartyDetails(electionId, partyId);
+        });
+
+        // Verify
+        verify(partyRepository, times(1)).findById(partyId);
+    }
+
     /**
      * Creates mock PartyResult entities for testing.
      */
