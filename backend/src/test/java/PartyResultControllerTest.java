@@ -14,8 +14,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
@@ -59,6 +58,35 @@ public class PartyResultControllerTest {
         assertNotNull(response.getBody());
         assertEquals(2, response.getBody().size());
         assertEquals("VVD", response.getBody().get(0).getPartyName());
+
+        // Verify
+        verify(nationalPartyResultService, times(1))
+                .getTopPartiesByYear(electionId, 20);
+    }
+
+    /**
+     * UNHAPPY PATH
+     * Tests getTopPartiesByYear with no data.
+     * Verifies empty list is returned.
+     */
+    @Test
+    void getTopParties_ShouldReturnEmptyList_WhenNoDataExists() {
+        // Arrange
+        String electionId = "TK2023";
+
+
+        when(nationalPartyResultService.getTopPartiesByYear(electionId, 20))
+                .thenReturn(Collections.emptyList());
+
+        //Act
+        ResponseEntity <List<TopNationalPartiesResponseDTO>> response =
+                partyResultController.getTopParties(electionId);
+
+        // Assert
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().isEmpty());
 
         // Verify
         verify(nationalPartyResultService, times(1))
