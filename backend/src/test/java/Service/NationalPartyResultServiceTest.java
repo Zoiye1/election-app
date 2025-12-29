@@ -71,6 +71,18 @@ public class NationalPartyResultServiceTest {
     }
 
     /**
+     * Creates a mock PartyResult for testing.
+     */
+    private PartyResult createMockPartyResult() {
+        Election election = new Election("TK2023");
+        election.setTotalCounted(10000000L);
+
+        Party party = new Party("VVD");
+
+        return new PartyResult(election, party, 2000000L);
+    }
+
+    /**
      * Helper method to set private fields using reflection.
      * Used to inject mock services during testing.
      *
