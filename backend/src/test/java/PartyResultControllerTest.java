@@ -1,4 +1,6 @@
 import nl.hva.stack5.election.controller.PartyResultController;
+import nl.hva.stack5.election.dto.PartyCandidateResponseDTO;
+import nl.hva.stack5.election.dto.PartyDetailResponseDTO;
 import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
 import nl.hva.stack5.election.service.NationalPartyResultService;
 import org.junit.jupiter.api.BeforeEach;
@@ -6,6 +8,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import java.util.Arrays;
 import java.util.List;
 
 import static org.springframework.test.util.ReflectionTestUtils.setField;
@@ -67,6 +70,32 @@ public class PartyResultControllerTest {
                 10L, "PVV", 77889900L
         );
 
+        return Arrays.asList(party1, party2);
+
     }
 
+    /**
+     * creates mock PartyCandidate DTO's for testing.
+     */
+    private PartyDetailResponseDTO createMockPartyDetail() {
+        PartyCandidateResponseDTO candidate1 = new PartyCandidateResponseDTO (
+                4L, "Mark Rutte", 45000L, 10
+        );
+
+        PartyCandidateResponseDTO candidate2 = new PartyCandidateResponseDTO (
+                5L, "Dilan Yeşilgöz", 55000L, 20
+        );
+
+        List<PartyCandidateResponseDTO> candidatesVVD = Arrays.asList(candidate1, candidate2);
+
+        return new PartyDetailResponseDTO(
+                "VVD",
+                80000L,
+                15.5,
+                24,
+                2.3,
+                candidatesVVD
+        );
+
+    }
 }
