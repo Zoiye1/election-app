@@ -4,13 +4,16 @@ import nl.hva.stack5.election.dto.PartyDetailResponseDTO;
 import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
 import nl.hva.stack5.election.service.NationalPartyResultService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
+import static org.mockito.Mockito.when;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 /**
@@ -34,6 +37,15 @@ public class PartyResultControllerTest {
         setField(partyResultController, "nationalPartyResultService", nationalPartyResultService);
     }
 
+    @Test
+    void getTopParties_ShouldReturnParties_WhenDataExists() {
+        //Arrange
+        String electionId = "TK2023";
+        List<TopNationalPartiesResponseDTO> mockParties = createMockParties();
+
+        when(nationalPartyResultService.getTopPartiesByYear(electionId, 20))
+                .thenReturn(mockParties);
+    }
 
     /**
      * Helper method to set private fields using reflection.
@@ -75,7 +87,7 @@ public class PartyResultControllerTest {
     }
 
     /**
-     * creates mock PartyCandidate DTO's for testing.
+     * creates mock PartyDetail DTO's for testing.
      */
     private PartyDetailResponseDTO createMockPartyDetail() {
         PartyCandidateResponseDTO candidate1 = new PartyCandidateResponseDTO (
