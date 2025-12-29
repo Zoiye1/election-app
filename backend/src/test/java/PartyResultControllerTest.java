@@ -1,9 +1,12 @@
 import nl.hva.stack5.election.controller.PartyResultController;
+import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
 import nl.hva.stack5.election.service.NationalPartyResultService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
 
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
@@ -29,6 +32,14 @@ public class PartyResultControllerTest {
     }
 
 
+    /**
+     * Helper method to set private fields using reflection.
+     * Used to inject mock services into controllers during testing.
+     *
+     * @param target the object containing the field
+     * @param fieldName the name of the private field
+     * @param value the value to set
+     */
     private void setField(Object target, String fieldName, Object value) {
         try {
             // find field by name
@@ -41,6 +52,21 @@ public class PartyResultControllerTest {
             // throw error if field is not accessible for example
             throw new RuntimeException(e);
         }
-    }e
+    }
+
+    /**
+     * Creates mock party DTOs for testing.
+     */
+    private List<TopNationalPartiesResponseDTO> createMockParties() {
+
+        TopNationalPartiesResponseDTO party1 = new TopNationalPartiesResponseDTO (
+                4L, "VVD", 22556677L
+        );
+
+        TopNationalPartiesResponseDTO party2 = new TopNationalPartiesResponseDTO (
+                10L, "PVV", 77889900L
+        );
+
+    }
 
 }
