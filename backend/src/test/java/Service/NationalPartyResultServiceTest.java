@@ -97,6 +97,15 @@ public class NationalPartyResultServiceTest {
     }
 
     /**
+     * Creates a mock Election with totalCounted for testing.
+     */
+    private Election createMockElection() {
+        Election election = new Election("TK2023");
+        election.setTotalCounted(10000000L);
+        return election;
+    }
+
+    /**
      * Helper method to set private fields using reflection.
      * Used to inject mock services during testing.
      *
