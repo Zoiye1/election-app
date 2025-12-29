@@ -8,11 +8,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.ResponseEntity;
 
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
@@ -45,6 +48,17 @@ public class PartyResultControllerTest {
 
         when(nationalPartyResultService.getTopPartiesByYear(electionId, 20))
                 .thenReturn(mockParties);
+
+        //Act
+        ResponseEntity <List<TopNationalPartiesResponseDTO>> response =
+                partyResultController.getTopParties(electionId);
+
+        //Assert
+        assertNotNull(response);
+        assertEquals(200, response.getStatusCodeValue());
+        assertNotNull(response.getBody());
+        assertEquals(2, response.getBody().size());
+        assertEquals("VVD", response.getBody().get(0).getPartyName());
     }
 
     /**
