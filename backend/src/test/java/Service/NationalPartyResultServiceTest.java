@@ -12,10 +12,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
@@ -76,6 +76,32 @@ public class NationalPartyResultServiceTest {
         assertNotNull(result);
         assertEquals(2, result.size());
         assertEquals("VVD", result.get(0).getPartyName());
+
+        // Verify
+        verify(nationalPartyResultRepository, times(1))
+                .findTopByElectionYear(electionId, limit);
+    }
+
+    /**
+     * UNHAPPY PATH
+     * Tests getTopPartiesByYear when no data exists.
+     */
+    @Test
+    void getTopPartiesByYear_ShouldReturnEmptyList_WhenDataDoesNotExist() {
+        // Arrange
+        String electionId = "TK2023";
+        int limit = 20;
+
+        when(nationalPartyResultRepository.findTopByElectionYear(electionId, limit))
+                .thenReturn(Collections.emptyList());
+
+        // Act
+        List<TopNationalPartiesResponseDTO> result =
+                nationalPartyResultService.getTopPartiesByYear(electionId, limit);
+
+        // Assert
+        assertNotNull(result);
+        assertTrue(result.isEmpty());
 
         // Verify
         verify(nationalPartyResultRepository, times(1))
