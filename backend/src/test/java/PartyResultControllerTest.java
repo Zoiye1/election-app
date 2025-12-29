@@ -8,7 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -122,6 +124,31 @@ public class PartyResultControllerTest {
         // Verify
         verify(nationalPartyResultService, times(1))
                 .getPartyDetails(electionId, partyId);
+    }
+
+    /**
+     * UNHAPPY PATH
+     * Tests getPartyDetails when party not found.
+     * Verifies exception is thrown.
+     */
+    @Test
+    void getPartyDetails_ShouldThrowException_WhenPartyNotFound() {
+        //Arrange
+        String electionId = "TK2023";
+        long partyId = 20L;
+
+        when(nationalPartyResultService.getPartyDetails(electionId, partyId))
+                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "party not found"));
+
+        // act & Assert
+        assertThrows(ResponseStatusException.class, () -> {
+            partyResultController.getPartyDetails(partyId, electionId);
+        });
+
+        // Verify
+        verify(nationalPartyResultService, times(1))
+                .getPartyDetails(electionId, partyId);
+
     }
 
     /**
