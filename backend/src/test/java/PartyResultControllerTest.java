@@ -28,4 +28,19 @@ public class PartyResultControllerTest {
         setField(partyResultController, "nationalPartyResultService", nationalPartyResultService);
     }
 
+
+    private void setField(Object target, String fieldName, Object value) {
+        try {
+            // find field by name
+            java.lang.reflect.Field field = target.getClass().getDeclaredField(fieldName);
+            // makes field accessible
+            field.setAccessible(true);
+            // set the value of the field
+            field.set(target, value);
+        } catch (Exception e) {
+            // throw error if field is not accessible for example
+            throw new RuntimeException(e);
+        }
+    }e
+
 }
