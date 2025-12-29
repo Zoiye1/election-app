@@ -12,6 +12,7 @@ import nl.hva.stack5.election.service.NationalPartyResultService;
 import nl.hva.stack5.election.service.NationalPartyResultServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -171,6 +172,32 @@ public class NationalPartyResultServiceTest {
 
         // Verify
         verify(partyRepository, times(1)).findById(partyId);
+    }
+
+    /**
+     * UNHAPPY PATH
+     * Tests getPartyDetails when party has no results in election.
+     */
+    @Test
+    void getPartyDetails_ShouldThrowException_WhenNoResultsInElection() {
+        // Arrange
+        String electionId = "TK2023";
+        long partyId = 4L;
+
+        Party mockParty = new Party("VVD");
+
+        when(partyRepository.findById(partyId)).thenReturn(mockParty);
+        when(nationalPartyResultRepository.findByElectionAndParty(electionId, partyId))
+                .thenReturn(null);
+
+        // Act & Assert
+        assertThrows(ResponseStatusException.class, () -> {
+            nationalPartyResultService.getPartyDetails(electionId, partyId);
+        });
+
+        // Verify
+        verify(partyRepository, times(1)).findById(partyId);
+        verify(nationalPartyResultRepository, times(1)).findByElectionAndParty(electionId, partyId);
     }
 
     /**
