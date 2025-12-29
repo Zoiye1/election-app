@@ -1,5 +1,6 @@
 package Service;
 
+import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
 import nl.hva.stack5.election.model.*;
 import nl.hva.stack5.election.repository.CandidateResultRepository;
 import nl.hva.stack5.election.repository.NationalPartyResultRepository;
@@ -8,11 +9,14 @@ import nl.hva.stack5.election.service.DutchElectionService;
 import nl.hva.stack5.election.service.NationalPartyResultService;
 import nl.hva.stack5.election.service.NationalPartyResultServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
 
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 /**
@@ -50,7 +54,33 @@ public class NationalPartyResultServiceTest {
     }
 
 
+    /**
+     * HAPPY PATH
+     * Tests getTopPartiesByYear with existing data.
+     */
+    @Test
+    void getTopPartiesByYear_ShouldReturnParties_WhenDataExists() {
+        // Arrange
+        String electionId = "TK2023";
+        int limit = 20;
+        List<PartyResult> mockResults = createMockPartyResults();
 
+        when(nationalPartyResultRepository.findTopByElectionYear(electionId, limit))
+                .thenReturn(mockResults);
+
+        // Act
+        List<TopNationalPartiesResponseDTO> result =
+                nationalPartyResultService.getTopPartiesByYear(electionId, limit);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals(2, result.size());
+        assertEquals("VVD", result.get(0).getPartyName());
+
+        // Verify
+        verify(nationalPartyResultRepository, times(1))
+                .findTopByElectionYear(electionId, limit);
+    }
 
 
     /**
