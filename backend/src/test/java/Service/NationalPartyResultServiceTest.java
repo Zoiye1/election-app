@@ -1,5 +1,6 @@
 package Service;
 
+import nl.hva.stack5.election.dto.PartyDetailResponseDTO;
 import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
 import nl.hva.stack5.election.model.*;
 import nl.hva.stack5.election.repository.CandidateResultRepository;
@@ -82,6 +83,8 @@ public class NationalPartyResultServiceTest {
                 .findTopByElectionYear(electionId, limit);
     }
 
+
+
     /**
      * UNHAPPY PATH
      * Tests getTopPartiesByYear when no data exists.
@@ -109,6 +112,43 @@ public class NationalPartyResultServiceTest {
     }
 
 
+    /**
+     * HAPPY PATH
+     * Tests getPartyDetails with existing data.
+     */
+    @Test
+    void getPartyDetails_ShouldReturnDetails_WhenDataExists() {
+        // Arrange
+        String electionId = "TK2023";
+        long partyId = 4L;
+
+        Party mockParty = new Party("VVD");
+        PartyResult mockPartyResult = createMockPartyResult();
+        List<CandidateResult> mockCandidates = createMockCandidateResults();
+        Election mockElection = createMockElection();
+
+        when(partyRepository.findById(partyId)).thenReturn(mockParty);
+        when(nationalPartyResultRepository.findByElectionAndParty(electionId, partyId))
+                .thenReturn(mockPartyResult);
+        when(candidateResultRepository.findByPartyAndElection(electionId, partyId))
+                .thenReturn(mockCandidates);
+        when(dutchElectionService.readResults(electionId)).thenReturn(mockElection);
+
+        // Act
+        PartyDetailResponseDTO result = nationalPartyResultService.getPartyDetails(electionId, partyId);
+
+        // Assert
+        assertNotNull(result);
+        assertEquals("VVD", result.getPartyName());
+        assertEquals(2000000L, result.getTotalVotes());
+        assertEquals(2, result.getCandidates().size());
+
+        // Verify
+        verify(partyRepository, times(1)).findById(partyId);
+        verify(nationalPartyResultRepository, times(1)).findByElectionAndParty(electionId, partyId);
+        verify(candidateResultRepository, times(1)).findByPartyAndElection(electionId, partyId);
+        verify(dutchElectionService, times(1)).readResults(electionId);
+    }
     /**
      * Creates mock PartyResult entities for testing.
      */
