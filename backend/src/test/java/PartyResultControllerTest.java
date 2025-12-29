@@ -16,7 +16,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.util.ReflectionTestUtils.setField;
 
 /**
@@ -59,6 +59,10 @@ public class PartyResultControllerTest {
         assertNotNull(response.getBody());
         assertEquals(2, response.getBody().size());
         assertEquals("VVD", response.getBody().get(0).getPartyName());
+
+        // Verify
+        verify(nationalPartyResultService, times(1))
+                .getTopPartiesByYear(electionId, 20);
     }
 
     /**
