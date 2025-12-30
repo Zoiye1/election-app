@@ -207,7 +207,9 @@ public class NationalPartyResultServiceTest {
         Election election = new Election("TK2023");
 
         Party party1 = new Party("VVD");
+        setField(party1, "id", 4L);
         Party party2 = new Party("PVV");
+        setField(party2, "id", 10L);
 
         PartyResult result1 = new PartyResult(election, party1, 2000000L);
         PartyResult result2 = new PartyResult(election, party2, 2500000L);
