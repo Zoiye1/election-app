@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { getTopCandidatesByElection } from '@/services/candidateResultService'
-import type { CandidateResult } from '@/interfaces/candidateResult'
+import { getTopCandidatesByElection } from '@/services/CandidateResultService'
+import type { CandidateResult } from '@/interfaces/CandidateResult'
 
 //props
 const props = defineProps<{

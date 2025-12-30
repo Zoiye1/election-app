@@ -62,3 +62,23 @@ npm run test:e2e -- --debug
 ```sh
 npm run lint
 ```
+
+## Docker
+
+### Build the image
+```sh
+docker build -t frontend .
+```
+
+### Run the container
+```sh
+docker run -p 80:80 frontend
+```
+
+Then open http://localhost in your browser.
+
+### Docker Files
+- `Dockerfile` - Multi-stage build: Node.js for building, Nginx for serving
+- `nginx.conf` - SPA routing configuration for Vue Router
+
+> **Note:** For local development with hot reload, use `npm run dev` instead. Only use Docker for testing the production build or deployment.
