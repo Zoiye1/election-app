@@ -1,0 +1,24 @@
+package nl.hva.stack5.election.service;
+
+
+import nl.hva.stack5.election.dto.TopNationalPartiesResponseDTO;
+
+import java.util.List;
+
+/**
+ * Service interface for managing national party results.
+ *
+ * @author Matisse Ben Addi
+ * @version 1.0
+ */
+public interface NationalPartyResultService {
+
+    /**
+     * Retrieves the top parties by number of votes for a specific election.
+     *
+     * @param electionId the election identifier (e.g., "TK2023")
+     * @param limit the maximum number of results to return
+     * @return List of top party results as DTOs
+     */
+    List<TopNationalPartiesResponseDTO> getTopPartiesByYear(String electionId, int limit);
+}

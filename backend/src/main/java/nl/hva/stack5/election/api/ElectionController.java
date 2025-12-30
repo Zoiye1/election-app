@@ -1,22 +1,28 @@
 package nl.hva.stack5.election.api;
 
-import nl.hva.stack5.election.model.ConstituencyPartyVotes;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.persistence.EntityNotFoundException;
+import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.model.Election;
+import nl.hva.stack5.election.service.ConstituencyService;
+import nl.hva.stack5.election.model.MunicipalityPartyVotes;
 import nl.hva.stack5.election.service.DutchElectionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
+import nl.hva.stack5.election.dto.MunicipalityPartyVotesDTO;
 
 import java.util.List;
 
 /**
- * Demo controller for showing how you could load the election data in the backend.
+ * Controller for importing and getting election data
  */
 @RestController
 @RequestMapping("elections")
 public class ElectionController {
     private final DutchElectionService electionService;
-
     public ElectionController(DutchElectionService electionService) {
         this.electionService = electionService;
     }
@@ -26,9 +32,7 @@ public class ElectionController {
      * @param electionId the id of the election, e.g. the value of the Id attribute from the ElectionIdentifier tag.
      * @param folderName the name of the folder that contains the XML result files. If none is provided the value from
      *                   the electionId is used.
-     * @return Election if the results have been processed successfully. Please be sure yoy don't output all the data!
-     * Just the general data about the election should be sent back to the front-end!<br/>
-     * <i>If you want to return something else please feel free to do so!</i>
+     * @return Election if the results have been processed successfully.
      */
     @PostMapping("{electionId}")
     public Election importResults(@PathVariable String electionId, @RequestParam(required = false) String folderName) {
@@ -41,6 +45,12 @@ public class ElectionController {
         }
     }
 
+    /**
+     *
+     * @param electionId holds the identifier for an election
+     * @return the entire election with all it's results
+     */
+
     @GetMapping("{electionId}")
     public Election getElection(@PathVariable String electionId) {
         Election election = electionService.readResults(electionId);
@@ -50,16 +60,30 @@ public class ElectionController {
         return election;
     }
 
-    @GetMapping("{electionId}/{constituencyName}")
-    public List<ConstituencyPartyVotes> getConstituencyPartyVotes(@PathVariable String electionId) {
+
+
+
+    @GetMapping("{electionId}/municipalities/{municipalityName}")
+    public List<MunicipalityPartyVotesDTO> getMunicipalityVotes(
+            @PathVariable String electionId,
+            @PathVariable String municipalityName) {
+
         Election election = electionService.readResults(electionId);
         if (election == null) {
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election named" + electionId + "not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Election " + electionId + " not found");
         }
 
-        return election.getConstituencyPartyVotes();
+        return election.getMunicipalityPartyVotes().stream()
+                .filter(vote -> vote.getMunicipality().getName().equalsIgnoreCase(municipalityName))
+                .map(vote -> new MunicipalityPartyVotesDTO(
+                        vote.getMunicipality().getName(),
+                        vote.getParty().getRegisteredName(),
+                        vote.getVotes()
+                ))
+                .sorted((a, b) -> Integer.compare(b.getVotes(), a.getVotes()))  // sorteer DESC
+                .limit(10)  // top 10
+                .toList();
     }
-
     /**
      * Retrieves total number of votes for a specific election
      *
@@ -81,4 +105,5 @@ public class ElectionController {
         return election.getTotalCounted();
 
     }
+
 }

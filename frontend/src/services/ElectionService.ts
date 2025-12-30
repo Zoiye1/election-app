@@ -1,51 +1,100 @@
 import type { ConstituencyPartyVotes } from "@/interfaces/IElectionData";
+import type { Election } from "@/interfaces/IElectionData";
 
 /**
  *
  * This service does a fetch to the endpoint /{electionId} to get
  * the constituency data results
  */
- export class ElectionService {
-  /**
-   * @param electionId hold the id of the elections, the value of the Id attribute from the ElectionIdentifier tag.
-   * @param constituencyName holds the name of the selected constituency
-   * @param folder holds the folder name of where the xml file is located
-   */
-  public async getElectionData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes[]> {
-    const url: string = `http://localhost:8080/elections/${electionId}/${constituencyName}`
-    // Response holds the fetch to the endpoint
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
+export class ElectionService {
+
+  public async getMunicipalityData(electionId: string, municipalityName: string): Promise<ConstituencyPartyVotes[]> {
+    const url = `${API_BASE_URL}/elections/${electionId}/municipalities/${municipalityName}`;
+
     try {
-      // Response holds the fetch to the endpoint
-      const response: Response = await fetch(url, {
+      const response = await fetch(url, {
         method: "GET",
-        headers:{"Accept": "application/json"}
-      })
-      if(!response.ok){
-        throw new Error("request failed" + response.statusText);
+        headers: {"Accept": "application/json"}
+      });
+      if (!response.ok) {
+        throw new Error("request failed " + response.statusText);
       }
       return await response.json();
-    }
-    catch(error) {
+    } catch (error) {
       console.error('Fetch error:', error);
       throw error;
     }
-
   }
 
-  public static async getTotalVotes(): Promise<number> {
-    const url: string = `http://localhost:8080/elections/TK2023/total-votes`
+  public static async getTotalVotes(electionId: string): Promise<number> {
+    const url: string = `${API_BASE_URL}/elections/${electionId}/total-votes`;
 
     try {
-      const response: Response = await fetch(url, {
+      const response = await fetch(url, {
         method: "GET",
-        headers:{"Accept": "application/json"}
-      })
-      if(!response.ok){
-        throw new Error("request failed" + response.statusText);
+        headers: {"Accept": "application/json"}
+      });
+      if (!response.ok) {
+        throw new Error("request failed " + response.statusText);
       }
       return await response.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error;
     }
-    catch(error) {
+  }
+
+  public async getElection(electionId: string): Promise<Election> {
+    const url = `${API_BASE_URL}/elections/${electionId}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {"Accept": "application/json"}
+      });
+      if (!response.ok) {
+        throw new Error(`request failed ${response.statusText}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error;
+    }
+  }
+
+  public async getConstituencyData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes[]> {
+    const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {"Accept": "application/json"}
+      });
+      if (!response.ok) {
+        throw new Error("request failed " + response.statusText);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error;
+    }
+  }
+
+  public static async getConstituencyVotesPercentage(electionId: string, constituencyName: string): Promise<number> {
+    const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}/votes-percentage`;
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {"Accept": "application/json"}
+      });
+      if (!response.ok) {
+        throw new Error(`request failed ${response.statusText}`);
+      }
+      return await response.json();
+    } catch (error) {
       console.error('Fetch error:', error);
       throw error;
     }

@@ -1,6 +1,9 @@
+
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export class LoginService {
   public async verifyUser(email: string, password: string): Promise<boolean> {
-    const url: string = `http://localhost:8080/user/verify`
+    const url: string = `${API_BASE_URL}/user/verify`
     const requestBody = {
       email: email,
       password: password

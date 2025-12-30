@@ -36,7 +36,7 @@ public class Party {
     }
 
     // getters and setters
-    public String getregisteredName() {
+    public String getRegisteredName() {
         return registeredName;
     }
     public void setregisteredName(String registeredName) {

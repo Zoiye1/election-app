@@ -1,6 +1,6 @@
 export interface Party {
   id: number
-  registeredName: string;
+  partyName: string;
 }
 
 export interface Constituency{
@@ -10,10 +10,17 @@ export interface Constituency{
 
 export interface ConstituencyPartyVotes {
   id: number
-  party: Party;
+  partyName: string;
   constituency: Constituency;
   votes: number
 }
+
+export interface TopConstituencies {
+  constituencyName: string;
+  votes: string
+}
+
+
 
 export interface Election {
   id: string;
@@ -21,3 +28,32 @@ export interface Election {
   partyResults?: Party[];
   constituencyPartyVotes: ConstituencyPartyVotes[];
 }
+
+export interface Municipality {
+  id: number;
+  name: string;
+}
+
+export interface MunicipalityPartyVotes {
+  id: number;
+  partyName: string;
+  municipality: Municipality;
+  votes: number;
+}
+
+export interface MunicipalityElection {
+  id: string;
+  totalCounted?: number;
+  partyResults?: Party[];
+  municipalityPartyVotes: MunicipalityPartyVotes[];
+}
+
+/**
+ * Interface for top national party results
+ */
+export interface TopNationalParty {
+  partyName: string;
+  votes: number;
+}
+
+

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
 @Table (name = "elections")
 public class Election {
     @Id
-    @Column(name = "id",  nullable = false)
+    @Column(name = "id", nullable = false)
     private String id;
 
     private long totalCounted;
@@ -26,25 +26,33 @@ public class Election {
 
     //list of parties with Identifier and names of the parties.
     @ManyToMany(cascade = CascadeType.ALL)
-    @MapKey( name = "registeredName")
+    @MapKey(name = "registeredName")
     private Map<String, Party> parties = new HashMap<>();
 
     //List of all elected candidates
     @ManyToMany(cascade = CascadeType.ALL)
-    @MapKey( name = "shortCode")
+    @MapKey(name = "shortCode")
     private Map<String, Candidate> candidates = new HashMap<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<CandidateResult> candidateResults = new ArrayList<>();
 
     @OneToMany(cascade = CascadeType.ALL)
-    @MapKey( name = "name")
+    @MapKey(name = "name")
     private Map<String, Constituency> constituencies = new HashMap<>();
 
     @OneToMany(cascade = CascadeType.ALL)
     private List<ConstituencyPartyVotes> constituencyPartyVotes = new ArrayList<>();
 
-    public Election() {}
+    @OneToMany(cascade = CascadeType.ALL)
+    @MapKey(name = "name")
+    private Map<String, Municipality> municipality = new HashMap<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<MunicipalityPartyVotes> municipalityPartyVotes = new ArrayList<>();
+
+    public Election() {
+    }
 
     public Election(String id) {
         this.id = id;
@@ -55,13 +63,15 @@ public class Election {
         return id;
     }
 
-    public Map<String, Party> getParties() {return this.parties;}
+    public Map<String, Party> getParties() {
+        return this.parties;
+    }
 
-    public List<PartyResult> getPartyResults(){
+    public List<PartyResult> getPartyResults() {
         return partyResults;
     }
 
-    public Map<String, Candidate> getCandidates(){
+    public Map<String, Candidate> getCandidates() {
         return candidates;
     }
 
@@ -73,13 +83,18 @@ public class Election {
         this.totalCounted = totalCounted;
     }
 
-    public List<CandidateResult> getCandidateResults() {return candidateResults;}
+    public List<CandidateResult> getCandidateResults() {
+        return candidateResults;
+    }
 
-    public void setCandidateResults(List<CandidateResult> candidateResults) {}
+    public void setCandidateResults(List<CandidateResult> candidateResults) {
+    }
 
     public Map<String, Constituency> getConstituencies() {
         return constituencies;
     }
+
+    public Map<String, Municipality> getMunicipalities() {return municipality;}
 
     public void setConstituencies(Map<String, Constituency> constituencies) {
         this.constituencies = constituencies;
@@ -92,4 +107,21 @@ public class Election {
     public void setConstituencyPartyVotes(List<ConstituencyPartyVotes> constituencyPartyVotes) {
         this.constituencyPartyVotes = constituencyPartyVotes;
     }
+
+    public Map<String, Municipality> getMunicipality() {
+        return municipality;
+    }
+
+    public void setMunicipality(Map<String, Municipality> municipality) {
+        this.municipality = municipality;
+    }
+
+    public List<MunicipalityPartyVotes> getMunicipalityPartyVotes() {
+        return municipalityPartyVotes;
+    }
+
+    public void setMunicipalityPartyVotes(List<MunicipalityPartyVotes> municipalityPartyVotes) {
+        this.municipalityPartyVotes = municipalityPartyVotes;
+    }
+
 }

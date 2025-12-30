@@ -7,6 +7,8 @@ import java.util.Optional;
 public interface UserService {
     Optional<User> findById(int id);
     User createUser(User user);
-    boolean verifyUsernameAndPassword(String username, String password);
-    boolean verifyEmailAndPassword(String email, String password);
+    User findByEmailAndVerifyPassword(String email, String password);
+    User findByUsernameAndVerifyPassword(String username, String password);
+    User updateUsername(Integer userId, String newUsername);
+    void deleteUser(Integer userId);
 }

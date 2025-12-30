@@ -33,7 +33,7 @@ public class DutchNationalVotesTransformer implements VotesTransformer, TagAndAt
 
                     // check if party result exists
                     for (PartyResult pr : election.getPartyResults()) {
-                        if (pr.getParty().getregisteredName().equals(partyName)) {
+                        if (pr.getParty().getRegisteredName().equals(partyName)) {
                                 return;
                         }
                     }
