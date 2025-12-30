@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import nl.hva.stack5.election.service.VerificationService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private VerificationService verificationService;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -154,6 +158,30 @@ public class UserController {
         response.put("user", created);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
+
+    @GetMapping("/verify-email")
+    public ResponseEntity<?> verifyEmail(@RequestParam String token) {
+        logger.info("Email verification attempt with token");
+
+        boolean verified = verificationService.verifyToken(token);
+
+        if (verified) {
+            logger.info("Email verified successfully");
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Email verified successfully. You can now log in.");
+            return ResponseEntity.ok(response);
+        } else {
+            logger.warn("Email verification failed: invalid or expired token");
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "VERIFICATION_FAILED");
+            errorResponse.put("message", "Invalid or expired verification token");
+            errorResponse.put("status", 400);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
     }
 
     /**
