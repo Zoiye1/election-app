@@ -147,7 +147,13 @@ public class UserController {
 
         User created = userService.createUser(user);
         logger.info("User created successfully with ID: {}", created.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "Account created successfully. Please verify your email before logging in.");
+        response.put("user", created);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     /**
@@ -170,6 +176,19 @@ public class UserController {
         }
 
         if (authenticatedUser != null) {
+            // Check if user is verified
+            if (!authenticatedUser.isVerified()) {
+                logger.warn("Login blocked: user {} is not verified", authenticatedUser.getEmail());
+
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("error", "EMAIL_NOT_VERIFIED");
+                errorResponse.put("message", "Please verify your email before logging in");
+                errorResponse.put("status", 403);
+                errorResponse.put("success", false);
+
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+            }
+
             // Generate token with userId
             Map<String, Object> claims = new HashMap<>();
             claims.put("userId", authenticatedUser.getId());
