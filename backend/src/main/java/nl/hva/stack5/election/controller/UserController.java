@@ -131,7 +131,6 @@ public class UserController {
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
         logger.info("Creating new user with email: {}", user.getEmail());
 
-        // Check validation errors
         if (result.hasErrors()) {
             logger.warn("Validation failed for user creation");
             Map<String, Object> errorResponse = new HashMap<>();
@@ -139,7 +138,6 @@ public class UserController {
             errorResponse.put("message", "User data validation failed");
             errorResponse.put("status", 400);
 
-            // Add field-specific errors
             Map<String, String> fieldErrors = new HashMap<>();
             result.getFieldErrors().forEach(error ->
                     fieldErrors.put(error.getField(), error.getDefaultMessage())
@@ -150,18 +148,21 @@ public class UserController {
         }
 
         User created = userService.createUser(user);
-        logger.info("User created successfully with ID: {}", created.getId());
+
+        // Send verification email
+        verificationService.sendVerificationEmail(created);
+
+        logger.info("User created successfully with ID: {} and verification email sent", created.getId());
 
         Map<String, Object> response = new HashMap<>();
         response.put("success", true);
-        response.put("message", "Account created successfully. Please verify your email before logging in.");
+        response.put("message", "Account created successfully. Please check your email to verify your account.");
         response.put("user", created);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
-
-
+    
     @GetMapping("/verify-email")
     public ResponseEntity<?> verifyEmail(@RequestParam String token) {
         logger.info("Email verification attempt with token");
