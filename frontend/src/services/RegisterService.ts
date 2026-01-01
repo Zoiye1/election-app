@@ -5,10 +5,14 @@ export interface RegisterRequest {
 }
 
 export interface RegisterResponse {
-  id: number;
-  username: string;
-  password: string;
-  email: string;
+  success: boolean;
+  message: string;
+  user: {
+    id: number;
+    username: string;
+    email: string;
+    password: string;
+  };
 }
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
