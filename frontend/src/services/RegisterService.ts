@@ -17,7 +17,6 @@ export interface RegisterResponse {
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
-
 export class RegisterService {
   public async registerUser(username: string, email: string, password: string): Promise<RegisterResponse> {
     const url = `${API_BASE_URL}/user`;
