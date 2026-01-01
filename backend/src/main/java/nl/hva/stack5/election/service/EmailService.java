@@ -12,7 +12,8 @@ public class EmailService {
     private JavaMailSender mailSender;
 
     public void sendVerificationEmail(String toEmail, String token) {
-        String verificationUrl = "http://localhost:8080/user/verify-email?token=" + token;
+        // FRONTEND URL, niet backend
+        String verificationUrl = "http://localhost:5173/verify-account?token=" + token;
 
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(toEmail);
