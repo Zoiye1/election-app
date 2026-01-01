@@ -7,9 +7,15 @@ import nl.hva.stack5.election.model.Party;
 import nl.hva.stack5.election.model.PartyResult;
 import nl.hva.stack5.election.repository.NationalPartyResultRepository;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * Integration tests for NationalPartyResultRepository.
@@ -51,5 +57,16 @@ public class NationalPartyResultRepositoryIntegrationTest {
 
         // send all above to DB
         entityManager.flush();
+    }
+
+    @Test
+    void findTopByElectionYear_ShouldReturnPartiesOrderedByVotes() {
+        //act
+        List<PartyResult> results = nationalPartyResultRepository.findTopByElectionYear("TK2023", 10);
+        //assert
+        assertNotNull(results);
+        assertEquals(2, results.size());
+        assertEquals("PVV", results.get(0).getParty().getRegisteredName());
+        assertEquals("VVD", results.get(1).getParty().getRegisteredName());
     }
 }
