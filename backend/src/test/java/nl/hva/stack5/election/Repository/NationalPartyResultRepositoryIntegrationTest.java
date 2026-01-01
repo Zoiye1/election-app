@@ -14,8 +14,7 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Integration tests for NationalPartyResultRepository.
@@ -59,6 +58,10 @@ public class NationalPartyResultRepositoryIntegrationTest {
         entityManager.flush();
     }
 
+    /**
+     * HAPPY PATH
+     * Tests findTopByElectionYear returns parties ordered by votes descending.
+     */
     @Test
     void findTopByElectionYear_ShouldReturnPartiesOrderedByVotes() {
         //act
@@ -70,6 +73,23 @@ public class NationalPartyResultRepositoryIntegrationTest {
         assertEquals("VVD", results.get(1).getParty().getRegisteredName());
     }
 
+    /**
+     * UNHAPPY PATH
+     * Tests findTopByElectionYear returns empty list when election not found.
+     */
+    @Test
+    void findTopByElectionYear_ShouldReturnEmptyList_WhenNoResults() {
+        //act
+        List<PartyResult> results = nationalPartyResultRepository.findTopByElectionYear("TK9999", 10);
+        // assert
+        assertNotNull(results);
+        assertTrue(results.isEmpty());
+    }
+
+    /**
+     * HAPPY PATH
+     * Tests findByElectionAndParty returns correct party result.
+     */
     @Test
     void findByElectionAndParty_ShouldReturnPartyResult_WhenExists() {
         // act
@@ -79,4 +99,18 @@ public class NationalPartyResultRepositoryIntegrationTest {
         assertEquals("VVD", result.getParty().getRegisteredName());
         assertEquals(2000000L, result.getVotes());
     }
+
+    /**
+     * UNHAPPY PATH
+     * Tests findByElectionAndParty returns null when election not found.
+     */
+    @Test
+    void findByElectionAndParty_ShouldReturnNull_WhenElectionNotFound() {
+        //act
+        PartyResult result = nationalPartyResultRepository.findByElectionAndParty("TK9999", vvdParty.getId());
+
+        // assert
+        assertNull(result);
+    }
 }
+
