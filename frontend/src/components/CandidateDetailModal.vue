@@ -1,25 +1,53 @@
 <script setup lang="ts">
+import { computed } from 'vue'
 import type { CandidateResult } from '@/interfaces/CandidateResult'
+import { getPartyLogoUrl } from '@/utils/partyLogos.ts'
 
 const props = defineProps<{
   candidate: CandidateResult
   ranking: number
+  totalNationalVotes: number
+  totalPartyVotes: number
 }>()
+
+const partyLogoUrl = computed(() => {
+  return getPartyLogoUrl(props.candidate.party)
+})
 
 const emit = defineEmits<{
   close: []
 }>()
+
+/**
+ * calculates candidates part of all national votes that year in percentage
+ */
+const nationalPercentage = computed(() => {
+  //prevents dividing by 0
+  if (props.totalNationalVotes === 0) return 0
+  return ((props.candidate.votes / props.totalNationalVotes) * 100).toFixed(1)
+})
+
+/**
+ * calculates candidates part of all national votes that year in percentage
+ */
+
+const partyPercentage = computed(() => {
+  //prevents dividing by 0
+  if (props.totalPartyVotes === 0) return 0
+  return ((props.candidate.votes / props.totalPartyVotes) * 100).toFixed(1)
+})
 </script>
 
 <template>
-<!--  dimmed background-->
+  <!--  dimmed background-->
   <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-<!--    white card-->
+    <!--    white card-->
     <div class="bg-white rounded-3xl p-6 w-full max-w-md mx-4 shadow-2xl">
-
       <div class="flex items-center justify-between mb-6">
         <!-- Ranking badge -->
-        <div class="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2">
+        <div
+          class="bg-purple-600 text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2"
+        >
           ⚡ #{{ props.ranking }} Nationale Ranking
         </div>
 
@@ -38,9 +66,18 @@ const emit = defineEmits<{
 
       <div class="mb-6">
         <p class="text-sm text-gray-500 mb-2">Partij</p>
-        <div class="inline-flex items-center gap-2 px-4 py-2 rounded-xl border-2 border-gray-200">
-          <span class="w-4 h-4 rounded bg-orange-500"></span>
-          <span class="font-semibold text-gray-700">{{ props.candidate.party }}</span>
+        <div
+          class="inline-flex items-center gap-3 px-4 py-2 rounded-xl border-2 border-gray-200 bg-white"
+        >
+            <img
+              v-if="partyLogoUrl"
+              :src="partyLogoUrl"
+              :alt="`${props.candidate.party} logo`"
+              style="height: 40px; width: auto;"
+            />
+          <span v-else class="font-semibold text-gray-700">
+            {{ props.candidate.party }}
+          </span>
         </div>
       </div>
 
@@ -57,23 +94,28 @@ const emit = defineEmits<{
         <!-- Nationaal Percentage -->
         <div class="bg-gray-50 rounded-2xl p-4">
           <p class="text-sm text-gray-500 font-medium mb-1">Nationaal Percentage</p>
-          <p class="text-2xl font-bold text-purple-500">0%</p>
+          <p class="text-2xl font-bold text-purple-500">{{ nationalPercentage }}%</p>
           <p class="text-xs text-gray-400 mb-3">van alle stemmen</p>
           <div class="w-full bg-gray-200 rounded-full h-2">
-            <div class="bg-purple-500 h-full rounded-full" style="width: 0%"></div>
+            <div
+              class="bg-purple-500 h-full rounded-full"
+              :style="{ width: nationalPercentage + '%' }"
+            ></div>
           </div>
         </div>
 
         <div class="bg-gray-50 rounded-2xl p-4">
           <p class="text-sm text-gray-500 font-medium mb-1">Partij Percentage</p>
-          <p class="text-2xl font-bold text-purple-500">0%</p>
+          <p class="text-2xl font-bold text-purple-500">{{ partyPercentage }}%</p>
           <p class="text-xs text-gray-400 mb-3">van alle {{ props.candidate.party }} stemmen</p>
           <div class="w-full bg-gray-200 rounded-full h-2">
-            <div class="bg-purple-500 h-full rounded-full" style="width: 0%"></div>
+            <div
+              class="bg-purple-500 h-full rounded-full"
+              :style="{ width: partyPercentage + '%' }"
+            ></div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
