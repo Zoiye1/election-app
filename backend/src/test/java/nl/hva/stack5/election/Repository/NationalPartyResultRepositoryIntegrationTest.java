@@ -112,5 +112,18 @@ public class NationalPartyResultRepositoryIntegrationTest {
         // assert
         assertNull(result);
     }
+
+    /**
+     * UNHAPPY PATH
+     * Tests findByElectionAndParty returns null when party not found.
+     */
+    @Test
+    void findByElectionAndParty_ShouldReturnNull_WhenPartyNotFound() {
+        // Act
+        PartyResult result = nationalPartyResultRepository.findByElectionAndParty("TK2023", 999L);
+
+        // Assert
+        assertNull(result);
+    }
 }
 
