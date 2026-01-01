@@ -69,4 +69,14 @@ public class NationalPartyResultRepositoryIntegrationTest {
         assertEquals("PVV", results.get(0).getParty().getRegisteredName());
         assertEquals("VVD", results.get(1).getParty().getRegisteredName());
     }
+
+    @Test
+    void findByElectionAndParty_ShouldReturnPartyResult_WhenExists() {
+        // act
+        PartyResult result = nationalPartyResultRepository.findByElectionAndParty("TK2023", vvdParty.getId());
+        //assert
+        assertNotNull(result);
+        assertEquals("VVD", result.getParty().getRegisteredName());
+        assertEquals(2000000L, result.getVotes());
+    }
 }
