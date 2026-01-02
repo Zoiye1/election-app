@@ -23,6 +23,7 @@ public class NationalPartyResultsMapper {
         }
 
         return new TopNationalPartiesResponseDTO(
+                result.getParty().getId(),
                 result.getParty().getRegisteredName(),
                 result.getVotes()
         );

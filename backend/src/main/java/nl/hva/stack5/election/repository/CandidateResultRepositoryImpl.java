@@ -51,4 +51,28 @@ public class CandidateResultRepositoryImpl implements CandidateResultRepository 
         return query.getResultList();
 
     }
+
+    /**
+     * Finds all candidates for a specific party in a specific election.
+     * Results are ordered by vote count in descending order.
+     *
+     * @param electionId the election identifier (e.g., "TK2023")
+     * @param partyId the party identifier
+     * @return List of candidate results ordered by votes descending
+     */
+    @Override
+    public List<CandidateResult> findByPartyAndElection(String electionId, long partyId) {
+        TypedQuery<CandidateResult> query = entityManager.createQuery(
+                "SELECT cr FROM CandidateResult cr " + // Select all candidate results
+                        "WHERE cr.election.id = :electionId " + // Filter by election year
+                        "AND cr.party.id = :partyId " + // Filter by party
+                        "ORDER BY CAST(cr.nationalCandidateVotes AS long) DESC", // Sort by votes, highest first
+                CandidateResult.class
+        );
+
+        query.setParameter("electionId", electionId);
+        query.setParameter("partyId", partyId);
+
+        return query.getResultList();
+    }
 }
