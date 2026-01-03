@@ -42,3 +42,10 @@ docker run --name election-backend -p 8080:8080 -v "C:\Documents\Hva projecten\S
 ```
 
 **The data folder should have an electiondb.mv.db file**
+
+## Testing
+
+- open post man and make an api call
+- if you get a response, then the backend is successfully running on docker
+
+**From now on run the backend on docker desktop**
