@@ -21,14 +21,6 @@
           <div class="absolute -top-1 left-4 w-2 h-2 bg-white transform rotate-45"></div>
         </div>
       </a>
-
-      <!-- Back button -->
-<!--      <a-->
-<!--        href="/"-->
-<!--        class="flex items-center gap-1 px-4 py-2 bg-white/20 backdrop-blur-lg rounded-full text-white text-sm font-semibold border border-white/30 transition-all hover:bg-white/30 hover:scale-105"-->
-<!--      >-->
-<!--        ← Terug-->
-<!--      </a>-->
     </div>
 
     <!-- Login Container -->
@@ -152,22 +144,24 @@ const handleLogin = async () => {
 
     if (result === true) {
       successMessage.value = 'Login succesvol! Je wordt doorgestuurd...';
-      // Redirect naar home na 1 seconde
       setTimeout(() => {
         router.push('/');
       }, 1000);
     } else {
       errorMessage.value = 'Ongeldige email of wachtwoord';
     }
-  } catch (error) {
-    errorMessage.value = 'Er ging iets mis. Probeer het opnieuw.';
+  } catch (error: any) {
+    if (error.message.includes('EMAIL_NOT_VERIFIED')) {
+      errorMessage.value = 'Je account is nog niet geverifieerd. Check je email.';
+    } else {
+      errorMessage.value = 'Ongeldige email of wachtwoord';
+    }
     console.error('Login error:', error);
   } finally {
     isLoading.value = false;
   }
 };
 
-// Generate particles on mount
 onMounted(() => {
   const particlesContainer = document.getElementById('particles');
   if (particlesContainer) {
@@ -184,7 +178,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Float animation for particles */
 @keyframes float {
   0%, 100% { transform: translateY(0) translateX(0); }
   50% { transform: translateY(-20px) translateX(10px); }
@@ -194,7 +187,6 @@ onMounted(() => {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Slide in animation for form */
 @keyframes slide-in {
   from {
     opacity: 0;
@@ -210,7 +202,6 @@ onMounted(() => {
   animation: slide-in 0.5s ease-out;
 }
 
-/* Pulse animation for logo on hover */
 .group:hover .w-12 {
   animation: logo-pulse 0.6s ease-in-out;
 }

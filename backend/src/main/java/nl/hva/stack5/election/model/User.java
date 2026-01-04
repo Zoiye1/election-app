@@ -37,6 +37,10 @@ public class User {
     @Column(name = "password")
     private String password;
 
+    // Email verification status
+    @Column(name = "is_verified", nullable = false)
+    private boolean isVerified = false;
+
     /**
      * Default constructor required by JPA
      */
@@ -52,6 +56,7 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+        this.isVerified = false;
     }
 
     /**
@@ -116,5 +121,21 @@ public class User {
      */
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    /**
+     * Check if user email is verified
+     * @return true if verified, false otherwise
+     */
+    public boolean isVerified() {
+        return isVerified;
+    }
+
+    /**
+     * Set email verification status
+     * @param verified verification status
+     */
+    public void setVerified(boolean verified) {
+        isVerified = verified;
     }
 }
