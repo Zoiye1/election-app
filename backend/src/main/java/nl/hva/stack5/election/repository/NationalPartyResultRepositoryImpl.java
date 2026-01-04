@@ -52,4 +52,49 @@ public class NationalPartyResultRepositoryImpl implements NationalPartyResultRep
 
     }
 
+    /**
+     * Finds a specific party result for an election.
+     *
+     * @param electionId the election identifier (e.g., "TK2023")
+     * @param partyId the party identifier
+     * @return PartyResult for the specific party, or null if not found
+     */
+    public PartyResult findByElectionAndParty(String electionId, long partyId) {
+        TypedQuery<PartyResult> query = entityManager.createQuery(
+               " SELECT pr FROM PartyResult pr " +
+               " WHERE pr.election.id = :electionId " +
+        " AND pr.party.id = :partyId ",
+                PartyResult.class
+        );
+
+        query.setParameter("electionId", electionId);
+        query.setParameter("partyId", partyId);
+
+        List<PartyResult> results = query.getResultList();
+        return results.isEmpty() ? null : results.get(0);
+    }
+
+    /**
+     * Finds a party result by election and party name.
+     *
+     * @param electionId the election identifier
+     * @param partyName the registered party name
+     * @return PartyResult or null if not found
+     */
+    @Override
+    public PartyResult findByElectionAndPartyName(String electionId, String partyName) {
+        TypedQuery<PartyResult> query = entityManager.createQuery(
+                "SELECT pr FROM PartyResult pr " +
+                        "WHERE pr.election.id = :electionId " +
+                        "AND pr.party.registeredName = :partyName",
+                PartyResult.class
+        );
+
+        query.setParameter("electionId", electionId);
+        query.setParameter("partyName", partyName);
+
+        List<PartyResult> results = query.getResultList();
+        return results.isEmpty() ? null : results.get(0);
+    }
+
 }

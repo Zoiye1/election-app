@@ -52,8 +52,31 @@ export interface MunicipalityElection {
  * Interface for top national party results
  */
 export interface TopNationalParty {
+  partyId: number;
   partyName: string;
   votes: number;
+}
+
+/**
+ * Interface for a candidate within a party detail view
+ */
+export interface PartyCandidate {
+  id: number;
+  fullName: string;
+  votes: number;
+  partyPercentage: number;
+}
+
+/**
+ * Interface for detailed party information
+ */
+export interface PartyDetail {
+  partyName: string;
+  totalVotes: number;
+  nationalPercentage: number;
+  seats: number;
+  previousElectionDifference: number | null;
+  candidates: PartyCandidate[];
 }
 
 
