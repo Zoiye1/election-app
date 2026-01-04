@@ -64,4 +64,39 @@ export class ElectionService {
     }
   }
 
+  public async getConstituencyData(electionId: string, constituencyName: string): Promise<ConstituencyPartyVotes[]> {
+    const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}`;
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {"Accept": "application/json"}
+      });
+      if (!response.ok) {
+        throw new Error("request failed " + response.statusText);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error;
+    }
+  }
+
+  public static async getConstituencyVotesPercentage(electionId: string, constituencyName: string): Promise<number> {
+    const url = `${API_BASE_URL}/elections/${electionId}/${constituencyName}/votes-percentage`;
+
+    try {
+      const response = await fetch(url, {
+        method: "GET",
+        headers: {"Accept": "application/json"}
+      });
+      if (!response.ok) {
+        throw new Error(`request failed ${response.statusText}`);
+      }
+      return await response.json();
+    } catch (error) {
+      console.error('Fetch error:', error);
+      throw error;
+    }
+  }
 }

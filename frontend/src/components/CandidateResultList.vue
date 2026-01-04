@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
-import { getTopCandidatesByElection } from '@/services/candidateResultService'
-import type { CandidateResult } from '@/interfaces/candidateResult'
+import { getTopCandidatesByElection } from '@/services/CandidateResultService'
+import type { CandidateResult } from '@/interfaces/CandidateResult'
+import CandidateDetailModal from '@/components/CandidateDetailModal.vue'
+import { ElectionService } from '@/services/ElectionService.ts'
+import { NationalPartyService } from '@/services/NationalPartyService.ts'
 
 //props
 const props = defineProps<{
@@ -12,7 +15,9 @@ const props = defineProps<{
 const candidateResults = ref<CandidateResult[]>([])
 const loading = ref<boolean>(true)
 const error = ref<string | null>(null)
-
+const selectedCandidate = ref<{ candidate: CandidateResult; ranking: number } | null>(null)
+const totalNationalVotes = ref<number>(0)
+const partyVotes = ref<Map<string, number>>(new Map())
 /**
  * Fetches the top candidates for the selected election from the backend.
  * Updates candidateResults state with the response data.
@@ -32,11 +37,45 @@ async function fetchCandidateResults() {
   }
 }
 
+/**
+ * Fetches totalNationalVotes for percentage calculation
+ */
+async function fetchTotalNationalVotes() {
+  try {
+    totalNationalVotes.value = await ElectionService.getTotalVotes(props.electionId)
+  } catch (err) {
+    console.error('Failed to fetch total votes:', err)
+  }
+}
+
+async function fetchPartyVotes () {
+  const parties =  await NationalPartyService.getTopParties(props.electionId)
+  partyVotes.value = new Map(parties.map(p=> [p.partyName, p.votes]))
+}
+
+/**
+ * Opens details for a selected candidate.
+ *
+ * @param candidate - candidatedata to display
+ * @param ranking - the candidates position in the list
+ */
+function openCandidateDetail(candidate: CandidateResult, ranking: number) {
+  selectedCandidate.value = { candidate, ranking }
+}
+
+/**
+ * Closes the candidate detail modal
+ */
+function closeCandidateDetail() {
+  selectedCandidate.value = null
+}
 // this method watches prop changes and refetches data
 watch(
   () => props.electionId,
-  () => {
-    fetchCandidateResults()
+  async () => {
+    await fetchCandidateResults()
+    await fetchPartyVotes()
+    await fetchTotalNationalVotes()
   },
   { immediate: true },
 )
@@ -52,7 +91,10 @@ watch(
 
     <div v-if="loading" class="text-center text-gray-500 py-6">Laden...</div>
 
-    <div v-else-if="error" class="bg-red-50 text-red-600 border border-red-200 rounded-lg px-4 py-3 mb-4">
+    <div
+      v-else-if="error"
+      class="bg-red-50 text-red-600 border border-red-200 rounded-lg px-4 py-3 mb-4"
+    >
       {{ error }}
     </div>
 
@@ -60,7 +102,8 @@ watch(
       <div
         v-for="(candidate, index) in candidateResults"
         :key="candidate.id"
-        class="bg-purple-50 rounded-2xl p-4 flex items-center justify-between hover:bg-purple-100 transition-colors shadow"
+        class="bg-purple-50 rounded-2xl p-4 flex items-center justify-between hover:bg-purple-100 transition-colors shadow cursor-pointer"
+        @click="openCandidateDetail(candidate, index + 1)"
       >
         <div class="flex items-center gap-4">
           <div
@@ -87,5 +130,14 @@ watch(
         </div>
       </div>
     </div>
+
+    <CandidateDetailModal
+      v-if="selectedCandidate"
+      :candidate="selectedCandidate.candidate"
+      :ranking="selectedCandidate.ranking"
+      :totalNationalVotes="totalNationalVotes"
+      :totalPartyVotes="partyVotes.get(selectedCandidate.candidate.party) ?? 0"
+      @close="closeCandidateDetail"
+    />
   </div>
 </template>

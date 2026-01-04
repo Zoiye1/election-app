@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import nl.hva.stack5.election.service.VerificationService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -27,6 +28,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private VerificationService verificationService;
 
     @Autowired
     private JwtUtil jwtUtil;
@@ -127,7 +131,6 @@ public class UserController {
     public ResponseEntity<?> createUser(@Valid @RequestBody User user, BindingResult result) {
         logger.info("Creating new user with email: {}", user.getEmail());
 
-        // Check validation errors
         if (result.hasErrors()) {
             logger.warn("Validation failed for user creation");
             Map<String, Object> errorResponse = new HashMap<>();
@@ -135,7 +138,6 @@ public class UserController {
             errorResponse.put("message", "User data validation failed");
             errorResponse.put("status", 400);
 
-            // Add field-specific errors
             Map<String, String> fieldErrors = new HashMap<>();
             result.getFieldErrors().forEach(error ->
                     fieldErrors.put(error.getField(), error.getDefaultMessage())
@@ -146,8 +148,41 @@ public class UserController {
         }
 
         User created = userService.createUser(user);
-        logger.info("User created successfully with ID: {}", created.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+
+        // Send verification email
+        verificationService.sendVerificationEmail(created);
+
+        logger.info("User created successfully with ID: {} and verification email sent", created.getId());
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("success", true);
+        response.put("message", "Account created successfully. Please check your email to verify your account.");
+        response.put("user", created);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+
+    @GetMapping("/verify-email")
+    public ResponseEntity<?> verifyEmail(@RequestParam String token) {
+        logger.info("Email verification attempt with token");
+
+        boolean verified = verificationService.verifyToken(token);
+
+        if (verified) {
+            logger.info("Email verified successfully");
+            Map<String, Object> response = new HashMap<>();
+            response.put("success", true);
+            response.put("message", "Email verified successfully. You can now log in.");
+            return ResponseEntity.ok(response);
+        } else {
+            logger.warn("Email verification failed: invalid or expired token");
+            Map<String, Object> errorResponse = new HashMap<>();
+            errorResponse.put("error", "VERIFICATION_FAILED");
+            errorResponse.put("message", "Invalid or expired verification token");
+            errorResponse.put("status", 400);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+        }
     }
 
     /**
@@ -170,6 +205,19 @@ public class UserController {
         }
 
         if (authenticatedUser != null) {
+            // Check if user is verified
+            if (!authenticatedUser.isVerified()) {
+                logger.warn("Login blocked: user {} is not verified", authenticatedUser.getEmail());
+
+                Map<String, Object> errorResponse = new HashMap<>();
+                errorResponse.put("error", "EMAIL_NOT_VERIFIED");
+                errorResponse.put("message", "Please verify your email before logging in");
+                errorResponse.put("status", 403);
+                errorResponse.put("success", false);
+
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(errorResponse);
+            }
+
             // Generate token with userId
             Map<String, Object> claims = new HashMap<>();
             claims.put("userId", authenticatedUser.getId());

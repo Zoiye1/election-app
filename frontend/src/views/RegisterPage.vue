@@ -21,9 +21,6 @@
           <div class="absolute -top-1 left-4 w-2 h-2 bg-white transform rotate-45"></div>
         </div>
       </a>
-
-      <!-- Back button -->
-  
     </div>
 
     <!-- Register Container -->
@@ -242,11 +239,9 @@ const checkPasswordStrength = () => {
 };
 
 const handleRegister = async () => {
-  // Reset messages
   errorMessage.value = '';
   successMessage.value = '';
 
-  // Validatie
   if (password.value !== confirmPassword.value) {
     errorMessage.value = 'Wachtwoorden komen niet overeen';
     return;
@@ -271,12 +266,7 @@ const handleRegister = async () => {
       password.value
     );
 
-    successMessage.value = 'Account succesvol aangemaakt! Je wordt doorgestuurd naar de login pagina...';
-
-    // Redirect naar login na 2 seconden
-    setTimeout(() => {
-      router.push('/login');
-    }, 2000);
+    successMessage.value = result.message || 'Account aangemaakt! Check je email om je account te verifiëren.';
 
   } catch (error: any) {
     if (error.message.includes('409') || error.message.includes('Conflict')) {
@@ -290,7 +280,6 @@ const handleRegister = async () => {
   }
 };
 
-// Generate particles on mount
 onMounted(() => {
   const particlesContainer = document.getElementById('particles');
   if (particlesContainer) {
@@ -307,7 +296,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-/* Float animation for particles */
 @keyframes float {
   0%, 100% { transform: translateY(0) translateX(0); }
   50% { transform: translateY(-20px) translateX(10px); }
@@ -317,7 +305,6 @@ onMounted(() => {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Slide in animation for form */
 @keyframes slide-in {
   from {
     opacity: 0;
@@ -333,7 +320,6 @@ onMounted(() => {
   animation: slide-in 0.5s ease-out;
 }
 
-/* Pulse animation for logo on hover */
 .group:hover .w-12 {
   animation: logo-pulse 0.6s ease-in-out;
 }
