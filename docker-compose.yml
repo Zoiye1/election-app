@@ -1,6 +1,27 @@
 version: '3.8'
 
 services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: fuuyeenaatee72-backend
+    ports:
+      - "8081:8080"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:h2:file:/data/electiondb
+      - JWT_SECRET=${JWT_SECRET:-this-is-a-development-only-secret-key-that-is-at-least-256-bits-long-do-not-use-in-production}
+      - ELECTION_FRONTEND_URL=http://localhost:8080
+      - SPRING_MAIL_HOST=mailpit
+      - SPRING_MAIL_PORT=1025
+    volumes:
+      - backend-data:/data
+    networks:
+      - app-network
+    depends_on:
+      - mailpit
+    restart: unless-stopped
+
   frontend:
     build:
       context: ./frontend
@@ -8,9 +29,24 @@ services:
     container_name: fuuyeenaatee72-frontend
     ports:
       - "8080:80"
-    restart: unless-stopped
+    depends_on:
+      - backend
     networks:
       - app-network
+    restart: unless-stopped
+
+  mailpit:
+    image: axllent/mailpit
+    container_name: fuuyeenaatee72-mailpit
+    ports:
+      - "8025:8025"  # Web UI
+      - "1025:1025"  # SMTP
+    networks:
+      - app-network
+    restart: unless-stopped
+
+volumes:
+  backend-data:
 
 networks:
   app-network:

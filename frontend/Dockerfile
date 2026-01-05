@@ -1,4 +1,3 @@
-
 # Start with Node.js to build the app
 FROM node:20 AS build
 LABEL author="Mats"
@@ -14,9 +13,14 @@ RUN npm install
 COPY . .
 RUN npm run build-only
 
-
 # Use nginx to serve the built app
 FROM nginx:alpine
+
+# Remove default nginx config
+RUN rm /etc/nginx/conf.d/default.conf
+
+# Copy custom nginx config
+COPY nginx.conf /etc/nginx/conf.d/
 
 # Copy build output to nginx
 COPY --from=build /app/dist /usr/share/nginx/html
