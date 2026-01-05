@@ -4,6 +4,7 @@ import nl.hva.stack5.election.dto.ConstituencyPartyVotesDTO;
 import nl.hva.stack5.election.model.*;
 import nl.hva.stack5.election.repository.ConstituencyRepository;
 import nl.hva.stack5.election.repository.ElectionRepository;
+import nl.hva.stack5.election.repository.PartyRepository;
 import nl.hva.stack5.election.utils.PathUtils;
 import nl.hva.stack5.election.utils.xml.*;
 import nl.hva.stack5.election.utils.xml.transformers.*;
@@ -33,6 +34,9 @@ public class DutchElectionService {
     @Autowired
     private ConstituencyRepository constituencyRepository;
 
+    @Autowired
+    private PartyRepository partyRepository;
+
     /**
      *
      * @param electionId holds the election id which is the year
@@ -56,6 +60,11 @@ public class DutchElectionService {
         }
         Election election = new Election(electionId);
 
+        // Pre-load existing parties so they get reused instead of recreated
+        List<Party> existingParties = partyRepository.findAllParties();
+        for (Party party : existingParties) {
+            election.getParties().put(party.getRegisteredName(), party);
+        }
 
         DutchElectionParser electionParser = new DutchElectionParser(
                 new DutchDefinitionTransformer(election),

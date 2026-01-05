@@ -26,6 +26,7 @@ public class TopCandidateResponseDTO {
         this.votes = votes;
     }
 
+
     //GETTERS
     public long getId() {
         return id;

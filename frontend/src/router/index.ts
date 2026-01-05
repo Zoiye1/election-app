@@ -5,7 +5,7 @@ import ElectionDataView from '@/views/ElectionDataView.vue'
 import LoginPage from "@/views/LoginPage.vue";
 import CreateDiscussionView from '@/views/CreateDiscussionView.vue'
 import MunicipalityView from "@/views/MunicipalityView.vue";
-
+import VerifyEmail from "@/views/VerifyEmail.vue";
 
 
 const router = createRouter({
@@ -47,6 +47,13 @@ const router = createRouter({
       name: 'register',
       component: () => import('../views/RegisterPage.vue')
     },
+
+    {
+      path: '/verify-account',
+      name: 'verify-account',
+      component: VerifyEmail
+    },
+
     {
       path: '/create-discussion',
       name: 'create-discussion',
