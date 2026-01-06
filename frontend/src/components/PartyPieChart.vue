@@ -24,10 +24,14 @@ async function fetchData() {
     totalVotes.value = await ElectionService.getTotalVotes(props.electionId)
   } catch (error) {
     console.error('Failed to fetch data:', error)
+    // Zet lege arrays zodat component niet crasht
+    parties.value = []
+    totalVotes.value = 0
   } finally {
     loading.value = false
   }
 }
+
 // check for election selector changes
 watch(
   () => props.electionId,
@@ -89,6 +93,9 @@ const chartOptions = {
   <div class="w-full h-96">
     <div v-if="loading" class="flex justify-center items-center h-full text-gray-600">
       Gegevens laden...
+    </div>
+    <div v-else-if="parties.length === 0" class="flex justify-center items-center h-full text-gray-500">
+      Geen data beschikbaar voor deze verkiezing
     </div>
     <Pie
       v-else
