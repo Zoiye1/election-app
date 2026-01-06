@@ -34,7 +34,7 @@ const { selectedElection } = useElection();
         <TotalNationalVotesComponent :electionId="selectedElection" />
       </div>
 
-      <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+      <div class="max-w-4xl mx-auto bg-white rounded-lg shadow-lg p-6 mb-8">
         <h2 class="text-2xl font-bold text-gray-800 mb-4">Uitslagen per partij</h2>
         <PartyPieChart :electionId="selectedElection" />
       </div>
