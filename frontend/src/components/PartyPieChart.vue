@@ -24,7 +24,7 @@ async function fetchData() {
     totalVotes.value = await ElectionService.getTotalVotes(props.electionId)
   } catch (error) {
     console.error('Failed to fetch data:', error)
-    // Zet lege arrays zodat component niet crasht
+
     parties.value = []
     totalVotes.value = 0
   } finally {
