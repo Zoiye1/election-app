@@ -73,15 +73,23 @@ const chartOptions = {
   maintainAspectRatio: true,
   plugins: {
     legend: {
-      position: 'right' as const,
+      position: 'bottom' as const,  // Of 'right' als je dat liever hebt
+      labels: {
+        padding: 15,
+        font: {
+          size: 12
+        }
+      }
     },
     tooltip: {
+      backgroundColor: 'rgba(0, 0, 0, 0.8)',
+      padding: 12,
       callbacks: {
-        label:(context: TooltipItem<'pie'>) => {
+        label: (context: TooltipItem<'pie'>) => {
           const label = context.label || ''
           const value = context.parsed || 0
           const percentage = ((value / totalVotes.value) * 100).toFixed(1)
-          return `${label}: ${value.toLocaleString()} stemmen (${percentage}%)`
+          return `${label}: ${value.toLocaleString('nl-NL')} stemmen (${percentage}%)`
         }
       }
     }
