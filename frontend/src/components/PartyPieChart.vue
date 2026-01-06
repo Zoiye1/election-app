@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { Pie } from 'vue-chartjs'
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, type TooltipItem } from 'chart.js'
 import { computed, ref, watch } from 'vue'
 import type { TopNationalParty } from '@/interfaces/IElectionData'
 import { NationalPartyService } from '@/services/NationalPartyService'
 import { ElectionService } from '@/services/ElectionService'
+import { Pie } from 'vue-chartjs'
 
 ChartJS.register(ArcElement, Tooltip, Legend)
 
@@ -73,7 +73,7 @@ const chartOptions = {
     },
     tooltip: {
       callbacks: {
-        label: function(context: TooltipItem<'pie'>) {
+        label:(context: TooltipItem<'pie'>) => {
           const label = context.label || ''
           const value = context.parsed || 0
           const percentage = ((value / totalVotes.value) * 100).toFixed(1)
@@ -86,5 +86,14 @@ const chartOptions = {
 </script>
 
 <template>
-  <div></div>
+  <div class="w-full h-96">
+    <div v-if="loading" class="flex justify-center items-center h-full text-gray-600">
+      Gegevens laden...
+    </div>
+    <Pie
+      v-else
+      :data="chartData"
+      :options="chartOptions"
+    />
+  </div>
 </template>

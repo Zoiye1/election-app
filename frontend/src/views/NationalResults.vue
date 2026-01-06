@@ -6,6 +6,7 @@ import ElectionSelector from '@/components/ElectionSelector.vue';
 import { useElection } from '@/composables/useElection';
 import PageNavigator from '@/components/PageNavigator.vue';
 import PartyResultList from '@/components/PartyResultList.vue'
+import PartyPieChart from '@/components/PartyPieChart.vue'
 
 // Gebruik de shared state uit de composable
 const { selectedElection } = useElection();
@@ -37,6 +38,11 @@ const { selectedElection } = useElection();
       <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <CandidateResultList :electionId="selectedElection" />
         <PartyResultList :electionId="selectedElection" />
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Uitslagen per partij</h2>
+        <PartyPieChart :electionId="selectedElection" />
       </div>
 
     </div>
