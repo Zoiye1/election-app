@@ -47,10 +47,19 @@ const chartData = computed(() => {
   labels.push('Overige')
   votes.push(remainingVotes)
 
+  const colors = [
+    '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF',
+    '#FF9F40', '#FF6384', '#C9CBCF', '#E7E9ED', '#36A2EB',
+    '#4BC0C0', '#FFCE56', '#9966FF', '#FF9F40', '#FF6384',
+    '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40',
+    '#999999'
+  ]
+
   return {
-    labels: labels,
+    labels,
     datasets: [{
-      data: votes
+      data: votes,
+      backgroundColor: colors
     }]
   }
 })
