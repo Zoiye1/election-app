@@ -71,9 +71,18 @@ const chartData = computed(() => {
 const chartOptions = {
   responsive: true,
   maintainAspectRatio: true,
+  layout: {
+    padding: {
+      left: 20,
+      right: 20,
+      top: 10,
+      bottom: 10
+    }
+  },
   plugins: {
     legend: {
-      position: 'bottom' as const,  // Of 'right' als je dat liever hebt
+      position: 'bottom' as const,
+      align: 'center' as const,
       labels: {
         padding: 15,
         font: {
@@ -98,17 +107,23 @@ const chartOptions = {
 </script>
 
 <template>
-  <div class="w-full h-96">
-    <div v-if="loading" class="flex justify-center items-center h-full text-gray-600">
-      Gegevens laden...
+    <div class="w-full flex justify-center">
+      <div v-if="loading" class="flex justify-center items-center h-64 text-gray-600">
+        <div class="text-center">
+          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4"></div>
+          <p>Gegevens laden...</p>
+        </div>
+      </div>
+
+      <div v-else-if="parties.length === 0" class="flex justify-center items-center h-64 text-gray-500">
+        <div class="text-center">
+          <p class="text-xl">📊</p>
+          <p>Geen data beschikbaar voor deze verkiezing</p>
+        </div>
+      </div>
+
+      <div v-else class="w-full max-w-lg mx-auto">
+        <Pie :data="chartData" :options="chartOptions" />
+      </div>
     </div>
-    <div v-else-if="parties.length === 0" class="flex justify-center items-center h-full text-gray-500">
-      Geen data beschikbaar voor deze verkiezing
-    </div>
-    <Pie
-      v-else
-      :data="chartData"
-      :options="chartOptions"
-    />
-  </div>
 </template>
