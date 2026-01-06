@@ -34,15 +34,15 @@ const { selectedElection } = useElection();
         <TotalNationalVotesComponent :electionId="selectedElection" />
       </div>
 
+      <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Uitslagen per partij</h2>
+        <PartyPieChart :electionId="selectedElection" />
+      </div>
+
       <!-- Candidate List & Top Parties side by side -->
       <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6">
         <CandidateResultList :electionId="selectedElection" />
         <PartyResultList :electionId="selectedElection" />
-      </div>
-
-      <div class="bg-white rounded-lg shadow-lg p-6 mb-8">
-        <h2 class="text-2xl font-bold text-gray-800 mb-4">Uitslagen per partij</h2>
-        <PartyPieChart :electionId="selectedElection" />
       </div>
 
     </div>
