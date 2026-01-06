@@ -17,8 +17,13 @@ public class APIConfig implements WebMvcConfigurer {
         registry.addMapping("/**")
                 .allowedOriginPatterns(
                         frontendUrl,
-                        "http://my.perfect.app.nl"
+                        "http://my.perfect.app.nl",
+                        "http://localhost:5173",
+                        "http://localhost:8080"
                 )
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }
