@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Pie } from 'vue-chartjs'
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js'
+import { Chart as ChartJS, ArcElement, Tooltip, Legend, type TooltipItem } from 'chart.js'
 import { computed, ref, watch } from 'vue'
 import type { TopNationalParty } from '@/interfaces/IElectionData'
 import { NationalPartyService } from '@/services/NationalPartyService'
@@ -63,6 +63,26 @@ const chartData = computed(() => {
     }]
   }
 })
+
+const chartOptions = {
+  responsive: true,
+  maintainAspectRatio: true,
+  plugins: {
+    legend: {
+      position: 'right' as const,
+    },
+    tooltip: {
+      callbacks: {
+        label: function(context: TooltipItem<'pie'>) {
+          const label = context.label || ''
+          const value = context.parsed || 0
+          const percentage = ((value / totalVotes.value) * 100).toFixed(1)
+          return `${label}: ${value.toLocaleString()} stemmen (${percentage}%)`
+        }
+      }
+    }
+  }
+}
 </script>
 
 <template>
