@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, type TooltipItem } from 'chart.js'
+import ChartDataLabels from 'chartjs-plugin-datalabels'
 import { computed, ref, watch } from 'vue'
 import type { TopNationalParty } from '@/interfaces/IElectionData'
 import { NationalPartyService } from '@/services/NationalPartyService'
 import { ElectionService } from '@/services/ElectionService'
 import { Pie } from 'vue-chartjs'
 
-ChartJS.register(ArcElement, Tooltip, Legend)
+ChartJS.register(ArcElement, Tooltip, Legend, ChartDataLabels)
 
 const props = defineProps<{
   electionId: string
@@ -101,6 +102,21 @@ const chartOptions = {
           return `${label}: ${value.toLocaleString('nl-NL')} stemmen (${percentage}%)`
         }
       }
+    },
+    datalabels: {
+      color: '#fff',
+      font: {
+        weight: 'bold' as const,
+        size: 14
+      },
+      formatter: (value: number) => {
+        const percentage = ((value / totalVotes.value) * 100).toFixed(1)
+        // showw percentage if  precentage > 3%
+        return percentage > 3 ? `${percentage}%` : ''
+      },
+      // Position out of smaller segments
+      anchor: 'center' as const,
+      align: 'center' as const
     }
   }
 }
