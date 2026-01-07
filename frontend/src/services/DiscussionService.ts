@@ -1,3 +1,5 @@
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+
 export interface DiscussionResponseDTO {
   id: number
   title: string
@@ -19,8 +21,12 @@ export interface UpdateDiscussionRequest {
   content: string
 }
 
+
+
+
+
 export class DiscussionService {
-  private baseUrl: string = 'http://localhost:8080/api/v1/discussion'
+  private baseUrl: string = `${API_BASE_URL}/v1/discussion`
 
   /**
    * Get all discussions from the API

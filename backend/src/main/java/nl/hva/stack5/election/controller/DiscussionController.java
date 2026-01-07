@@ -19,7 +19,6 @@ import java.util.Optional;
 
 @RestController
  @RequestMapping(value = "v1/discussion")
-@CrossOrigin(origins = "http://localhost:5173")
 public class DiscussionController {
     @Autowired
     private DiscussionService discussionService;

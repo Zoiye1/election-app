@@ -7,18 +7,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class APIConfig implements WebMvcConfigurer {
-    @Value("${election.frontend.url}")
-    private String frontendUrl;
+
+    @Value("${cors.allowed-origins}")
+    private String allowedOrigins;
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        System.out.println("Adding CORS mappings");
-        System.out.println("frontendUrl: " + frontendUrl);
+        // Split the comma-separated origins into an array
+        String[] origins = allowedOrigins.split(",");
+
         registry.addMapping("/**")
-                .allowedOriginPatterns(
-                        frontendUrl,
-                        "http://my.perfect.app.nl"
-                )
-                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
+                .allowedOriginPatterns(origins)
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("*")
+                .allowCredentials(true)
+                .maxAge(3600);
     }
 }
