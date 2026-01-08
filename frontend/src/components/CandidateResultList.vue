@@ -5,11 +5,14 @@ import type { CandidateResult } from '@/interfaces/CandidateResult'
 import CandidateDetailModal from '@/components/CandidateDetailModal.vue'
 import { ElectionService } from '@/services/ElectionService.ts'
 import { NationalPartyService } from '@/services/NationalPartyService.ts'
+import { useModalCache } from '@/composables/useModalCache'
 
-//props
 const props = defineProps<{
   electionId: string
 }>()
+
+// Cache
+const { cacheCandidate, getCachedCandidate } = useModalCache()
 
 // State
 const candidateResults = ref<CandidateResult[]>([])
@@ -18,17 +21,18 @@ const error = ref<string | null>(null)
 const selectedCandidate = ref<{ candidate: CandidateResult; ranking: number } | null>(null)
 const totalNationalVotes = ref<number>(0)
 const partyVotes = ref<Map<string, number>>(new Map())
-/**
- * Fetches the top candidates for the selected election from the backend.
- * Updates candidateResults state with the response data.
- * Handles loading and error states during the fetch operation.
- */
+
 async function fetchCandidateResults() {
   loading.value = true
   error.value = null
 
   try {
     candidateResults.value = await getTopCandidatesByElection(props.electionId)
+    
+    // Cache alle candidates meteen
+    candidateResults.value.forEach(candidate => {
+      cacheCandidate(candidate)
+    })
   } catch (err) {
     error.value = 'failed to fetch candidate results'
     console.error(err)
@@ -37,9 +41,6 @@ async function fetchCandidateResults() {
   }
 }
 
-/**
- * Fetches totalNationalVotes for percentage calculation
- */
 async function fetchTotalNationalVotes() {
   try {
     totalNationalVotes.value = await ElectionService.getTotalVotes(props.electionId)
@@ -48,28 +49,25 @@ async function fetchTotalNationalVotes() {
   }
 }
 
-async function fetchPartyVotes () {
-  const parties =  await NationalPartyService.getTopParties(props.electionId)
-  partyVotes.value = new Map(parties.map(p=> [p.partyName, p.votes]))
+async function fetchPartyVotes() {
+  const parties = await NationalPartyService.getTopParties(props.electionId)
+  partyVotes.value = new Map(parties.map(p => [p.partyName, p.votes]))
 }
 
-/**
- * Opens details for a selected candidate.
- *
- * @param candidate - candidatedata to display
- * @param ranking - the candidates position in the list
- */
 function openCandidateDetail(candidate: CandidateResult, ranking: number) {
-  selectedCandidate.value = { candidate, ranking }
+  // Check cache (hoewel we het al hebben, maar goed voor consistency)
+  const cached = getCachedCandidate(candidate.id)
+  
+  selectedCandidate.value = { 
+    candidate: cached || candidate, 
+    ranking 
+  }
 }
 
-/**
- * Closes the candidate detail modal
- */
 function closeCandidateDetail() {
   selectedCandidate.value = null
 }
-// this method watches prop changes and refetches data
+
 watch(
   () => props.electionId,
   async () => {
