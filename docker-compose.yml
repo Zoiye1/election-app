@@ -1,53 +1,41 @@
-version: '3.8'
-
 services:
+  postgres:
+    image: postgres:16-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: electiondb
+      POSTGRES_USER: election_user
+      POSTGRES_PASSWORD: localpassword
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    build: ./backend
     container_name: fuuyeenaatee72-backend
     ports:
       - "8081:8080"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:h2:file:/data/electiondb
+      #- SPRING_DATASOURCE_URL=jdbc:h2:file:/data/electiondb
+      - DATABASE_URL=jdbc:postgresql://postgres:5432/electiondb
+      - DATABASE_USERNAME=election_user
+      - DATABASE_PASSWORD=localpassword
       - JWT_SECRET=${JWT_SECRET:-this-is-a-development-only-secret-key-that-is-at-least-256-bits-long-do-not-use-in-production}
       - ELECTION_FRONTEND_URL=http://localhost:8080
       - SPRING_MAIL_HOST=mailpit
       - SPRING_MAIL_PORT=1025
     volumes:
-      - backend-data:/data
-    networks:
-      - app-network
+      - ./backend/data:/app/backend/data
     depends_on:
-      - mailpit
-    restart: unless-stopped
+      - postgres
 
   frontend:
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    build: ./frontend
     container_name: fuuyeenaatee72-frontend
     ports:
       - "8080:80"
     depends_on:
       - backend
-    networks:
-      - app-network
-    restart: unless-stopped
-
-  mailpit:
-    image: axllent/mailpit
-    container_name: fuuyeenaatee72-mailpit
-    ports:
-      - "8025:8025"  # Web UI
-      - "1025:1025"  # SMTP
-    networks:
-      - app-network
-    restart: unless-stopped
 
 volumes:
-  backend-data:
-
-networks:
-  app-network:
-    driver: bridge
+  postgres_data:

@@ -11,6 +11,7 @@ import nl.hva.stack5.election.utils.xml.transformers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.xml.sax.SAXException;
 
@@ -47,17 +48,17 @@ public class DutchElectionService {
         return electionRepository.findById(electionId);
     }
 
+    @Transactional
     public Election importResults(String electionId, String folderName) {
         System.out.println("Processing files...");
 
         // Check if election already exists in database
         Election existingElection = electionRepository.findById(electionId);
-
-        // If election exists delete from database.
         if (existingElection != null) {
-            System.out.println("Election " + electionId + " already exists. Deleting old data...");
-            electionRepository.delete(existingElection);
+            System.out.println("Election " + electionId + " already exists in database. Returning existing Election");
+            return existingElection;
         }
+
         Election election = new Election(electionId);
 
         // Pre-load existing parties so they get reused instead of recreated
