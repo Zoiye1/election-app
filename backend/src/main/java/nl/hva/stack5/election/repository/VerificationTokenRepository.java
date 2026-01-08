@@ -1,12 +1,12 @@
-package nl.hva.stack5.election.repository;
+// package nl.hva.stack5.election.repository;
 
-import nl.hva.stack5.election.model.VerificationToken;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+// import nl.hva.stack5.election.model.VerificationToken;
+// import org.springframework.data.jpa.repository.JpaRepository;
+// import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+// import java.util.Optional;
 
-@Repository
-public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Integer> {
-    Optional<VerificationToken> findByToken(String token);
-}
+// @Repository
+// public interface VerificationTokenRepository extends JpaRepository<VerificationToken, Integer> {
+//     Optional<VerificationToken> findByToken(String token);
+// }
