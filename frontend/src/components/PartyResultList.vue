@@ -1,22 +1,22 @@
 <script setup lang="ts">
-
 import PartyDetailModal from '@/components/PartyDetailModal.vue'
 import type { PartyDetail } from '@/interfaces/IElectionData.ts'
 import type { TopNationalParty } from '@/interfaces/IElectionData.ts'
 import { ref, watch } from 'vue'
 import { NationalPartyService } from '@/services/NationalPartyService.ts'
+import { useModalCache } from '@/composables/useModalCache'
 
-// Props
 const props = defineProps<{
   electionId: string
 }>()
 
-//TODO: create composables for shared states
+// Cache
+const { cacheParty, getCachedParty } = useModalCache()
+
 // State
 const partyResults = ref<TopNationalParty[]>([])
 const loading = ref<boolean>(true)
 const error = ref<string | null>(null)
-
 const selectedParty = ref<PartyDetail | null>(null)
 const selectedRanking = ref<number>(0)
 const showModal = ref<boolean>(false)
@@ -24,12 +24,9 @@ const showModal = ref<boolean>(false)
 async function fetchPartyResults() {
   loading.value = true
   error.value = null
-
   try {
-    // Fetch data from API
     partyResults.value = await NationalPartyService.getTopParties(props.electionId)
   } catch (err) {
-    // If it does not succeed display error
     error.value = 'Failed to fetch party results'
     console.error(err)
   } finally {
@@ -37,9 +34,26 @@ async function fetchPartyResults() {
   }
 }
 
-async function openPartyDetail(partyId: number, ranking: number) {
+async function openPartyDetail(partyName: string, partyId: number, ranking: number) {
+  // Check cache eerst
+  const cached = getCachedParty(partyName)
+  
+  if (cached) {
+    // Instant! Data al in cache
+    selectedParty.value = cached
+    selectedRanking.value = ranking
+    showModal.value = true
+    return
+  }
+  
+  // Niet in cache, haal op van API
   try {
-    selectedParty.value = await NationalPartyService.getPartyDetails(props.electionId, partyId)
+    const details = await NationalPartyService.getPartyDetails(props.electionId, partyId)
+    
+    // Cache het voor volgende keer
+    cacheParty(details)
+    
+    selectedParty.value = details
     selectedRanking.value = ranking
     showModal.value = true
   } catch (err) {
@@ -47,7 +61,6 @@ async function openPartyDetail(partyId: number, ranking: number) {
   }
 }
 
-// watches prop changes, if change is detected refetch data for correct election.
 watch(
   () => props.electionId,
   () => {
@@ -64,18 +77,18 @@ watch(
         📈 Top Partijen Nationaal
       </h2>
     </div>
-
+    
     <div v-if="error" class="bg-red-50 text-red-600 border border-red-200 rounded-lg px-4 py-3 mb-4">
       {{ error }}
     </div>
-
+    
     <div v-if="loading" class="text-center text-gray-500 py-6">Laden...</div>
-
+    
     <div v-else class="max-h-96 overflow-y-auto space-y-3 pr-2">
       <div
         v-for="(result, i) in partyResults"
         :key="i"
-        @click="openPartyDetail(result.partyId, i + 1)"
+        @click="openPartyDetail(result.partyName, result.partyId, i + 1)"
         class="bg-purple-50 rounded-2xl p-4 flex items-center justify-between hover:bg-purple-100 transition-colors shadow cursor-pointer"
       >
         <div class="flex items-center gap-4">
@@ -89,7 +102,7 @@ watch(
             {{ result.partyName }}
           </div>
         </div>
-
+        
         <div class="text-right">
           <div class="text-2xl font-bold text-purple-600">
             {{ result.votes.toLocaleString("nl-NL") }}
@@ -98,13 +111,12 @@ watch(
         </div>
       </div>
     </div>
-
+    
     <PartyDetailModal
       v-if="showModal && selectedParty"
       :party="selectedParty"
       :ranking="selectedRanking"
       @close="showModal = false"
     />
-
   </div>
 </template>
