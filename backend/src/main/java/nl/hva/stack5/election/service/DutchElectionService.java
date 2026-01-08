@@ -18,55 +18,63 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-/**
- * A demo service for demonstrating how an EML-XML parser can be used inside a backend application.<br/>
- * <br/>
- * <i><b>NOTE: </b>There are some TODO's present that need fixing!</i>
- */
 @Service
 public class DutchElectionService {
-
+    
     @Autowired
-    private  ElectionRepository electionRepository;
-
+    private ElectionRepository electionRepository;
+    
     @Autowired
     private ConstituencyRepository constituencyRepository;
-
+    
     @Autowired
     private PartyRepository partyRepository;
-
-    /**
-     *
-     * @param electionId holds the election id which is the year
-     * @return the election by the given id
-     */
-    public Election readResults (String electionId){
-        System.out.println("fetching results for election " + electionId);
-        return electionRepository.findById(electionId);
+    
+    // Cache
+    private Map<String, Election> cache = new HashMap<>();
+    
+    public Election readResults(String electionId) {
+        // Check cache
+        if (cache.containsKey(electionId)) {
+            System.out.println("Cache hit: " + electionId);
+            return cache.get(electionId);
+        }
+        
+        // Haal uit database
+        System.out.println("Fetching from database: " + electionId);
+        Election election = electionRepository.findById(electionId);
+        
+        // Sla op in cache
+        if (election != null) {
+            cache.put(electionId, election);
+        }
+        
+        return election;
     }
-
+    
     @Transactional
     public Election importResults(String electionId, String folderName) {
         System.out.println("Processing files...");
-
-        // Check if election already exists in database
+        
         Election existingElection = electionRepository.findById(electionId);
         if (existingElection != null) {
             System.out.println("Election " + electionId + " already exists in database. Returning existing Election");
+            cache.put(electionId, existingElection); // Cache het
             return existingElection;
         }
-
+        
         Election election = new Election(electionId);
-
-        // Pre-load existing parties so they get reused instead of recreated
+        
         List<Party> existingParties = partyRepository.findAllParties();
         for (Party party : existingParties) {
             election.getParties().put(party.getRegisteredName(), party);
         }
-
+        
         DutchElectionParser electionParser = new DutchElectionParser(
                 new DutchDefinitionTransformer(election),
                 new DutchCandidateTransformer(election),
@@ -75,22 +83,19 @@ public class DutchElectionService {
                 new DutchConstituencyVotesTransformer(election),
                 new DutchMunicipalityVotesTransformer(election)
         );
-
+        
         try {
-
             electionParser.parseResults(electionId, PathUtils.getResourcePath("/%s".formatted(folderName)));
-            // Do what ever you like to do
             System.out.println("Dutch Election results: " + election);
-
-            // Saves election to database
-            return electionRepository.save(election);
-
+            
+            Election saved = electionRepository.save(election);
+            cache.put(electionId, saved); // Cache het
+            
+            return saved;
         } catch (IOException | XMLStreamException | NullPointerException | ParserConfigurationException | SAXException e) {
-            // FIXME You should do here some proper error handling! The code below is NOT how you handle errors properly!
             System.err.println("Failed to import results: " + e.getMessage());
             e.printStackTrace();
             return null;
         }
     }
-
 }
