@@ -9,7 +9,6 @@ RUN mvn dependency:go-offline -B
 
 # Copy source code and build
 COPY src ./src
-
 RUN mvn package -DskipTests -B
 
 # Stage 2: Run the application
@@ -19,9 +18,6 @@ WORKDIR /app
 
 # Copy the built JAR from the build stage
 COPY --from=build /app/target/*.jar app.jar
-COPY src/main/resources/EML_bestanden_TK2021 /EML_bestanden_TK2021
-COPY src/main/resources/EML_bestanden_TK2023 /EML_bestanden_TK2023
-COPY src/main/resources/EML_bestanden_TK2025 /EML_bestanden_TK2025
 
 # Expose port (Render will set PORT env variable)
 EXPOSE 8080
