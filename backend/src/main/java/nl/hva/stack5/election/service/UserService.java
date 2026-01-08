@@ -11,4 +11,5 @@ public interface UserService {
     User findByUsernameAndVerifyPassword(String username, String password);
     User updateUsername(Integer userId, String newUsername);
     void deleteUser(Integer userId);
+    User save(User user); // VOEG DEZE TOE
 }

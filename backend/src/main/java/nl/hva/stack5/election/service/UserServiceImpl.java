@@ -44,12 +44,6 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
-    /**
-     * Update username for a user
-     * @param userId the user ID
-     * @param newUsername the new username
-     * @return updated User
-     */
     @Override
     public User updateUsername(Integer userId, String newUsername) {
         Optional<User> userOpt = userRepository.findById(userId);
@@ -66,16 +60,17 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-
-    /**
-     * Delete user by ID
-     * @param userId the user ID to delete
-     */
     @Override
     public void deleteUser(Integer userId) {
         if (!userRepository.findById(userId).isPresent()) {
             throw new IllegalArgumentException("User not found with ID: " + userId);
         }
         userRepository.deleteById(userId);
+    }
+
+    // VOEG DEZE METHODE TOE:
+    @Override
+    public User save(User user) {
+        return userRepository.save(user);
     }
 }
